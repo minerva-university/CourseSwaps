@@ -1,0 +1,501 @@
+{
+    "courses": [
+        {
+            "courseId": "NS50",
+            "courseName": "Empirical Analysis",
+            "preReqs": [
+                [
+                    "None"
+                ]
+            ],
+            "Colleges": [
+                "All"
+            ]
+        },
+        {
+            "courseId": "NS51",
+            "courseName": "Empirical Analysis",
+            "preReqs": [
+                [
+                    "None"
+                ]
+            ],
+            "Colleges": [
+                "All"
+            ]
+        },
+        {
+            "courseId": "NS110U",
+            "courseName": "Physics of the Universe",
+            "preReqs": [
+                [
+                    "CS51"
+                ],
+                [
+                    "CS113"
+                ],
+                [
+                    "CS111"
+                ]
+            ],
+            "Colleges": [
+                "Natural Sciences"
+            ]
+        },
+        {
+            "courseId": "NS111",
+            "courseName": "Implications of Earth's Cycles",
+            "preReqs": [
+                [
+                    "NS51"
+                ]
+            ],
+            "Colleges": [
+                "Natural Sciences"
+            ]
+        },
+        {
+            "courseId": "NS112",
+            "courseName": "Evolution Across Multiple Scales",
+            "preReqs": [
+                [
+                    "NS51"
+                ]
+            ],
+            "Colleges": [
+                "Natural Sciences"
+            ]
+        },
+        {
+            "courseId": "NS113",
+            "courseName": "Chemical Structure and Reactivity",
+            "preReqs": [
+                [
+                    "NS51"
+                ]
+            ],
+            "Colleges": [
+                "Natural Sciences"
+            ]
+        },
+        {
+            "courseId": "NS125",
+            "courseName": "Research Methods",
+            "preReqs": [
+                [
+                    "NS51"
+                ]
+            ],
+            "Colleges": [
+                "Natural Sciences"
+            ]
+        },
+        {
+            "courseId": "NS142",
+            "courseName": "Quantum Nature of Matter: Theory and Applications",
+            "preReqs": [
+                [
+                    "NS110U"
+                ],
+                [
+                    "CS111"
+                ],
+                [
+                    "CS113"
+                ]
+            ],
+            "Colleges": [
+                "Natural Sciences"
+            ]
+        },
+        {
+            "courseId": "NS144",
+            "courseName": "Genes to Organisms",
+            "preReqs": [
+                [
+                    "NS112"
+                ]
+            ],
+            "Colleges": [
+                "Natural Sciences"
+            ]
+        },
+        {
+            "courseId": "NS146",
+            "courseName": "Integrating Earth's Systems",
+            "preReqs": [
+                [
+                    "NS111"
+                ]
+            ],
+            "Colleges": [
+                "Natural Sciences"
+            ]
+        },
+        {
+            "courseId": "NS152",
+            "courseName": "Analyzing Matter and Molecules",
+            "preReqs": [
+                [
+                    "NS110"
+                ],
+                [
+                    "CS11"
+                ],
+                [
+                    "NS113"
+                ]
+            ],
+            "Colleges": [
+                "Natural Sciences"
+            ]
+        },
+        {
+            "courseId": "NS154",
+            "courseName": "Life's Chemistry",
+            "preReqs": [
+                [
+                    "NS112"
+                ],
+                [
+                    "NS113"
+                ]
+            ],
+            "Colleges": [
+                "Natural Sciences"
+            ]
+        },
+        {
+            "courseId": "NS156",
+            "courseName": "Monitoring and Modeling Earth's Systems",
+            "preReqs": [
+                [
+                    "CS111"
+                ],
+                [
+                    "CS130"
+                ],
+                [
+                    "NS111"
+                ],
+                [
+                    "NS113"
+                ]
+            ],
+            "Colleges": [
+                "Natural Sciences"
+            ]
+        },
+        {
+            "courseId": "NS162",
+            "courseName": "Statistical Mechanics: Theory and Applications",
+            "preReqs": [
+                [
+                    "CS111"
+                ],
+                [
+                    "NS110U"
+                ],
+                [
+                    "NS110L"
+                ],
+                [
+                    "NS113"
+                ]
+            ],
+            "Colleges": [
+                "Natural Sciences"
+            ]
+        },
+        {
+            "courseId": "NS164",
+            "courseName": "Solutions From and For Life",
+            "preReqs": [
+                [
+                    "NS112"
+                ]
+            ],
+            "Colleges": [
+                "Natural Sciences"
+            ]
+        },
+        {
+            "courseId": "NS166",
+            "courseName": "Keeping Earth Habitable",
+            "preReqs": [
+                [
+                    "NS112"
+                ],
+                [
+                    "NS111"
+                ]
+            ],
+            "Colleges": [
+                "Natural Sciences"
+            ]
+        },
+        {
+            "courseId": "SS50",
+            "courseName": "Complex Systems",
+            "preReqs": [
+                [
+                    "None"
+                ]
+            ],
+            "Colleges": [
+                "Social Sciences"
+            ]
+        },
+        {
+            "courseId": "SS51",
+            "courseName": "Complex Systems",
+            "preReqs": [
+                [
+                    "SS50"
+                ]
+            ],
+            "Colleges": [
+                "Social Sciences"
+            ]
+        },
+        {
+            "courseId": "SS110",
+            "courseName": "Psychology: From Neurons to Society",
+            "preReqs": [
+                [
+                    "SS51"
+                ]
+            ],
+            "Colleges": [
+                "Social Sciences"
+            ]
+        },
+        {
+            "courseId": "SS111",
+            "courseName": "Modern Economic Thought",
+            "preReqs": [
+                [
+                    "SS51"
+                ]
+            ],
+            "Colleges": [
+                "Social Sciences"
+            ]
+        },
+        {
+            "courseId": "SS112",
+            "courseName": "Political Science and Social Change",
+            "preReqs": [
+                [
+                    "SS51"
+                ]
+            ],
+            "Colleges": [
+                "Social Sciences"
+            ]
+        },
+        {
+            "courseId": "SS142",
+            "courseName": "Theories of Cognition and Emotion",
+            "preReqs": [
+                [
+                    "SS110"
+                ]
+            ],
+            "Colleges": [
+                "Social Sciences"
+            ]
+        },
+        {
+            "courseId": "SS144",
+            "courseName": "Intermediate Economic Theory and Tools",
+            "preReqs": [
+                [
+                    "SS111"
+                ]
+            ],
+            "Colleges": [
+                "Social Sciences"
+            ]
+        },
+        {
+            "courseId": "SS146",
+            "courseName": "Practice of Governance",
+            "preReqs": [
+                [
+                    "SS112"
+                ]
+            ],
+            "Colleges": [
+                "Social Sciences"
+            ]
+        },
+        {
+            "courseId": "SS152",
+            "courseName": "Cognitive Neuroscience",
+            "preReqs": [
+                [
+                    "SS110"
+                ]
+            ],
+            "Colleges": [
+                "Social Sciences"
+            ]
+        },
+        {
+            "courseId": "SS154",
+            "courseName": "Econometrics and Economic Systems",
+            "preReqs": [
+                [
+                    "SS111"
+                ]
+            ],
+            "Colleges": [
+                "Social Sciences"
+            ]
+        },
+        {
+            "courseId": "SS156",
+            "courseName": "Comparative Politics in Practice",
+            "preReqs": [
+                [
+                    "SS112"
+                ]
+            ],
+            "Colleges": [
+                "Social Sciences"
+            ]
+        },
+        {
+            "courseId": "SS162",
+            "courseName": "Personal and Social Motivation",
+            "preReqs": [
+                [
+                    "SS110"
+                ]
+            ],
+            "Colleges": [
+                "Social Sciences"
+            ]
+        },
+        {
+            "courseId": "SS164",
+            "courseName": "Global Development and Applied Economics",
+            "preReqs": [
+                [
+                    "SS111"
+                ]
+            ],
+            "Colleges": [
+                "Social Sciences"
+            ]
+        },
+        {
+            "courseId": "SS166",
+            "courseName": "Comparative Constitutional Law: Designing Societies",
+            "preReqs": [
+                [
+                    "SS112"
+                ]
+            ],
+            "Colleges": [
+                "Social Sciences"
+            ]
+        },
+        {
+            "courseId": "SS166",
+            "courseName": "Comparative Constitutional Law: Designing Societies",
+            "preReqs": [
+                [
+                    "SS112"
+                ]
+            ],
+            "Colleges": [
+                "Social Sciences"
+            ]
+        },
+        {
+            "courseId": "B110",
+            "courseName": "Market Dynamics and Product Analytics",
+            "preReqs": [
+                [
+                    "B111"
+                ],
+                ["AH51"],["CS51"], ["NS51"],["SS51"]
+            ],
+            "Colleges": [
+                "Business"
+            ]
+        },
+        {
+            "courseId": "B111",
+            "courseName": "Financial Planning, Budgeting and Modeling",
+            "preReqs": [
+                [
+                    "B110"
+                ],
+                ["AH51"],["CS51"], ["NS51"],["SS51"]
+            ],
+            "Colleges": [
+                "Business"
+            ]
+        },
+        {
+            "courseId": "B112",
+            "courseName": "Doing Business",
+            "preReqs": [
+                [
+                    "B113"
+                ],
+                ["B110"],["B111"]
+            ],
+
+            "Colleges": [
+                "Business"
+            ]
+        },
+        {
+            "courseId": "B113",
+            "courseName": "Enterprise, Design and Optimization",
+            "preReqs": [
+                [
+                    "B112"
+                ],
+                ["B110"],["B111"]
+            ],
+
+            "Colleges": [
+                "Business"
+            ]
+        },
+        {
+            "courseId": "B144",
+            "courseName": "Needs Identification and Product Development",
+            "preReqs": [
+                [
+                    "B112"
+                ],
+                ["B113"]
+            ],
+
+            "Colleges": [
+                "Business"
+            ]
+        },
+        {
+            "courseId": "B145",
+            "courseName": "Venture Initiation and Valuation",
+            "preReqs": [
+                [
+                    "B112"
+                ],
+                ["B113"]
+            ],
+
+            "Colleges": [
+                "Business"
+            ]
+        }
+    ]
+    
+}
