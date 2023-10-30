@@ -1,0 +1,584 @@
+{
+    "majors": [
+        {
+            "majorId": "Arts and Humanities",
+            "Courses": [
+                [
+                    ["AH110"],
+                    ["AH111"],
+                    ["AH112"],
+                    ["AH113"]
+                ]
+            ],
+        },
+        {
+            "majorId": "Buisness",
+            "Courses": [
+                [
+                    ["B110"],
+                    ["B111"],
+                    ["B112"],
+                    ["B113"],
+                    ["B199"]
+                ]
+            ],
+        },
+        {
+            "majorId": "Computational Sciences",
+            "Courses": [
+                [
+                    ["CS110"],
+                    ["CS111"],
+                    ["CS114"],
+                    ["CS113"],
+                    ]
+            ],
+        },
+        {
+            "majorId": "Natural Sciences",
+            "Courses": [
+                [
+                    ["NS111"],
+                    ["NS112"],
+                    ["NS113"],
+                    [["NS110U"], ["NS110L"]]
+                    
+            ],
+        },
+        {
+            "majorId": "Social Sciences",
+            "Courses": [
+                [
+                    ["SS111"],
+                    ["SS112"],
+                    ["SS110"],
+                    
+                    
+            ],
+        },
+ }               
+
+
+ {
+    "concentrations": [
+        {
+            "concentrationId": "Applied Problem Solving",
+            "College": "Computational Sciences",
+            "Program Requirement": "Computational Sciences Major",
+            "Courses": [
+                ["CS162"],
+                ["CS164"],
+                ["CS166"]
+            ]
+        },
+        {
+            "concentrationId": "Arts and Literature",
+            "College": "Arts and Humanities",
+            "Program Requirement": "Arts & Humanities Major",
+            "Courses": [
+                ["AH146"],
+                ["AH156"],
+                ["AH166"]
+            ]
+        },
+        {
+            "concentrationId": "Brand Management",
+            "College": "Business",
+            "Program Requirement": "Business Major",
+            "Courses": [
+                ["B144"],
+                ["B154"],
+                ["B164"]
+            ]
+        },
+        {
+            "concentrationId": "Cells and Organisms",
+            "College": "Natural Sciences",
+            "Program Requirement": "Natural Sciences Major",
+            "Courses": [
+                ["NS144"],
+                ["NS154"],
+                ["NS164"]
+            ]
+        },
+        {
+            "concentrationId": "Chemistry Across Scales",
+            "College": "Natural Sciences",
+            "Program Requirement": "Natural Sciences Major",
+            "Courses": [
+                ["NS152"],
+                ["NS154"],
+                ["NS156"]
+            ]
+        },
+        {
+            "concentrationId": "Cognition, Brain, and Behavior",
+            "College": "Social Sciences",
+            "Program Requirement": "Social Sciences Major",
+            "Courses": [
+                ["SS142"],
+                ["SS152"],
+                ["SS162"]
+            ]
+        },
+        {
+            "concentrationId": "Computational Theory and Analysis",
+            "College": "Computational Sciences",
+            "Program Requirement": "Computational Sciences Major",
+            "Courses": [
+                ["CS142"],
+                ["CS144"],
+                ["CS146"]
+            ]
+        },
+        {
+            "concentrationId": "Computer Science and Artificial Intelligence",
+            "College": "Computational Sciences",
+            "Program Requirement": "Computational Sciences Major",
+            "Courses": [
+                ["CS142"],
+                ["CS152"],
+                ["CS162"]
+            ]
+        },
+        {
+            "concentrationId": "Contemporary Knowledge Discovery",
+            "College": "Computational Sciences",
+            "Program Requirement": "Computational Sciences Major",
+            "Courses": [
+                ["CS152"],
+                ["CS154"],
+                ["CS156"]
+            ]
+        },
+        {
+            "concentrationId": "Data Science and Statistics",
+            "College": "Computational Sciences",
+            "Program Requirement": "Computational Sciences Major",
+            "Courses": [
+                ["CS146"],
+                ["CS156"],
+                ["CS166"]
+            ]
+        },
+        {
+            "concentrationId": "Design Across the Humanities",
+            "College": "Arts and Humanities",
+            "Program Requirement": "Arts & Humanities Major",
+            "Courses": [
+                ["AH113"],
+                ["AH162"],
+                ["AH164"],
+                ["AH166"]
+            ]
+        }, 
+            {
+                "concentrationId": "Designing Societies",
+                "College": "Social Sciences",
+                "Program Requirement": "Social Sciences Major",
+                "Courses": [
+                    ["SS162"],
+                    ["SS164"],
+                    ["SS166"]
+                ]
+            },
+            {
+                "concentrationId": "Earth's Systems",
+                "College": "Natural Sciences",
+                "Program Requirement": "Natural Sciences Major",
+                "Courses": [
+                    ["NS146"],
+                    ["NS156"],
+                    ["NS166"]
+                ]
+            },
+            {
+                "concentrationId": "Economics and Society",
+                "College": "Social Sciences",
+                "Program Requirement": "Social Sciences Major",
+                "Courses": [
+                    ["SS144"],
+                    ["SS154"],
+                    ["SS164"]
+                ]
+            },
+            {
+                "concentrationId": "Empirical Approaches to the Social Sciences",
+                "College": "Social Sciences",
+                "Program Requirement": "Social Sciences Major",
+                "Courses": [
+                    ["SS152"],
+                    ["SS154"],
+                    ["SS156"]
+                ]
+            },
+            {
+                "concentrationId": "Enterprise Management",
+                "College": "Business",
+                "Program Requirement": "Business Major",
+                "Courses": [
+                    ["B164"],
+                    ["B165"],
+                    ["B166"]
+                ]
+            },
+            {
+                "concentrationId": "Historical Forces",
+                "College": "Arts and Humanities",
+                "Program Requirement": "Arts & Humanities Major",
+                "Courses": [
+                    ["AH142"],
+                    ["AH152"],
+                    ["AH162"]
+                ]
+            },
+            {
+                "concentrationId": "Humanities Analyses",
+                "College": "Arts and Humanities",
+                "Program Requirement": "Arts & Humanities Major",
+                "Courses": [
+                    ["AH142"],
+                    ["AH144"],
+                    ["AH146"]
+                ]
+            },
+            {
+                "concentrationId": "Humanities Foundations",
+                "College": "Arts and Humanities",
+                "Program Requirement": "Arts & Humanities Major",
+                "Courses": [
+                    ["AH152"],
+                    ["AH154"],
+                    ["AH156"]
+                ]
+            },
+            {
+                "concentrationId": "Managing Operational Complexity",
+                "College": "Business",
+                "Program Requirement": "Business Major",
+                "Courses": [
+                    ["B146"],
+                    ["B156"],
+                    ["B166"]
+                ]
+            },
+            {
+                "concentrationId": "Mathematics",
+                "College": "Computational Sciences",
+                "Program Requirement": "Computational Sciences Major",
+                "Courses": [
+                    ["CS144"],
+                    ["CS154"],
+                    ["CS164"]
+                ]
+            },
+            {
+                "concentrationId": "Molecules and Atoms",
+                "College": "Natural Sciences",
+                "Program Requirement": "Natural Sciences Major",
+                "Courses": [
+                    ["CS111"],
+                    ["CS113"],
+                    ["NS142"],
+                    ["NS152"],
+                    ["NS162"]
+                ]
+            },
+            {
+                "concentrationId": "New Business Ventures",
+                "College": "Business",
+                "Program Requirement": "Business Major",
+                "Courses": [
+                    ["B144"],
+                    ["B145"],
+                    ["B146"]
+                ]
+            },
+            {
+                "concentrationId": "Philosophy, Ethics, and the Law",
+                "College": "Arts and Humanities",
+                "Program Requirement": "Arts & Humanities Major",
+                "Courses": [
+                    ["AH144"],
+                    ["AH154"],
+                    ["AH164"]
+                ]
+            },
+            {
+                "concentrationId": "Politics, Government, and Society",
+                "College": "Social Sciences",
+                "Program Requirement": "Social Sciences Major",
+                "Courses": [
+                    ["SS146"],
+                    ["SS156"],
+                    ["SS166"]
+                ]
+            },
+            {
+                "concentrationId": "Problem Solving in Complex Systems",
+                "College": "Natural Sciences",
+                "Program Requirement": "Natural Sciences Major",
+                "Courses": [
+                    ["NS162"],
+                    ["NS164"],
+                    ["NS166"]
+                ]
+            }, 
+            
+                {
+                    "concentrationId": "Scalable Growth",
+                    "College": "Business",
+                    "Program Requirement": "Business Major",
+                    "Courses": [
+                        ["B154"],
+                        ["B155"],
+                        ["B156"]
+                    ]
+                },
+                {
+                    "concentrationId": "Special Concentration",
+                    "College": "Arts and Humanities",
+                    "Program Requirement": "Arts & Humanities Major",
+                    "Courses": [
+                        ["Special program - courses to be approved by the Dean"]
+                    ]
+                },
+                {
+                    "concentrationId": "Special Concentration",
+                    "College": "Business",
+                    "Program Requirement": "Business Major",
+                    "Courses": [
+                        ["Special program - courses to be approved by the Dean"]
+                    ]
+                },
+                {
+                    "concentrationId": "Special Concentration",
+                    "College": "Computational Sciences",
+                    "Program Requirement": "Computational Sciences Major",
+                    "Courses": [
+                        ["Special program - courses to be approved by the Dean"]
+                    ]
+                },
+                {
+                    "concentrationId": "Special Concentration",
+                    "College": "Natural Sciences",
+                    "Program Requirement": "Natural Sciences Major",
+                    "Courses": [
+                        ["Special program - courses to be approved by the Dean"]
+                    ]
+                },
+                {
+                    "concentrationId": "Special Concentration",
+                    "College": "Social Sciences",
+                    "Program Requirement": "Special Concentration",
+                    "Courses": [
+                        ["Special program - courses to be approved by the Dean"]
+                    ]
+                },
+                {
+                    "concentrationId": "Strategic Finance",
+                    "College": "Business",
+                    "Program Requirement": "Business Major",
+                    "Courses": [
+                        ["B145"],
+                        ["B155"],
+                        ["B165"]
+                    ]
+                },
+                {
+                    "concentrationId": "Theoretical Foundations of Natural Science",
+                    "College": "Natural Sciences",
+                    "Program Requirement": "Natural Sciences Major",
+                    "Courses": [
+                        ["NS142"],
+                        ["NS144"],
+                        ["NS146"]
+                    ]
+                },
+                {
+                    "concentrationId": "Theory and Analysis in the Social Sciences",
+                    "College": "Social Sciences",
+                    "Program Requirement": "Social Sciences Major",
+                    "Courses": [
+                        ["SS142"],
+                        ["SS144"],
+                        ["SS146"]
+                    ]
+                }
+            
+            
+    
+    
+        ]
+        
+    
+}
+
+
+{
+    
+        "minors": [
+            {
+                "minorId": "Arts & Humanities - Arts and Literature",
+                "College": "Arts and Humanities",
+                "Program Requirement": "Bachelors Degree",
+                "Courses": [
+                    ["AH112"],
+                    ["AH146"],
+                    ["AH156"],
+                    ["AH166"]
+                ]
+            },
+            {
+                "minorId": "Arts & Humanities - Historical Forces",
+                "College": "Arts and Humanities",
+                "Program Requirement": "Bachelors Degree",
+                "Courses": [
+                    ["AH110"],
+                    ["AH142"],
+                    ["AH152"],
+                    ["AH162"]
+                ]
+            },
+            {
+                "minorId": "Arts & Humanities -Philosophy, Ethics, and the Law",
+                "College": "Arts and Humanities",
+                "Program Requirement": "Bachelors Degree",
+                "Courses": [
+                    ["AH111"],
+                    ["AH144"],
+                    ["AH154"],
+                    ["AH164"]
+                ]
+            },
+            {
+                "minorId": "Business",
+                "College": "Business",
+                "Program Requirement": "Bachelors Degree",
+                "Courses": [
+                    ["B110"],
+                    ["B111"],
+                    ["B112"],
+                    ["B113"]
+                ]
+            },
+            {
+                "minorId": "Computational Sciences - Computer Science and Artificial Intelligence",
+                "College": "Computational Sciences",
+                "Program Requirement": "Bachelors Degree",
+                "Courses": [
+                    ["CS110"],
+                    ["CS113"],
+                    ["CS142"],
+                    ["CS152"],
+                    ["CS162"]
+                ]
+            },
+            {
+                "minorId": "Computational Sciences - Data Science and Statistics",
+                "College": "Computational Sciences",
+                "Program Requirement": "Bachelors Degree",
+                "Courses": [
+                    ["CS110"],
+                    ["CS111"],
+                    ["CS113"],
+                    ["CS130"],
+                    ["CS146"],
+                    ["CS156"],
+                    ["CS166"]
+                ]
+            },
+            {
+                "minorId": "Computational Sciences -Mathematics",
+                "College": "Computational Sciences",
+                "Program Requirement": "Bachelors Degree",
+                "Courses": [
+                    ["CS111"],
+                    ["CS113"],
+                    ["CS144"],
+                    ["CS154"],
+                    ["CS164"]
+                ]
+            },
+            {
+                "minorId": "Natural Sciences - Cells and Organisms",
+                "College": "Natural Sciences",
+                "Program Requirement": "Bachelors Degree",
+                "Courses": [
+                    ["NS112"],
+                    ["NS113"],
+                    ["NS144"],
+                    ["NS154"],
+                    ["NS164"]
+                ]
+            },
+            {
+                "minorId": "Natural Sciences - Earth's Systems",
+                "College": "Natural Sciences",
+                "Program Requirement": "Bachelors Degree",
+                "Courses": [
+                    ["NS111"],
+                    ["NS146"],
+                    ["NS156"],
+                    ["NS166"]
+                ]
+            },
+            {
+                "minorId": "Natural Sciences -Molecules and Atoms",
+                "College": "Natural Sciences",
+                "Program Requirement": "Bachelors Degree",
+                "Courses": [
+                    ["NS110U"],
+                    ["CS111"],
+                    ["CS113"],
+                    ["NS113"],
+                    ["NS142"],
+                    ["NS152"],
+                    ["NS162"]
+                ]
+            },
+            {
+                "minorId": "Social Sciences - Cognition, Brain, and Behavior",
+                "College": "Social Sciences",
+                "Program Requirement": "Bachelors Degree",
+                "Courses": [
+                    ["SS110"],
+                    ["SS142"],
+                    ["SS152"],
+                    ["SS162"]
+                ]
+            },
+            {
+                "minorId": "Social Sciences - Economics and Society",
+                "College": "Social Sciences",
+                "Program Requirement": "Bachelors Degree",
+                "Courses": [
+                    ["SS111"],
+                    ["SS144"],
+                    ["SS154"],
+                    ["SS164"]
+                ]
+            },
+            {
+                "minorId": "Social Sciences -Politics, Government, and Society",
+                "College": "Social Sciences",
+                "Program Requirement": "Bachelors Degree",
+                "Courses": [
+                    ["SS112"],
+                    ["SS146"],
+                    ["SS156"],
+                    ["SS166"]
+                ]
+            },
+            {
+                "minorId": "Sustainability",
+                "College": "Arts and Humanities",
+                "Program Requirement": "Bachelors Degree",
+                "Courses": [
+                    ["NS166"]
+                ]
+            }
+        ]
+        
+
+}
