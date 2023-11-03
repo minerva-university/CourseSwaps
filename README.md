@@ -20,5 +20,5 @@ npm install
 To run the frontend, run the following commands:
 ```bash
 cd frontend
-npm start
+npm run dev
 ```

@@ -1,65 +1,40 @@
-import React, { useState, useCallback, useEffect } from "react";
+import React from "react";
+import { useUser } from "../contexts/UserContext";
 import SignUp from "../components/Signup/Signup";
-import Login from "../components/Login/Login.jsx";
-import jwt_decode from "jwt-decode";
+import Login from "../components/Login/Login";
 import Logout from "../components/logout/Logout";
 import Home from "./HomePage";
-
-const clientId = "419464266191-idk1qqtf74j4uci9qu0d0uci0phfnp6t.apps.googleusercontent.com";
+import { Grid, Box } from "@mui/material";
 
 const AuthPage = () => {
-  const [user, setUser] = useState({});
-  const [authenticated, setAuthenticated] = useState(false);
+  const { authenticated, promptGoogleSignIn } = useUser();
 
-  const handleCallbackResponse = (response) => {
-    var userObject = jwt_decode(response.credential);
-    setUser(userObject);
-    setAuthenticated(true);
-
-    // Store the authentication status in localStorage
-    localStorage.setItem("authenticated", "true");
-  };
-
-  const handleGoogleSignup = useCallback(() => {
-    /* global google */
-    google.accounts.id.initialize({
-      client_id: clientId,
-      callback: handleCallbackResponse,
-    });
-
-    google.accounts.id.prompt(); // This will prompt the user for Google authentication
-  }, []);
-
-  const handleGoogleLogin = useCallback(() => {
-    /* global google */
-    google.accounts.id.initialize({
-      client_id: clientId,
-      callback: handleCallbackResponse,
-    });
-
-    google.accounts.id.prompt(); // This will prompt the user for Google authentication
-  }, []);
-
-  // Check for authentication status in localStorage when the component mounts
-  useEffect(() => {
-    const storedAuthenticated = localStorage.getItem("authenticated");
-    if (storedAuthenticated === "true") {
-      setAuthenticated(true);
-    }
-  }, []);
-  return (
-    authenticated ? (
-      <>
+  return authenticated ? (
+    <>
       <h1>Hello</h1>
-      <Home user={user}/>
-      <Logout setUser={setUser} user={user} setAuthenticated={setAuthenticated} />
-      </>
-    ) : (
-      <>
-        <SignUp handleSignUp={handleGoogleSignup} authenticated={authenticated} user={user} />
-        <Login handleLogin={handleGoogleLogin} authenticated={authenticated} user={user} />
-      </>
-    )
+      <Home />
+      <Logout />
+    </>
+  ) : (
+    <Box
+      sx={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        minHeight: "100vh",
+      }}
+    >
+      <Grid container spacing={2} justifyContent="center" alignItems="center">
+        <Grid item xs={12} container justifyContent="center" spacing={2}>
+          <Grid item xs="auto">
+            <SignUp handleSignUp={promptGoogleSignIn} />
+          </Grid>
+          <Grid item xs="auto">
+            <Login handleLogin={promptGoogleSignIn} />
+          </Grid>
+        </Grid>
+      </Grid>
+    </Box>
   );
 };
 

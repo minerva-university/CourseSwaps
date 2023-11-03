@@ -1,10 +1,16 @@
 import React from "react";
+import { useUser } from "../contexts/UserContext";
 
-export default function Home({user}) {
-  return <div>{user && (
+export default function Home() {
+  const { user } = useUser();
+  return (
     <div>
-      <img src={user.picture} alt="User's Picture" /> 
-      <h3>{user.name}</h3>
+      {user && (
+        <div>
+          <img src={user.picture} alt="User's Picture" />
+          <h3>{user.name}</h3>
+        </div>
+      )}
     </div>
-  )}</div>;
+  );
 }
