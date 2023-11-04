@@ -1,18 +1,19 @@
 import React from "react";
 import Button from "@mui/material/Button";
 import GoogleIcon from "@mui/icons-material/Google";
-
-function Login({ handleLogin, authenticated }) {
+import { useUser } from "../../contexts/UserContext";
+function Login() {
+  const { promptGoogleSignIn } = useUser();
   return (
     <div className="SignUp">
-        <Button
-          variant="contained"
-          color="primary"
-          startIcon={<GoogleIcon />}
-          onClick={handleLogin}
-        >
-         Login with Google
-        </Button>
+      <Button
+        variant="contained"
+        color="primary"
+        startIcon={<GoogleIcon />}
+        onClick={promptGoogleSignIn}
+      >
+        Login with Google
+      </Button>
     </div>
   );
 }
