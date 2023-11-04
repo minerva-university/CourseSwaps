@@ -72,3 +72,14 @@ class UserCompletedCourses(db.Model):
         return (
             f"CompletedCourse(User ID: '{self.user_id}', Course ID: '{self.course_id}')"
         )
+
+
+# Available courses to just pickup
+class CoursesAvailableForPickup(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    course_id = db.Column(db.Integer, db.ForeignKey("courses.id"), nullable=False)
+    course = db.relationship("Courses")
+
+    def __repr__(self):
+        # add time of the course with the course id
+        return f"CourseAvailableForPickup(Course ID: '{self.course_id}')"
