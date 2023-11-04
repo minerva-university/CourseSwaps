@@ -11,7 +11,7 @@ const MyCoursesList = () => {
   useEffect(() => {
     const fetchCourses = async () => {
       try {
-        const response = await api_provider.get("/current_user_courses");
+        const response = await api_provider.get("/mycourses");
         if (response.ok) {
           setCourses(response.body.courses); // Assuming the response body has a 'courses' field with an array of courses
         } else {
