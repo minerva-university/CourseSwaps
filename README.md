@@ -20,7 +20,7 @@ VITE_APP_API_URL=http://127.0.0.1:7000
 
 To run the frontend, in the same frontend directory, run the following command:
 ```bash
-npm start
+npm run dev
 ```
 
 ### Backend
