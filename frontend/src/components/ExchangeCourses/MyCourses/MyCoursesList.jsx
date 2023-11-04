@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import MyCourse from "./MyCourseItem";
-import { useApi } from "../../contexts/ApiProvider";
+import { useApi } from "../../../contexts/ApiProvider";
 
 const MyCoursesList = () => {
   const api_provider = useApi();
