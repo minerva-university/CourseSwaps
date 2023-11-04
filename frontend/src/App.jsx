@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import UserformPage from "./views/userFormPage";
 import { UserProvider } from "./contexts/UserContext";
 import ApiProvider from "./contexts/ApiProvider";
+import Navbar from "./components/Navbar/Navbar";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
             <Routes>
               <Route path="/" element={<AuthPage />} />
               <Route path="/userform" element={<UserformPage />} />
+              <Route path="/navbar" element={<Navbar />} /> 
             </Routes>
         </BrowserRouter>
       </UserProvider>
