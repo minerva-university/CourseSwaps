@@ -1,6 +1,6 @@
 import unittest
 from flask import url_for
-from API import create_app, db
+from backend.API.app import create_app, db
 from backend.API.models.models import User
 
 

@@ -1,9 +1,9 @@
+import os
+from dotenv import load_dotenv
 from flask import Flask
 from flask_login import LoginManager
-import os
 from flask_sqlalchemy import SQLAlchemy
-from dotenv import load_dotenv
-from .auth import auth
+from .auth import auth_bp
 
 load_dotenv()
 
@@ -16,7 +16,7 @@ def create_app(test_config=None):
     app = Flask(__name__)
 
     # Register blueprints
-    app.register_blueprint(auth, url_prefix="/api")
+    app.register_blueprint(auth_bp, url_prefix="/api")
 
     # Configuration
     app.config.from_mapping(
