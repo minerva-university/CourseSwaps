@@ -2,8 +2,10 @@ import os
 from dotenv import load_dotenv
 from flask import Flask
 from flask_login import LoginManager
-from flask_sqlalchemy import SQLAlchemy
-from .auth import auth_bp
+from .blueprints.auth import auth_bp
+from .blueprints.mycourses import mycourses_bp
+from .blueprints.availableswaps import availableswaps_bp
+from .blueprints.availableforpickup import availableforpickup_bp
 from .populate_db import populate_db
 from .models import db
 
@@ -17,6 +19,9 @@ def create_app(test_config=None):
 
     # Register blueprints
     app.register_blueprint(auth_bp, url_prefix="/api")
+    app.register_blueprint(mycourses_bp, url_prefix="/api")
+    app.register_blueprint(availableswaps_bp, url_prefix="/api")
+    app.register_blueprint(availableforpickup_bp, url_prefix="/api")
 
     # Configuration
     app.config.from_mapping(

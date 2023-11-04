@@ -1,13 +1,13 @@
 from flask import Blueprint, request, jsonify
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user, logout_user, login_required, current_user
-from .models import Users, db
+from ..models import Users, db
 
 
 auth_bp = Blueprint("auth_bp", __name__)
 
 
-@auth_bp.route("/api/register", methods=["POST"])
+@auth_bp.route("/register", methods=["POST"])
 def register():
     data = request.get_json()
     username = data.get("username")
@@ -21,7 +21,7 @@ def register():
     return jsonify({"error": "Invalid Input"}), 400
 
 
-@auth_bp.route("/api/login", methods=["POST"])
+@auth_bp.route("/login", methods=["POST"])
 def login():
     data = request.get_json()
     username = data.get("username")
@@ -33,7 +33,7 @@ def login():
     return jsonify({"error": "Invalid credentials"}), 400
 
 
-@auth_bp.route("/api/logout", methods=["POST"])
+@auth_bp.route("/logout", methods=["POST"])
 def logout():
     # Logout logic here, e.g., clear a session or token
     return jsonify({"message": "Logout successful"}), 200
