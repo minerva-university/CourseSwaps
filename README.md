@@ -30,6 +30,7 @@ To run the backend, run the following commands in your virtual environment:
 cd backend
 pip install -r requirements.txt
 ```
+Recommended Python version: 3.11
 
 In the backend directory, create a file called `.env` and add the following line:
 ```bash
