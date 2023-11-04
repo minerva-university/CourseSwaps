@@ -4,10 +4,10 @@ from flask import Flask
 from flask_login import LoginManager
 from flask_sqlalchemy import SQLAlchemy
 from .auth import auth_bp
+from .populate_db import populate_db
+from .models import db
 
 load_dotenv()
-
-db = SQLAlchemy()
 
 login_manager = LoginManager()
 
@@ -37,6 +37,7 @@ def create_app(test_config=None):
 
     with app.app_context():
         db.create_all()
+        populate_db()
 
     @app.route("/")
     def index():

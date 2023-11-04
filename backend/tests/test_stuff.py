@@ -28,8 +28,7 @@ class APITestCase(unittest.TestCase):
 
     def test_register(self):
         response = self.client.post(
-            "/api/register", json={"username": "testuser", 
-                                   "password": "testpassword"}
+            "/api/register", json={"username": "testuser", "password": "testpassword"}
         )
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json, {"message": "Registration successful"})
@@ -47,8 +46,7 @@ class APITestCase(unittest.TestCase):
             db.session.commit()
 
         response = self.client.post(
-            "/api/login", json={"username": "testuser", 
-                                "password": "testpassword"}
+            "/api/login", json={"username": "testuser", "password": "testpassword"}
         )
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json, {"message": "Login successful"})
