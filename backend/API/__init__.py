@@ -1,13 +1,15 @@
+import os
+from dotenv import load_dotenv
 from flask import Flask
 from flask_login import LoginManager
-import os
-from flask_sqlalchemy import SQLAlchemy
-from dotenv import load_dotenv
-from .auth import auth
+from .blueprints.auth import auth_bp
+from .blueprints.mycourses import mycourses_bp
+from .blueprints.availableswaps import availableswaps_bp
+from .blueprints.availableforpickup import availableforpickup_bp
+from .populate_db import populate_db
+from .models import db
 
 load_dotenv()
-
-db = SQLAlchemy()
 
 login_manager = LoginManager()
 
@@ -16,7 +18,10 @@ def create_app(test_config=None):
     app = Flask(__name__)
 
     # Register blueprints
-    app.register_blueprint(auth, url_prefix="/api")
+    app.register_blueprint(auth_bp, url_prefix="/api")
+    app.register_blueprint(mycourses_bp, url_prefix="/api")
+    app.register_blueprint(availableswaps_bp, url_prefix="/api")
+    app.register_blueprint(availableforpickup_bp, url_prefix="/api")
 
     # Configuration
     app.config.from_mapping(
@@ -37,6 +42,7 @@ def create_app(test_config=None):
 
     with app.app_context():
         db.create_all()
+        populate_db()
 
     @app.route("/")
     def index():

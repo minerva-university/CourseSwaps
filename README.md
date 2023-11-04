@@ -25,4 +25,20 @@ npm run dev
 
 ### Backend
 
-To be completed
+To run the backend, run the following commands in your virtual environment:
+```bash
+cd backend
+pip install -r requirements.txt
+```
+Recommended Python version: 3.11
+
+In the backend directory, create a file called `.env` and add the following line:
+```bash
+DATABASE_URL=sqlite:///database.db
+SECRET_KEY=YOURSUPERSECRETKEY
+```
+
+To run the backend, in the same backend directory, run the following command:
+```bash
+python app.py
+```

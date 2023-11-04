@@ -61,12 +61,25 @@ class UserCurrentCourses(db.Model):
         return f"UserCurrentCourses(User ID: '{self.user_id}', Course ID: '{self.course_id}')"
 
 
-# UserWantedCourses model (courses that a user wants to take)
-class UserWantedCourses(db.Model):
+# UserCompletedCourses model (courses that a user has completed)
+class UserCompletedCourses(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
     course_id = db.Column(db.Integer, db.ForeignKey("courses.id"), nullable=False)
     course = db.relationship("Courses")
 
     def __repr__(self):
-        return f"WantedCourse(User ID: '{self.user_id}', Course ID: '{self.course_id}')"
+        return (
+            f"CompletedCourse(User ID: '{self.user_id}', Course ID: '{self.course_id}')"
+        )
+
+
+# Available courses to just pickup
+class CoursesAvailableForPickup(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    course_id = db.Column(db.Integer, db.ForeignKey("courses.id"), nullable=False)
+    course = db.relationship("Courses")
+
+    def __repr__(self):
+        # add time of the course with the course id
+        return f"CourseAvailableForPickup(Course ID: '{self.course_id}')"
