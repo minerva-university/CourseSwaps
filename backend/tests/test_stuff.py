@@ -1,7 +1,7 @@
 import unittest
 from flask import url_for
 from API import create_app, db
-from API.models import User
+from backend.API.models.models import User
 
 
 class APITestCase(unittest.TestCase):
