@@ -1,0 +1,366 @@
+{
+    "courses": [
+      {
+        "courseId": "B146",
+        "courseName": "Business Operations",
+        "preReqs": ["B112: Doing Business", "B113: Enterprise, Design and Optimization"],
+        "Colleges": ["Business"],
+        "Majors": ["Business"],
+        "concentration": ["Managing Operational Complexity Concentration","New Business Ventures Concentration"],
+        "Minors": []
+      },
+      {
+        "courseId": "B154",
+        "courseName": "Strategic Brand Leadership",
+        "preReqs": ["B112: Doing Business", "B113: Enterprise, Design and Optimization"],
+        "Colleges": ["Business"],
+        "Majors": ["Business"],
+        "concentration": ["Brand Management Concentration","Scalable Growth Concentration"],
+        "Minors": []
+      },
+      {
+        "courseId": "B155",
+        "courseName": "Capital Allocation and Value Creating Growth",
+        "preReqs": ["B112: Doing Business", "B113: Enterprise, Design and Optimization"],
+        "Colleges": ["Business"],
+        "Majors": ["Business"],
+        "concentration": ["Scalable Growth Concentration","Strategic Finance Concentration"],
+        "Minors": []
+      },
+      {
+        "courseId": "B156",
+        "courseName": "Business Systems",
+        "preReqs": ["B112: Doing Business", "B113: Enterprise, Design and Optimization"],
+        "Colleges": ["Business"],
+        "Majors": ["Business"],
+        "concentration": ["Managing Operational Complexity Concentration","Scalable Growth Concentration"],
+        "Minors": []
+      },
+      {
+        "courseId": "B164",
+        "courseName": "Product Evolution and Reinvention",
+        "preReqs": ["B112: Doing Business", "B113: Enterprise, Design and Optimization"],
+        "Colleges": ["Business"],
+        "Majors": ["Business"],
+        "concentration": ["Brand Management Concentration","Enterprise Management Concentration"],
+        "Minors": []
+      },
+      {
+        "courseId": "B165",
+        "courseName": "Global Enterprise Financial Strategy",
+        "preReqs": ["B112: Doing Business", "B113: Enterprise, Design and Optimization"],
+        "Colleges": ["Business"],
+        "Majors": ["Business"],
+        "concentration": ["Enterprise Management Concentration","Strategic Finance Concentration"],
+        "Minors": []
+      },
+      {
+        "courseId": "B166",
+        "courseName": "Business Optimization",
+        "preReqs": ["B112: Doing Business", "B113: Enterprise, Design and Optimization"],
+        "Colleges": ["Business"],
+        "Majors": ["Business"],
+        "concentration": ["Enterprise Management Concentration","Managing Operational Complexity Concentration"],
+        "Minors": []
+      },
+      {
+        "courseId": "B199",
+        "courseName": "Business Practicum",
+        "preReqs": ["B112: Doing Business", "B113: Enterprise, Design and Optimization"],
+        "Colleges": ["Business"],
+        "Majors": ["Business"],
+        "concentration": ["All"],
+        "Minors": []
+      },
+      {
+        "courseId": "CS50",
+        "courseName": "Formal Analyses",
+        "preReqs": ["None"],
+        "Colleges": ["Computational Sciences"],
+        "Majors": ["Computational Sciences"],
+        "concentration": ["All"],
+        "Minors": []
+      },
+      {
+        "courseId": "CS51",
+        "courseName": "Formal Analyses",
+        "preReqs": ["CS50"],
+        "Colleges": ["Computational Sciences"],
+        "Majors": ["Computational Sciences"],
+        "concentration": ["All"],
+        "Minors": []
+      },
+      {
+        "courseId": "CS51B",
+        "courseName": "Programming",
+        "preReqs": ["CS50"],
+        "Colleges": ["Computational Sciences"],
+        "Majors": ["Computational Sciences"],
+        "concentration": [],
+        "Minors": []
+      },
+      {
+        "courseId": "CS110",
+        "courseName": "Problem Solving with Data Structures and Algorithms",
+        "preReqs": ["CS51", "CS51B"],
+        "Colleges": ["Computational Sciences"],
+        "Majors": ["Computational Sciences"],
+        "concentration": ["All"],
+        "Minors": ["Computer Science and Artificial Intelligence Minor","Data Science and Statistics Minor"]
+      },
+      {
+        "courseId": "CS111",
+        "courseName": "Single and Multivariable Calculus",
+        "preReqs": ["CS51"],
+        "Colleges": ["Computational Sciences"],
+        "Majors": ["Computational Sciences"],
+        "concentration": ["All"],
+        "Minors": ["Data Science and Statistics Minor","Mathematics Minor"]
+      },
+      {
+        "courseId": "CS113",
+        "courseName": "Theory and Applications of Linear Algebra",
+        "preReqs": ["CS51"],
+        "Colleges": ["Computational Sciences"],
+        "Majors": ["Computational Sciences"],
+        "concentration": ["All"],
+        "Minors": ["Computer Science and Artificial Intelligence Minor","Data Science and Statistics Minor",,"Mathematics Minor"]
+      },
+      {
+        "courseId": "CS114",
+        "courseName": "Probability and Statistics and the Structure of Randomness",
+        "preReqs": ["CS111"],
+        "Colleges": ["Computational Sciences"],
+        "Majors": ["Computational Sciences"],
+        "concentration": ["All"],
+        "Minors": []
+      },
+      {
+        "courseId": "CS130",
+        "courseName": "Prediction and Causal Inference via Statistical Modeling",
+        "preReqs": ["CS51"],
+        "Colleges": ["Computational Sciences"],
+        "Majors": ["Computational Sciences"],
+        "concentration": ["All"],
+        "Minors": ["Data Science and Statistics Minor"]
+      },
+      {
+        "courseId": "CS142",
+        "courseName": "Theory of Computation",
+        "preReqs": ["CS110", "CS113"],
+        "Colleges": ["Computational Sciences"],
+        "Majors": ["Computational Sciences"],
+        "concentration": ["Computational Theory and Analysis Concentration", "Computer Science and Artificial Intelligence Concentration"],
+        "Minors": ["Computer Science and Artificial Intelligence Minor"]
+      },
+      {
+        "courseId": "CS144",
+        "courseName": "Real Analysis",
+        "preReqs": ["CS111A", "CS111"],
+        "Colleges": ["Computational Sciences"],
+        "Majors": ["Computational Sciences"],
+        "concentration": ["Computational Theory and Analysis Concentration","Mathematics Concentration"],
+        "Minors": ["Mathematics Minor"]
+      },
+      {
+        "courseId": "CS146",
+        "courseName": "Computational Methods for Bayesian Statistics",
+        "preReqs": ["CS111A", "CS111", "CS112", "CS114", "CS130"],
+        "Colleges": ["Computational Sciences"],
+        "Majors": ["Computational Sciences"],
+        "concentration": ["Computational Theory and Analysis Concentration","Data Science and Statistics Concentration"],
+        "Minors": ["Data Science and Statistics Minor"]
+      },
+      {
+        "courseId": "CS152",
+        "courseName": "Theory and Applications of Artificial Intelligence",
+        "preReqs": ["CS110"],
+        "Colleges": ["Computational Sciences"],
+        "Majors": ["Computational Sciences"],
+        "concentration": ["Computer Science and Artificial Intelligence Concentration","Contemporary Knowledge Discovery Concentration"],
+        "Minors": ["Computer Science and Artificial Intelligence Minor"]
+      },
+      {
+        "courseId": "CS154",
+        "courseName": "Analytical and Numerical Methods in Differential Equations",
+        "preReqs": ["CS111A", "CS111", "CS111B", "CS113"],
+        "Colleges": ["Computational Sciences"],
+        "Majors": ["Computational Sciences"],
+        "concentration": ["Contemporary Knowledge Discovery Concentration","Mathematics Concentration"],
+        "Minors": ["Mathematics Minor"]
+      },
+      {
+        "courseId": "CS156",
+        "courseName": "Finding Patterns in Data with Machine Learning",
+        "preReqs": ["CS110", "CS111A", "CS111", "CS111B", "CS113"],
+        "Colleges": ["Computational Sciences"],
+        "Majors": ["Computational Sciences"],
+        "concentration": ["Contemporary Knowledge Discovery Concentration","Data Science and Statistics Concentration"],
+        "Minors": []
+      },
+      {
+        "courseId": "CS162",
+        "courseName": "Software Engineering: Building Powerful Applications",
+        "preReqs": ["CS110"],
+        "Colleges": ["Computational Sciences"],
+        "Majors": ["Computational Sciences"],
+        "concentration": ["Applied Problem Solving Concentration","Computer Science and Artificial Intelligence Concentration"],
+        "Minors": ["Data Science and Statistics Minor"]
+      },
+      {
+        "courseId": "CS164",
+        "courseName": "Optimization Methods",
+        "preReqs": ["CS111A", "CS111", "CS111B", "CS113"],
+        "Colleges": ["Computational Sciences"],
+        "Majors": ["Computational Sciences"],
+        "concentration": ["Applied Problem Solving Concentration","Mathematics Concentration"],
+        "Minors": ["Computer Science and Artificial Intelligence Minor","Mathematics Minor"]
+      },
+      {
+        "courseId": "CS166",
+        "courseName": "Modeling and Analysis of Complex Systems",
+        "preReqs": ["CS113", "CS114", "CS112", "CS130"],
+        "Colleges": ["Computational Sciences"],
+        "Majors": ["Computational Sciences"],
+        "concentration": ["Applied Problem Solving Concentration","Data Science and Statistics Concentration"],
+        "Minors": ["Data Science and Statistics Minor"]
+      },
+      {
+        "courseId": "AH50",
+        "courseName": "Multimodal Communications",
+        "preReqs": ["None"],
+        "Colleges": ["Arts and Humanities"],
+        "Majors": ["All"],
+        "concentration": ["All"]
+      },
+      {
+        "courseId": "AH51",
+        "courseName": "Multimodal Communications",
+        "preReqs": ["AH50"],
+        "Colleges": ["Arts and Humanities"],
+        "Majors": ["All"],
+        "concentration": ["All"]
+      },
+      {
+        "courseId": "AH110",
+        "courseName": "Global History",
+        "preReqs": ["AH51"],
+        "Colleges": ["Arts and Humanities"],
+        "Majors": ["Arts and Humanities"],
+        "concentration": ["All"],
+        "Minors": ["Historical Forces Minor"]
+      },
+      {
+        "courseId": "AH111",
+        "courseName": "Morality, Justice, and the Good Life",
+        "preReqs": ["AH51"],
+        "Colleges": ["Arts and Humanities"],
+        "Majors": ["Arts and Humanities"],
+        "concentration": ["All"],
+        "Minors": ["Philosophy, Ethics, and the Law Minor"]
+      },
+      {
+        "courseId": "AH112",
+        "courseName": "The Arts and Social Change",
+        "preReqs": ["AH51"],
+        "Colleges": ["Arts and Humanities"],
+        "Majors": ["Arts and Humanities"],
+        "concentration": ["All"],
+        "Minors": ["Arts and Literature Minor"]
+      },
+      {
+        "courseId": "AH113",
+        "courseName": "Dynamics of Design",
+        "preReqs": ["AH51"],
+        "Colleges": ["Arts and Humanities"],
+        "Majors": ["All"],
+        "concentration": ["All", "Design Across the Humanities Concentration"]
+      },
+      {
+        "courseId": "AH142",
+        "courseName": "The Craft of Historical Analysis",
+        "preReqs": ["AH110"],
+        "Colleges": ["Arts and Humanities"],
+        "Majors": ["Arts and Humanities"],
+        "concentration": ["Historical Forces Concentration", "Humanities Analyses Concentration"],
+        "Minors": ["Historical Forces Minor"]
+
+      },
+      {
+        "courseId": "AH144",
+        "courseName": "Ethical Systems, Moral Dilemmas",
+        "preReqs": ["AH111"],
+        "Colleges": ["Arts and Humanities"],
+        "Majors": ["Arts and Humanities"],
+        "concentration": ["Humanities Analyses Concentration","Philosophy, Ethics, and the Law Concentration"],
+        "Minors": ["Philosophy, Ethics, and the Law Minor"]
+      },
+      {
+        "courseId": "AH146",
+        "courseName": "Decoding Art and Literature",
+        "preReqs": ["AH112"],
+        "Colleges": ["Arts and Humanities"],
+        "Majors": ["Arts and Humanities"],
+        "concentration": ["Arts and Literature Concentration","Humanities Analyses Concentration"],
+        "Minors": ["Arts and Literature Minor"]
+        
+    },
+      {
+        "courseId": "AH152",
+        "courseName": "Comparing Societies and Histories: The Impact of Time and Place",
+        "preReqs": ["AH110"],
+        "Colleges": ["Arts and Humanities"],
+        "Majors": ["Arts and Humanities"],
+        "concentration": ["Historical Forces Concentration","Humanities Foundations Concentration"],
+        "Minors": ["Historical Forces Minor"]
+
+      },
+      {
+        "courseId": "AH154",
+        "courseName": "Ethics and the Law",
+        "preReqs": ["AH111"],
+        "Colleges": ["Arts and Humanities"],
+        "Majors": ["Arts and Humanities"],
+        "concentration": ["Humanities Foundations Concentration","Philosophy, Ethics, and the Law Concentration"],
+        "Minors": ["Philosophy, Ethics, and the Law Minor"]
+      },
+      {
+        "courseId": "AH156",
+        "courseName": "Socioeconomic Influences on Art and Literature",
+        "preReqs": ["AH112"],
+        "Colleges": ["Arts and Humanities"],
+        "Majors": ["Arts and Humanities"],
+        "concentration": ["Arts and Literature Concentration","Humanities Foundations Concentration"],
+        "Minors": ["Arts and Literature Minor"]
+      },
+      {
+        "courseId": "AH162",
+        "courseName": "Public and Applied History",
+        "preReqs": ["AH110"],
+        "Colleges": ["Arts and Humanities"],
+        "Majors": ["Arts and Humanities"],
+        "concentration": ["Design Across the Humanities Concentration","Historical Forces Concentration"],
+        "Minors": ["Historical Forces Minor"]
+
+      },
+      {
+        "courseId": "AH164",
+        "courseName": "Social and Political Philosophy",
+        "preReqs": ["AH111"],
+        "Colleges": ["Arts and Humanities"],
+        "Majors": ["Arts and Humanities"],
+        "concentration": ["Design Across the Humanities Concentration","Philosophy, Ethics, and the Law Concentration"],
+        "Minors": ["Philosophy, Ethics, and the Law Minor"]
+      },
+      {
+        "courseId": "AH166",
+        "courseName": "Artistic Communication from Page to Practice",
+        "preReqs": ["AH112"],
+        "Colleges": ["Arts and Humanities"],
+        "Majors": ["Arts and Humanities"],
+        "concentration": ["Arts and Literature Concentration", "Design Across the Humanities Concentration"],
+        "Minors": ["Arts and Literature Minor"]
+      }
+    ]
+  }
+  
