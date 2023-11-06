@@ -12,9 +12,10 @@ def register():
     data = request.get_json()
     username = data.get("username")
     password = data.get("password")
+    email = data.get("email")
     if username and password:
         hashed_password = generate_password_hash(password, method="sha256")
-        new_user = Users(name=username, password=hashed_password)
+        new_user = Users(name=username, password=hashed_password, email=email)
         db.session.add(new_user)
         db.session.commit()
         return jsonify({"message": "Registration successful"}), 200
