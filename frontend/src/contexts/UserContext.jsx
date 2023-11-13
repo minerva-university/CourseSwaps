@@ -1,11 +1,6 @@
 /* eslint-disable react-refresh/only-export-components */
 /* eslint-disable react/prop-types */
-import React, {
-  createContext,
-  useState,
-  useContext,
-  useCallback,
-} from "react";
+import React, { createContext, useState, useContext, useCallback } from "react";
 import { useGoogleLogin } from "@react-oauth/google";
 import { useApi } from "./ApiProvider";
 
@@ -18,10 +13,10 @@ export function UserProvider({ children }) {
   const [authenticated, setAuthenticated] = useState(false);
   const api = useApi();
 
-
   const login = useGoogleLogin({
     onSuccess: (res) => {
-      authenticateUser(res.code);
+      console.log("Login Success", res);
+      authenticateUser(res);
     },
     onFailure: (res) => {
       console.log("Login Failed", res);
@@ -29,7 +24,7 @@ export function UserProvider({ children }) {
     onError: (res) => {
       console.log("Login Error", res);
     },
-    flow: "auth-code",
+    // flow: "access_token",
   });
 
   const authenticateUser = async (access_token) => {

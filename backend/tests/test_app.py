@@ -11,7 +11,7 @@ class APITestCase(unittest.TestCase):
             test_config={
                 "TESTING": True,
                 "SQLALCHEMY_DATABASE_URI": "sqlite:///:memory:",
-                "WTF_CSRF_ENABLED": False,  
+                "WTF_CSRF_ENABLED": False,
             }
         )
         self.client = self.app.test_client()
@@ -24,11 +24,9 @@ class APITestCase(unittest.TestCase):
         with self.app.app_context():
             db.create_all()
             # Create and insert a test user with a hashed password
-            hashed_password = generate_password_hash("testpassword",
-                                                     method="sha256")
+            hashed_password = generate_password_hash("testpassword", method="pbkdf2")
             user = Users(
-                name="testuser", email="testuser@example.com",
-                password=hashed_password
+                name="testuser", email="testuser@example.com", password=hashed_password
             )
             db.session.add(user)
             db.session.commit()
@@ -41,8 +39,7 @@ class APITestCase(unittest.TestCase):
     def test_index(self):
         response = self.client.get("/")
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.data.decode("utf-8"),
-                         "Welcome to the backend!")
+        self.assertEqual(response.data.decode("utf-8"), "Welcome to the backend!")
 
     def test_auth_register(self):
         response = self.client.post(
@@ -59,8 +56,7 @@ class APITestCase(unittest.TestCase):
     def test_auth_login(self):
         # Attempt to login with the test user credentials
         response = self.client.post(
-            "/api/login", json={"username": "testuser",
-                                "password": "testpassword"}
+            "/api/login", json={"username": "testuser", "password": "testpassword"}
         )
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json["message"], "Login successful")
@@ -68,8 +64,7 @@ class APITestCase(unittest.TestCase):
     def test_auth_logout(self):
         # Login the user first
         login_response = self.client.post(
-            "/api/login", json={"username": "testuser",
-                                "password": "testpassword"}
+            "/api/login", json={"username": "testuser", "password": "testpassword"}
         )
         self.assertEqual(login_response.status_code, 200)
 
