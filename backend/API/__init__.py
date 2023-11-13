@@ -1,6 +1,6 @@
 import os
 from dotenv import load_dotenv
-from flask import Flask, make_response, jsonify, request
+from flask import Flask, make_response, jsonify, request, session
 from flask_login import LoginManager
 from .blueprints.auth import auth_bp
 from .blueprints.mycourses import mycourses_bp
@@ -9,6 +9,7 @@ from .blueprints.availableforpickup import availableforpickup_bp
 from .populate_db import populate_db
 from .models import db
 
+
 load_dotenv()
 
 login_manager = LoginManager()
@@ -16,6 +17,10 @@ login_manager = LoginManager()
 
 def create_app(test_config=None):
     app = Flask(__name__)
+
+    from .blueprints.auth import oauth
+
+    oauth.init_app(app)
 
     # Register blueprints
     app.register_blueprint(auth_bp, url_prefix="/api")
