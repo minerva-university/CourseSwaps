@@ -15,7 +15,7 @@ def mycourses():
     print("Current user: ", current_user)
     if not current_user.is_authenticated:
         return jsonify({"error": "User not logged in"}), 401
-    
+
     # Get current courses
     try:
         current_courses = (
@@ -25,19 +25,22 @@ def mycourses():
             .all()
         )
         print("User's current courses: ", current_courses)
-        return jsonify(
-            {
-                "current_courses": [
-                    {
-                        "name": course.name,
-                        "code": course.code,
-                        "time": course.time,
-                        #"prerequisites": course.prerequisites,
-                    }
-                    for course in current_courses
-                ]
-            }
-        ), 200
+        return (
+            jsonify(
+                {
+                    "current_courses": [
+                        {
+                            "name": course.name,
+                            "code": course.code,
+                            "time": course.time,
+                            # "prerequisites": course.prerequisites,
+                        }
+                        for course in current_courses
+                    ]
+                }
+            ),
+            200,
+        )
     except Exception as e:
         print(e)
         return jsonify({"error": "Something went wrong"}), 500
@@ -45,20 +48,20 @@ def mycourses():
 
 @mycourses_bp.route("/mycourses", methods=["POST"])
 @login_required
-
 def add_current_courses():
     """
     Add courses to the current user
     """
+
     print("Current user: ", current_user)
+
+
     if not current_user.is_authenticated:
         return jsonify({"error": "User not logged in"}), 401
-    
+
     try:
         pass
         # other things have to be figured out before this
     except Exception as e:
         print(e)
         return jsonify({"error": "Something went wrong"}), 500
-
-
