@@ -23,6 +23,7 @@ google = oauth.register(
 
 @auth_bp.route("/register", methods=["POST"])
 def register():
+    #  TODO : needs refactoring to cater for the now changed auth login.
     data = request.get_json()
     username = data.get("username")
     password = data.get("password")
@@ -44,14 +45,35 @@ def login():
     google = oauth.create_client("google")
 
     resp = google.get("userinfo", token=access_token)
+    user_info = resp.json()
 
+    user_id = user_info["id"]
+    given_name = user_info["given_name"]
+    picture = user_info["picture"]
+
+    user = Users.query.filter_by(id=user_id).first()
+
+    if not user:
+        user = Users(id=user_id)
+        db.session.add(user)
+        db.session.commit()
+
+    login_user(user)
     session["profile"] = resp.json()
 
-    # TODO: Add logic to check if user exists in database, if not, add them
-
-    # TODO: Add logic to log user in using flask_login
-
-    return jsonify({"message": "Login successful"}), 200
+    return (
+        jsonify(
+            {
+                "user": {
+                    "id": user_id,
+                    "given_name": given_name,
+                    "picture": picture,
+                },
+                "message": "Login successful",
+            }
+        ),
+        200,
+    )
 
 
 @auth_bp.route("/logout", methods=["POST"])

@@ -6,7 +6,9 @@ from .blueprints.auth import auth_bp
 from .blueprints.mycourses import mycourses_bp
 from .blueprints.availableswaps import availableswaps_bp
 from .blueprints.availableforpickup import availableforpickup_bp
-from .populate_db import populate_db
+from .models import Users
+
+# from .populate_db import populate_db
 from .models import db
 
 
@@ -17,10 +19,10 @@ login_manager = LoginManager()
 
 def create_app(test_config=None):
     app = Flask(__name__)
-
     from .blueprints.auth import oauth
 
     oauth.init_app(app)
+    login_manager.init_app(app)
 
     # Register blueprints
     app.register_blueprint(auth_bp, url_prefix="/api")
@@ -47,7 +49,7 @@ def create_app(test_config=None):
 
     with app.app_context():
         db.create_all()
-        populate_db()
+        # populate_db()
 
     @app.after_request
     def after_request(response):
@@ -82,12 +84,18 @@ def create_app(test_config=None):
     def index():
         return "Welcome to the backend!"
 
+    @login_manager.user_loader
+    def load_user(user_id):
+        return Users.query.get(user_id)
+
     @app.route("/api/test", methods=["GET"])
     def test():
         try:
             return jsonify("test")
         except Exception as e:
             app.logger.error(f"Unexpected error: {e}", exc_info=True)
-            return make_response(jsonify({"error": "Internal Server Error"}), 500)# noqa
+            return make_response(
+                jsonify({"error": "Internal Server Error"}), 500
+            )  # noqa
 
     return app
