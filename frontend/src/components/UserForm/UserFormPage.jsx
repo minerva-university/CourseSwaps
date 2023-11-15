@@ -1,5 +1,5 @@
 // Assuming your JSON file is named courses.json and is in the src directory
-import coursesData from "../../courses_data/courses.json";
+import coursesData from "../../courses_data/courses.json"; //for the current classes and previous courses
 import majorsData from "../../courses_data/data.json"; //for the concentrations and majors
 import React, { useState } from "react";
 import {
@@ -172,11 +172,12 @@ export default function UserFormPage() {
               onChange={handleChange}
             >
               {/* Populate concentrations based on selected major */}
+              {/* Populate concentrations based on selected major */}
               {majorsData.majors
                 .find((major) => major.majorId === formData.major)
-                ?.Courses[0].map((course) => (
-                  <MenuItem key={course} value={course}>
-                    {course}
+                ?.Concentrations.map((concentration) => (
+                  <MenuItem key={concentration} value={concentration}>
+                    {concentration}
                   </MenuItem>
                 ))}
             </Select>
@@ -190,13 +191,14 @@ export default function UserFormPage() {
               onChange={handleChange}
             >
               {/* Populate minors based on selected major */}
-              {majorsData.majors
-                .find((major) => major.majorId === formData.major)
-                ?.Courses[1].map((course) => (
-                  <MenuItem key={course} value={course}>
-                    {course}
-                  </MenuItem>
-                ))}
+              {majorsData.minors.map((minor, index) => (
+                <MenuItem
+                  key={`${minor.minorId}-${index}`}
+                  value={minor.minorId}
+                >
+                  {minor.minorId}
+                </MenuItem>
+              ))}
             </Select>
           </FormControl>
           <FormControl style={{ ...formControlStyle, minWidth: "400px" }}>
