@@ -15,7 +15,6 @@ export function UserProvider({ children }) {
 
   const login = useGoogleLogin({
     onSuccess: (res) => {
-      console.log("Login Success", res);
       authenticateUser(res);
     },
     onFailure: (res) => {
@@ -29,11 +28,18 @@ export function UserProvider({ children }) {
 
   const authenticateUser = async (access_token) => {
     try {
-      const { data } = await api.post("/auth/google", {
+      const response = await api.post("/auth/google", {
         access_token,
       });
+      const data = response.body;
 
-      setUser(data.user);
+      if (data && data.user) {
+        setUser(data.user);
+        setAuthenticated(true);
+      } else {
+        // Handle the case where data is not as expected
+        console.log("Unexpected response format:", data);
+      }
       setAuthenticated(true);
     } catch (err) {
       console.log(err);

@@ -49,7 +49,8 @@ const MyCoursesList = () => {
       >
         My Courses
       </Typography>
-      {courses.map((course) => (
+      
+      {courses && courses.map((course) => (
         <MyCourse key={course.id} title={course.title} /> // Assuming each course has an 'id' and 'title'
       ))}
     </Box>
