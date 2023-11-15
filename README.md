@@ -42,3 +42,14 @@ To run the backend, in the same backend directory, run the following command:
 ```bash
 python app.py
 ```
+
+
+### Running Test 
+Check out a live demonstration of setting up testing here: [Loom Video Demo](https://www.loom.com/share/700103ecd4be4bbdbd251db1bc9d2f91?sid=eea3ab3f-e1aa-4563-b962-028a8d3a5a4d)
+
+To **setup** the tests:
+ 1. Click on the tests folder 
+ 2. Create a new file to test a specific functionality -- preferably bunch tests in the same blueprint of file together.
+ 3. The naming convention for the test should be (test_what you are testing) for example test_authentification
+ 3. Run the test by clicking the titration flask icon. You should be able to run the specific file that you want. 
+ 4. After runing the specific file click on the back-end section to run tests in all back-end files to ensure your code hasnt broken other segments of the app.
