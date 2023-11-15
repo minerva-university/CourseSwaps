@@ -172,7 +172,6 @@ export default function UserFormPage() {
               onChange={handleChange}
             >
               {/* Populate concentrations based on selected major */}
-              {/* Populate concentrations based on selected major */}
               {majorsData.majors
                 .find((major) => major.majorId === formData.major)
                 ?.Concentrations.map((concentration) => (
