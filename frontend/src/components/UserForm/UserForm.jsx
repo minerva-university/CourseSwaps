@@ -32,12 +32,12 @@ const paperStyle = {
 const titleStyle = {
   marginBottom: "16px",
   textAlign: "center",
-  fontSize: "24px", // Adjust the font size
+  fontSize: "24px",
 };
 
 const submitButtonStyle = {
   marginTop: "16px",
-  display: "block", // Display the button as a block element
+  display: "block",
 };
 
 export default function UserFormPage() {
@@ -79,7 +79,7 @@ export default function UserFormPage() {
           Fill out the form below to create your profile
         </Typography>
         <form onSubmit={handleSubmit}>
-          <div style={{ display: "flex" }}>
+          {/* <div style={{ display: "flex" }}>
             <FormControl style={{ ...formControlStyle, marginRight: "8px" }}>
               <TextField
                 label="First Name"
@@ -98,7 +98,7 @@ export default function UserFormPage() {
                 value={formData.lastName}
               />
             </FormControl>
-          </div>
+          </div> */}
           <FormControl style={formControlStyle}>
             <InputLabel id="class-label">Class</InputLabel>
             <Select
