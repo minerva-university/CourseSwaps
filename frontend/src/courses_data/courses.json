@@ -390,18 +390,7 @@
                 "Social Sciences"
             ]
         },
-        {
-            "courseId": "SS166",
-            "courseName": "Comparative Constitutional Law: Designing Societies",
-            "preReqs": [
-                [
-                    "SS112"
-                ]
-            ],
-            "Colleges": [
-                "Social Sciences"
-            ]
-        },
+        
         {
             "courseId": "SS166",
             "courseName": "Comparative Constitutional Law: Designing Societies",

@@ -1,5 +1,5 @@
 // Assuming your JSON file is named courses.json and is in the src directory
-import coursesData from "../../courses_data/courses.json";
+import coursesData from "../../courses_data/courses.json"; //for the current classes and previous courses
 import majorsData from "../../courses_data/data.json"; //for the concentrations and majors
 import React, { useState } from "react";
 import {
@@ -32,12 +32,12 @@ const paperStyle = {
 const titleStyle = {
   marginBottom: "16px",
   textAlign: "center",
-  fontSize: "24px", // Adjust the font size
+  fontSize: "24px",
 };
 
 const submitButtonStyle = {
   marginTop: "16px",
-  display: "block", // Display the button as a block element
+  display: "block",
 };
 
 export default function UserFormPage() {
@@ -79,7 +79,7 @@ export default function UserFormPage() {
           Fill out the form below to create your profile
         </Typography>
         <form onSubmit={handleSubmit}>
-          <div style={{ display: "flex" }}>
+          {/* <div style={{ display: "flex" }}>
             <FormControl style={{ ...formControlStyle, marginRight: "8px" }}>
               <TextField
                 label="First Name"
@@ -98,7 +98,7 @@ export default function UserFormPage() {
                 value={formData.lastName}
               />
             </FormControl>
-          </div>
+          </div> */}
           <FormControl style={formControlStyle}>
             <InputLabel id="class-label">Class</InputLabel>
             <Select
@@ -174,9 +174,9 @@ export default function UserFormPage() {
               {/* Populate concentrations based on selected major */}
               {majorsData.majors
                 .find((major) => major.majorId === formData.major)
-                ?.Courses[0].map((course) => (
-                  <MenuItem key={course} value={course}>
-                    {course}
+                ?.Concentrations.map((concentration) => (
+                  <MenuItem key={concentration} value={concentration}>
+                    {concentration}
                   </MenuItem>
                 ))}
             </Select>
@@ -190,13 +190,14 @@ export default function UserFormPage() {
               onChange={handleChange}
             >
               {/* Populate minors based on selected major */}
-              {majorsData.majors
-                .find((major) => major.majorId === formData.major)
-                ?.Courses[1].map((course) => (
-                  <MenuItem key={course} value={course}>
-                    {course}
-                  </MenuItem>
-                ))}
+              {majorsData.minors.map((minor, index) => (
+                <MenuItem
+                  key={`${minor.minorId}-${index}`}
+                  value={minor.minorId}
+                >
+                  {minor.minorId}
+                </MenuItem>
+              ))}
             </Select>
           </FormControl>
           <FormControl style={{ ...formControlStyle, minWidth: "400px" }}>
