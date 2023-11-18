@@ -10,7 +10,8 @@
             ],
             "Colleges": [
                 "All"
-            ]
+            ],
+            "offered_in_spring2024": false
         },
         {
             "courseId": "NS51",
@@ -22,7 +23,8 @@
             ],
             "Colleges": [
                 "All"
-            ]
+            ],
+            "offered_in_spring2024": false
         },
         {
             "courseId": "NS110U",
@@ -40,6 +42,14 @@
             ],
             "Colleges": [
                 "Natural Sciences"
+            ],
+            "offered_in_spring2024": true,
+            "scheduleOptions": [
+                {
+                    "days": "Monday, Wednesday",
+                    "startTime": "19:00",
+                    "timezone": "Europe/Berlin"
+                }
             ]
         },
         {
@@ -52,6 +62,14 @@
             ],
             "Colleges": [
                 "Natural Sciences"
+            ],
+            "offered_in_spring2024": true,
+            "scheduleOptions": [
+                {
+                    "days": "Tuesday, Thursday",
+                    "startTime": "15:00",
+                    "timezone": "Europe/Berlin"
+                }
             ]
         },
         {
@@ -64,6 +82,14 @@
             ],
             "Colleges": [
                 "Natural Sciences"
+            ],
+            "offered_in_spring2024": true,
+            "scheduleOptions": [
+                {
+                    "days": "Tuesday, Thursday",
+                    "startTime": "17:00",
+                    "timezone": "Europe/Berlin"
+                }
             ]
         },
         {
@@ -76,6 +102,14 @@
             ],
             "Colleges": [
                 "Natural Sciences"
+            ],
+            "offered_in_spring2024": true,
+            "scheduleOptions": [
+                {
+                    "days": "Tuesday, Thursday",
+                    "startTime": "19:00",
+                    "timezone": "Europe/Berlin"
+                }
             ]
         },
         {
@@ -88,6 +122,14 @@
             ],
             "Colleges": [
                 "Natural Sciences"
+            ],
+            "offered_in_spring2024": true,
+            "scheduleOptions": [
+                {
+                    "days": "Tuesday, Thursday",
+                    "startTime": "16:00",
+                    "timezone": "Europe/London"
+                }
             ]
         },
         {
@@ -106,6 +148,14 @@
             ],
             "Colleges": [
                 "Natural Sciences"
+            ],
+            "offered_in_spring2024": true,
+            "scheduleOptions": [
+                {
+                    "days": "Monday, Wednesday",
+                    "startTime": "20:00",
+                    "timezone": "Europe/London"
+                }
             ]
         },
         {
@@ -118,7 +168,8 @@
             ],
             "Colleges": [
                 "Natural Sciences"
-            ]
+            ],
+            "offered_in_spring2024": false
         },
         {
             "courseId": "NS146",
@@ -130,6 +181,14 @@
             ],
             "Colleges": [
                 "Natural Sciences"
+            ],
+            "offered_in_spring2024": true,
+            "scheduleOptions": [
+                {
+                    "days": "Tuesday, Thursday",
+                    "startTime": "14:00",
+                    "timezone": "Europe/London"
+                }
             ]
         },
         {
@@ -148,6 +207,14 @@
             ],
             "Colleges": [
                 "Natural Sciences"
+            ],
+            "offered_in_spring2024": true,
+            "scheduleOptions": [
+                {
+                    "days": "Monday, Wednesday",
+                    "startTime": "14:00",
+                    "timezone": "Europe/London"
+                }
             ]
         },
         {
@@ -163,7 +230,8 @@
             ],
             "Colleges": [
                 "Natural Sciences"
-            ]
+            ],
+            "offered_in_spring2024": false
         },
         {
             "courseId": "NS156",
@@ -184,6 +252,14 @@
             ],
             "Colleges": [
                 "Natural Sciences"
+            ],
+            "offered_in_spring2024": true,
+            "scheduleOptions": [
+                {
+                    "days": "Monday, Wednesday",
+                    "startTime": "16:00",
+                    "timezone": "Europe/London"
+                }
             ]
         },
         {
@@ -205,7 +281,8 @@
             ],
             "Colleges": [
                 "Natural Sciences"
-            ]
+            ],
+            "offered_in_spring2024": false
         },
         {
             "courseId": "NS164",
@@ -217,6 +294,14 @@
             ],
             "Colleges": [
                 "Natural Sciences"
+            ],
+            "offered_in_spring2024": true,
+            "scheduleOptions": [
+                {
+                    "days": "Tuesday, Thursday",
+                    "startTime": "20:00",
+                    "timezone": "Europe/London"
+                }
             ]
         },
         {
@@ -232,7 +317,8 @@
             ],
             "Colleges": [
                 "Natural Sciences"
-            ]
+            ],
+            "offered_in_spring2024": false
         },
         {
             "courseId": "SS50",
@@ -244,7 +330,8 @@
             ],
             "Colleges": [
                 "Social Sciences"
-            ]
+            ],
+            "offered_in_spring2024": false
         },
         {
             "courseId": "SS51",
@@ -256,7 +343,8 @@
             ],
             "Colleges": [
                 "Social Sciences"
-            ]
+            ],
+            "offered_in_spring2024": false
         },
         {
             "courseId": "SS110",
@@ -268,6 +356,19 @@
             ],
             "Colleges": [
                 "Social Sciences"
+            ],
+            "offered_in_spring2024": true,
+            "scheduleOptions": [
+                {
+                    "days": "Tuesday, Thursday",
+                    "startTime": "17:00",
+                    "timezone": "Europe/Berlin"
+                },
+                {
+                    "days": "Monday, Wednesday",
+                    "startTime": "19:00",
+                    "timezone": "Europe/Berlin"
+                }
             ]
         },
         {
@@ -280,6 +381,19 @@
             ],
             "Colleges": [
                 "Social Sciences"
+            ],
+            "offered_in_spring2024": true,
+            "scheduleOptions": [
+                {
+                    "days": "Tuesday, Thursday",
+                    "startTime": "17:00",
+                    "timezone": "Europe/Berlin"
+                },
+                {
+                    "days": "Tuesday, Thursday",
+                    "startTime": "19:00",
+                    "timezone": "Europe/Berlin"
+                }
             ]
         },
         {
@@ -292,6 +406,14 @@
             ],
             "Colleges": [
                 "Social Sciences"
+            ],
+            "offered_in_spring2024": true,
+            "scheduleOptions": [
+                {
+                    "days": "Monday, Wednesday",
+                    "startTime": "17:00",
+                    "timezone": "Europe/Berlin"
+                }
             ]
         },
         {
@@ -304,6 +426,19 @@
             ],
             "Colleges": [
                 "Social Sciences"
+            ],
+            "offered_in_spring2024": true,
+            "scheduleOptions": [
+                {
+                    "days": "Tuesday, Thursday",
+                    "startTime": "14:00",
+                    "timezone": "Europe/London"
+                },
+                {
+                    "days": "Monday, Wednesday",
+                    "startTime": "20:00",
+                    "timezone": "Europe/London"
+                }
             ]
         },
         {
@@ -316,7 +451,8 @@
             ],
             "Colleges": [
                 "Social Sciences"
-            ]
+            ],
+            "offered_in_spring2024": false
         },
         {
             "courseId": "SS146",
@@ -328,6 +464,14 @@
             ],
             "Colleges": [
                 "Social Sciences"
+            ],
+            "offered_in_spring2024": true,
+            "scheduleOptions": [
+                {
+                    "days": "Monday, Wednesday",
+                    "startTime": "14:00",
+                    "timezone": "Europe/London"
+                }
             ]
         },
         {
@@ -340,6 +484,14 @@
             ],
             "Colleges": [
                 "Social Sciences"
+            ],
+            "offered_in_spring2024": true,
+            "scheduleOptions": [
+                {
+                    "days": "Tuesday, Thursday",
+                    "startTime": "18:00",
+                    "timezone": "Europe/London"
+                }
             ]
         },
         {
@@ -352,6 +504,19 @@
             ],
             "Colleges": [
                 "Social Sciences"
+            ],
+            "offered_in_spring2024": true,
+            "scheduleOptions": [
+                {
+                    "days": "Tuesday, Thursday",
+                    "startTime": "12:00",
+                    "timezone": "Europe/London"
+                },
+                {
+                    "days": "Tuesday, Thursday",
+                    "startTime": "20:00",
+                    "timezone": "Europe/London"
+                }
             ]
         },
         {
@@ -364,7 +529,8 @@
             ],
             "Colleges": [
                 "Social Sciences"
-            ]
+            ],
+            "offered_in_spring2024": false
         },
         {
             "courseId": "SS162",
@@ -376,7 +542,8 @@
             ],
             "Colleges": [
                 "Social Sciences"
-            ]
+            ],
+            "offered_in_spring2024": false
         },
         {
             "courseId": "SS164",
@@ -388,6 +555,14 @@
             ],
             "Colleges": [
                 "Social Sciences"
+            ],
+            "offered_in_spring2024": true,
+            "scheduleOptions": [
+                {
+                    "days": "Monday, Wednesday",
+                    "startTime": "12:00",
+                    "timezone": "Europe/London"
+                }
             ]
         },
         {
@@ -400,19 +575,8 @@
             ],
             "Colleges": [
                 "Social Sciences"
-            ]
-        },
-        {
-            "courseId": "SS166",
-            "courseName": "Comparative Constitutional Law: Designing Societies",
-            "preReqs": [
-                [
-                    "SS112"
-                ]
             ],
-            "Colleges": [
-                "Social Sciences"
-            ]
+            "offered_in_spring2024": false
         },
         {
             "courseId": "B110",
@@ -425,7 +589,8 @@
             ],
             "Colleges": [
                 "Business"
-            ]
+            ],
+            "offered_in_spring2024": false
         },
         {
             "courseId": "B111",
@@ -438,7 +603,8 @@
             ],
             "Colleges": [
                 "Business"
-            ]
+            ],
+            "offered_in_spring2024": false
         },
         {
             "courseId": "B112",
@@ -452,6 +618,24 @@
 
             "Colleges": [
                 "Business"
+            ],
+            "offered_in_spring2024": true,
+            "scheduleOptions": [
+                {
+                    "days": "Tuesday, Thursday",
+                    "startTime": "19:00",
+                    "timezone": "Europe/Berlin"
+                },
+                {
+                    "days": "Monday, Wednesday",
+                    "startTime": "17:00",
+                    "timezone": "Europe/Berlin"
+                },
+                {
+                    "days": "Tuesday, Thursday",
+                    "startTime": "15:00",
+                    "timezone": "Europe/Berlin"
+                }
             ]
         },
         {
@@ -466,6 +650,24 @@
 
             "Colleges": [
                 "Business"
+            ],
+            "offered_in_spring2024": true,
+            "scheduleOptions": [
+                {
+                    "days": "Monday, Wednesday",
+                    "startTime": "19:00",
+                    "timezone": "Europe/Berlin"
+                },
+                {
+                    "days": "Monday, Wednesday",
+                    "startTime": "21:00",
+                    "timezone": "Europe/Berlin"
+                },
+                {
+                    "days": "Tuesday, Thursday",
+                    "startTime": "15:00",
+                    "timezone": "Europe/Berlin"
+                }
             ]
         },
         {
@@ -480,7 +682,8 @@
 
             "Colleges": [
                 "Business"
-            ]
+            ],
+            "offered_in_spring2024": false
         },
         {
             "courseId": "B145",
@@ -494,246 +697,533 @@
 
             "Colleges": [
                 "Business"
-            ]
+            ],
+            "offered_in_spring2024": false
         },
         {
             "courseId": "B146",
             "courseName": "Business Operations",
             "preReqs": [["B112"], ["B113"]],
-            "Colleges": ["Business"]
+            "Colleges": ["Business"],
+            "offered_in_spring2024": true,
+            "scheduleOptions": [
+                {
+                    "days": "Tuesday, Thursday",
+                    "startTime": "18:00",
+                    "timezone": "Europe/London"
+                }
+            ]
           },
           {
             "courseId": "B154",
             "courseName": "Strategic Brand Leadership",
             "preReqs": [["B112"], ["B113"]],
-            "Colleges": ["Business"]
+            "Colleges": ["Business"],
+            "offered_in_spring2024": true,
+            "scheduleOptions": [
+                {
+                    "days": "Monday, Wednesday",
+                    "startTime": "20:00",
+                    "timezone": "Europe/London"
+                },
+                {
+                    "days": "Tuesday, Thursday",
+                    "startTime": "16:00",
+                    "timezone": "Europe/London"
+                }
+
+            ]
           },
           {
             "courseId": "B155",
             "courseName": "Capital Allocation and Value Creating Growth",
             "preReqs": [["B112"], ["B113"]],
-            "Colleges": ["Business"]
+            "Colleges": ["Business"],
+            "offered_in_spring2024": true,
+            "scheduleOptions": [
+                {
+                    "days": "Tuesday, Thursday",
+                    "startTime": "20:00",
+                    "timezone": "Europe/London"
+                }
+            ]
           },
+
           {
             "courseId": "B156",
             "courseName": "Business Systems",
             "preReqs": [["B112"], ["B113"]],
-            "Colleges": ["Business"]
+            "Colleges": ["Business"],
+            "offered_in_spring2024": false
           },
           {
             "courseId": "B164",
             "courseName": "Product Evolution and Reinvention",
             "preReqs": [["B112"], ["B113"]],
-            "Colleges": ["Business"]
+            "Colleges": ["Business"],
+            "offered_in_spring2024": true,
+            "scheduleOptions": [
+                {
+                    "days": "Tuesday, Thursday",
+                    "startTime": "20:00",
+                    "timezone": "Europe/London"
+                }
+            ]
           },
           {
             "courseId": "B165",
             "courseName": "Global Enterprise Financial Strategy",
             "preReqs": [["B112"], ["B113"]],
-            "Colleges": ["Business"]
+            "Colleges": ["Business"],
+            "offered_in_spring2024": false
           },
           {
             "courseId": "B166",
             "courseName": "Business Optimization",
             "preReqs": [["B112"], ["B113"]],
-            "Colleges": ["Business"]
+            "Colleges": ["Business"],
+            "offered_in_spring2024": true,
+            "scheduleOptions": [
+                {
+                    "days": "Tuesday, Thursday",
+                    "startTime": "10:00",
+                    "timezone": "Europe/London"
+                }
+            ]
           },
           {
             "courseId": "B199",
             "courseName": "Business Practicum",
             "preReqs": [["B112"], ["B113"]],
-            "Colleges": ["Business"]
+            "Colleges": ["Business"],
+            "offered_in_spring2024": false
           },
           {
             "courseId": "CS50",
             "courseName": "Formal Analyses",
             "preReqs": [["None"]],
-            "Colleges": ["Computational Sciences"]
+            "Colleges": ["Computational Sciences"],
+            "offered_in_spring2024": false
           },
           {
             "courseId": "CS51",
             "courseName": "Formal Analyses",
             "preReqs": [["CS50"]],
-            "Colleges": ["Computational Sciences"]
+            "Colleges": ["Computational Sciences"],
+            "offered_in_spring2024": false
           },
           {
             "courseId": "CS51B",
             "courseName": "Programming",
             "preReqs": [["CS50"]],
-            "Colleges": ["Computational Sciences"]
+            "Colleges": ["Computational Sciences"],
+            "offered_in_spring2024": false
           },
           {
             "courseId": "CS110",
             "courseName": "Problem Solving with Data Structures and Algorithms",
             "preReqs": [["CS51"], ["CS51B"]],
-            "Colleges": ["Computational Sciences"]
+            "Colleges": ["Computational Sciences"],
+            "offered_in_spring2024": true,
+            "scheduleOptions": [
+                {
+                    "days": "Monday, Wednesday",
+                    "startTime": "13:00",
+                    "timezone": "Europe/Berlin"
+                },
+                {
+                    "days": "Monday, Wednesday",
+                    "startTime": "11:00",
+                    "timezone": "Europe/Berlin"
+                }
+            ]
           },
           {
             "courseId": "CS111",
             "courseName": "Single and Multivariable Calculus",
             "preReqs": [["CS51"]],
-            "Colleges": ["Computational Sciences"]
+            "Colleges": ["Computational Sciences"],
+            "offered_in_spring2024": true,
+            "scheduleOptions": [
+                {
+                    "days": "Tuesday, Thursday",
+                    "startTime": "19:00",
+                    "timezone": "Europe/Berlin"
+                }
+            ]
           },
           {
             "courseId": "CS113",
             "courseName": "Theory and Applications of Linear Algebra",
             "preReqs": [["CS51"]],
-            "Colleges": ["Computational Sciences"]
+            "Colleges": ["Computational Sciences"],
+            "offered_in_spring2024": true,
+            "scheduleOptions": [
+                {
+                    "days": "Monday, Wednesday",
+                    "startTime": "19:00",
+                    "timezone": "Europe/Berlin"
+                },
+                {
+                    "days": "Monday, Wednesday",
+                    "startTime": "21:00",
+                    "timezone": "Europe/Berlin"
+                },
+                {
+                    "days": "Tuesday, Thursday",
+                    "startTime": "19:00",
+                    "timezone": "Europe/Berlin"
+                }
+            ]
           },
           {
             "courseId": "CS114",
             "courseName": "Probability and Statistics and the Structure of Randomness",
             "preReqs": [["CS111"]],
-            "Colleges": ["Computational Sciences"]
+            "Colleges": ["Computational Sciences"],
+            "offered_in_spring2024": true,
+            "scheduleOptions": [
+                {
+                    "days": "Monday, Wednesday",
+                    "startTime": "13:00",
+                    "timezone": "Europe/Berlin"
+                },
+                {
+                    "days": "Monday, Wednesday",
+                    "startTime": "11:00",
+                    "timezone": "Europe/Berlin"
+                },
+                {
+                    "days": "Tuesday, Thursday",
+                    "startTime": "15:00",
+                    "timezone": "Europe/Berlin"
+                },
+                {
+                    "days": "Tuesday, Thursday",
+                    "startTime": "17:00",
+                    "timezone": "Europe/Berlin"
+                }
+            ]
           },
           {
             "courseId": "CS130",
             "courseName": "Prediction and Causal Inference via Statistical Modeling",
             "preReqs": [["CS51"]],
-            "Colleges": ["Computational Sciences"]
+            "Colleges": ["Computational Sciences"],
+            "offered_in_spring2024": true,
+            "scheduleOptions": [
+                {
+                    "days": "Tuesday, Thursday",
+                    "startTime": "18:00",
+                    "timezone": "Europe/London"
+                }
+            ]
           },
           {
             "courseId": "CS142",
             "courseName": "Theory of Computation",
             "preReqs": [["CS110"], ["CS113"]],
-            "Colleges": ["Computational Sciences"]
+            "Colleges": ["Computational Sciences"],
+            "offered_in_spring2024": true,
+            "scheduleOptions": [
+                {
+                    "days": "Monday, Wednesday",
+                    "startTime": "15:00",
+                    "timezone": "Europe/London"
+                },
+                {
+                    "days": "Tuesday, Thursday",
+                    "startTime": "20:00",
+                    "timezone": "Europe/London"
+                }
+            ]
           },
           {
             "courseId": "CS144",
             "courseName": "Real Analysis",
             "preReqs": [["CS111A"], ["CS111"]],
-            "Colleges": ["Computational Sciences"]
+            "Colleges": ["Computational Sciences"],
+            "offered_in_spring2024": true,
+            "scheduleOptions": [
+                {
+                    "days": "Tuesday, Thursday",
+                    "startTime": "16:00",
+                    "timezone": "Europe/London"
+                }
+            ]
           },
           {
             "courseId": "CS146",
             "courseName": "Computational Methods for Bayesian Statistics",
             "preReqs": [["CS111A"], ["CS111"], ["CS112"], ["CS114"], ["CS130"]],
-            "Colleges": ["Computational Sciences"]
+            "Colleges": ["Computational Sciences"],
+            "offered_in_spring2024": true,
+            "scheduleOptions": [
+                {
+                    "days": "Monday, Wednesday",
+                    "startTime": "8:00",
+                    "timezone": "Europe/London"
+                },
+                {
+                    "days": "Tuesday, Thursday",
+                    "startTime": "8:00",
+                    "timezone": "Europe/London"
+                }
+            ]
           },
           {
             "courseId": "CS152",
             "courseName": "Theory and Applications of Artificial Intelligence",
             "preReqs": [["CS110"]],
-            "Colleges": ["Computational Sciences"]
+            "Colleges": ["Computational Sciences"],
+            "offered_in_spring2024": true,
+            "scheduleOptions": [
+                {
+                    "days": "Monday, Wednesday",
+                    "startTime": "12:00",
+                    "timezone": "Europe/London"
+                },
+                {
+                    "days": "Tuesday, Thursday",
+                    "startTime": "12:00",
+                    "timezone": "Europe/London"
+                }
+            ]
           },
           {
             "courseId": "CS154",
             "courseName": "Analytical and Numerical Methods in Differential Equations",
             "preReqs": [["CS111A"], ["CS111"], ["CS111B"], ["CS113"]],
-            "Colleges": ["Computational Sciences"]
+            "Colleges": ["Computational Sciences"],
+            "offered_in_spring2024": true,
+            "scheduleOptions": [
+                {
+                    "days": "Monday, Wednesday",
+                    "startTime": "12:00",
+                    "timezone": "Europe/London"
+                }
+            ]
           },
           {
             "courseId": "CS156",
             "courseName": "Finding Patterns in Data with Machine Learning",
             "preReqs": [["CS110"], ["CS111A"], ["CS111"], ["CS111B"], ["CS113"]],
-            "Colleges": ["Computational Sciences"]
+            "Colleges": ["Computational Sciences"],
+            "offered_in_spring2024": true,
+            "scheduleOptions": [
+                {
+                    "days": "Tuesday, Thursday",
+                    "startTime": "14:00",
+                    "timezone": "Europe/London"
+                }
+            ]
           },
           {
             "courseId": "CS162",
             "courseName": "Software Engineering: Building Powerful Applications",
             "preReqs": [["CS110"]],
-            "Colleges": ["Computational Sciences"]
+            "Colleges": ["Computational Sciences"],
+            "offered_in_spring2024": true,
+            "scheduleOptions": [
+                {
+                    "days": "Monday, Wednesday",
+                    "startTime": "8:00",
+                    "timezone": "Europe/London"
+                }
+            ]
           },
           {
             "courseId": "CS164",
             "courseName": "Optimization Methods",
             "preReqs": [["CS111A"], ["CS111"], ["CS111B"], ["CS113"]],
-            "Colleges": ["Computational Sciences"]
+            "Colleges": ["Computational Sciences"],
+            "offered_in_spring2024": false
           },
           {
             "courseId": "CS166",
             "courseName": "Modeling and Analysis of Complex Systems",
             "preReqs": [["CS113"], ["CS114"], ["CS112"], ["CS130"]],
-            "Colleges": ["Computational Sciences"]
+            "Colleges": ["Computational Sciences"],
+            "offered_in_spring2024": true,
+            "scheduleOptions": [
+                {
+                    "days": "Monday, Wednesday",
+                    "startTime": "14:00",
+                    "timezone": "Europe/London"
+                },
+                {
+                    "days": "Monday, Wednesday",
+                    "startTime": "16:00",
+                    "timezone": "Europe/London"
+                }
+            ]
           }, {
             "courseId": "AH50",
             "courseName": "Multimodal Communications",
             "preReqs": ["None"],
-            "Colleges": ["Arts and Humanities"]
+            "Colleges": ["Arts and Humanities"],
+            "offered_in_spring2024": false
           },
           {
             "courseId": "AH51",
             "courseName": "Multimodal Communications",
             "preReqs": ["AH50"],
-            "Colleges": ["Arts and Humanities"]
+            "Colleges": ["Arts and Humanities"],
+            "offered_in_spring2024": false
           },
           {
             "courseId": "AH110",
             "courseName": "Global History",
             "preReqs": ["AH51"],
-            "Colleges": ["Arts and Humanities"]
+            "Colleges": ["Arts and Humanities"],
+            "offered_in_spring2024": true,
+            "scheduleOptions": [
+                {
+                    "days": "Monday, Wednesday",
+                    "startTime": "17:00",
+                    "timezone": "Europe/Berlin"
+                }
+            ]
           },
           {
             "courseId": "AH111",
             "courseName": "Morality, Justice, and the Good Life",
             "preReqs": ["AH51"],
-            "Colleges": ["Arts and Humanities"]
+            "Colleges": ["Arts and Humanities"],
+            "offered_in_spring2024": true,
+            "scheduleOptions": [
+                {
+                    "days": "Monday, Wednesday",
+                    "startTime": "15:00",
+                    "timezone": "Europe/Berlin"
+                }
+            ]
           },
           {
             "courseId": "AH112",
             "courseName": "The Arts and Social Change",
             "preReqs": ["AH51"],
-            "Colleges": ["Arts and Humanities"]
+            "Colleges": ["Arts and Humanities"],
+            "offered_in_spring2024": true,
+            "scheduleOptions": [
+                {
+                    "days": "Tuesday, Thursday",
+                    "startTime": "13:00",
+                    "timezone": "Europe/Berlin"
+                }
+            ]
           },
           {
             "courseId": "AH113",
             "courseName": "Dynamics of Design",
             "preReqs": ["AH51"],
-            "Colleges": ["Arts and Humanities"]
+            "Colleges": ["Arts and Humanities"],
+            "offered_in_spring2024": true,
+            "scheduleOptions": [
+                {
+                    "days": "Monday, Wednesday",
+                    "startTime": "21:00",
+                    "timezone": "Europe/Berlin"
+                }
+            ]
           },
           {
             "courseId": "AH142",
             "courseName": "The Craft of Historical Analysis",
             "preReqs": ["AH110"],
-            "Colleges": ["Arts and Humanities"]
+            "Colleges": ["Arts and Humanities"],
+            "offered_in_spring2024": false
           },
           {
             "courseId": "AH144",
             "courseName": "Ethical Systems, Moral Dilemmas",
             "preReqs": ["AH111"],
-            "Colleges": ["Arts and Humanities"]
+            "Colleges": ["Arts and Humanities"],
+            "offered_in_spring2024": true,
+            "scheduleOptions": [
+                {
+                    "days": "Tuesday, Thursday",
+                    "startTime": "20:00",
+                    "timezone": "Europe/London"
+                }
+            ]
           },
           {
             "courseId": "AH146",
             "courseName": "Decoding Art and Literature",
             "preReqs": ["AH112"],
-            "Colleges": ["Arts and Humanities"]
+            "Colleges": ["Arts and Humanities"],
+            "offered_in_spring2024": true,
+            "scheduleOptions": [
+                {
+                    "days": "Tuesday, Thursday",
+                    "startTime": "14:00",
+                    "timezone": "Europe/London"
+                }
+            ]
           },
           {
             "courseId": "AH152",
             "courseName": "Comparing Societies and Histories: The Impact of Time and Place",
             "preReqs": ["AH110"],
-            "Colleges": ["Arts and Humanities"]
+            "Colleges": ["Arts and Humanities"],
+            "offered_in_spring2024": true,
+            "scheduleOptions": [
+                {
+                    "days": "Tuesday, Thursday",
+                    "startTime": "18:00",
+                    "timezone": "Europe/London"
+                }
+            ]
           },
           {
             "courseId": "AH154",
             "courseName": "Ethics and the Law",
             "preReqs": ["AH111"],
-            "Colleges": ["Arts and Humanities"]
+            "Colleges": ["Arts and Humanities"],
+            "offered_in_spring2024": true,
+            "scheduleOptions": [
+                {
+                    "days": "Monday, Wednesday",
+                    "startTime": "16:00",
+                    "timezone": "Europe/London"
+                }
+            ]
           },
           {
             "courseId": "AH156",
             "courseName": "Socioeconomic Influences on Art and Literature",
             "preReqs": ["AH112"],
-            "Colleges": ["Arts and Humanities"]
+            "Colleges": ["Arts and Humanities"], 
+            "offered_in_spring2024": false
           },
           {
             "courseId": "AH162",
             "courseName": "Public and Applied History",
             "preReqs": ["AH110"],
-            "Colleges": ["Arts and Humanities"]
+            "Colleges": ["Arts and Humanities"],
+            "offered_in_spring2024": false
           },
           {
             "courseId": "AH164",
             "courseName": "Social and Political Philosophy",
             "preReqs": ["AH111"],
-            "Colleges": ["Arts and Humanities"]
+            "Colleges": ["Arts and Humanities"],
+            "offered_in_spring2024": false
           },
           {
             "courseId": "AH166",
             "courseName": "Artistic Communication from Page to Practice",
             "preReqs": ["AH112"],
-            "Colleges": ["Arts and Humanities"]
+            "Colleges": ["Arts and Humanities"],
+            "offered_in_spring2024": true,
+            "scheduleOptions": [
+                {
+                    "days": "Tuesday, Thursday",
+                    "startTime": "16:00",
+                    "timezone": "Europe/London"
+                }
+            ]
           }
 
         
