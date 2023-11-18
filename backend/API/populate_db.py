@@ -114,7 +114,7 @@ def populate_db():
     courses_available_to_swap = [
         # Assuming user_id, giving_course_id, and wanted_course_id are correct and exist
         CoursesAvailableToSwap(user_id=1, giving_course_id=2, wanted_course_id=3),
-        CoursesAvailableToSwap(user_id=2, giving_course_id=1, wanted_course_id=2)
+        CoursesAvailableToSwap(user_id=2, giving_course_id=1, wanted_course_id=2),
     ]
 
     for swap in courses_available_to_swap:

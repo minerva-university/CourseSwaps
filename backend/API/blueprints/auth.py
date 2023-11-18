@@ -1,6 +1,6 @@
-from flask import Blueprint, request, jsonify, url_for, redirect, session
-from werkzeug.security import generate_password_hash, check_password_hash
-from flask_login import login_user, logout_user, login_required, current_user
+from flask import Blueprint, request, jsonify, session
+from werkzeug.security import generate_password_hash
+from flask_login import login_user
 from ..models import Users, db
 from authlib.integrations.flask_client import OAuth
 import os

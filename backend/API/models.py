@@ -13,7 +13,11 @@ class Users(db.Model, UserMixin):
     )
 
     def __repr__(self):
-        return f"User('{self.id}. Current Courses: '{self.current_courses}', Completed Courses: '{self.completed_courses}', Courses Available to Swap:"# noqa 
+        return (
+            f"User('{self.id}. Current Courses: '{self.current_courses}', "
+            f"Completed Courses: '{self.completed_courses}', "
+            "Courses Available to Swap:"
+        )
 
 
 # Course model (contains all the courses in the database)
@@ -22,7 +26,7 @@ class Courses(db.Model):
     name = db.Column(db.String(100), nullable=False)
     code = db.Column(db.String(50), unique=True, nullable=False)  # cs110
     time = db.Column(db.String(50), nullable=False)  # 9:00 am
-    # course prerequisite that will contain course codes of the courses that are prerequisites for this course (e.g. cs110, cs111)
+    # contains course codes of the courses that are prerequisites for this course (e.g. cs110, cs111)
     prerequisites = db.Column(db.String(100), nullable=True)
 
     def __repr__(self):
@@ -44,8 +48,11 @@ class CoursesAvailableToSwap(db.Model):
     )
 
     def __repr__(self):
-        # return the user id, the course id that the user wants to swap (with its respective time), and the course id that the user wants to swap for (with its respective time)
-        return f"CourseAvailableToSwap(User ID: '{self.user_id}', Giving Course ID: '{self.giving_course_id}', Wanted Course ID: '{self.wanted_course_id}')"
+        return (
+            f"CourseAvailableToSwap(User ID: '{self.user_id}', "
+            f"Giving Course ID: '{self.giving_course_id}', "
+            f"Wanted Course ID: '{self.wanted_course_id}')"
+        )
 
 
 # UserCourses model (courses that a user is currently taking)

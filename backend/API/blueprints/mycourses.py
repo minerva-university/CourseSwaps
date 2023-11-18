@@ -1,7 +1,7 @@
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, jsonify
 from flask_login import login_required, current_user
 
-from ..models import Users, db, Courses, UserCurrentCourses, UserCompletedCourses
+from ..models import db, Courses, UserCurrentCourses
 
 mycourses_bp = Blueprint("mycourses_bp", __name__)
 
@@ -54,7 +54,6 @@ def add_current_courses():
     """
 
     print("Current user: ", current_user)
-
 
     if not current_user.is_authenticated:
         return jsonify({"error": "User not logged in"}), 401
