@@ -24,9 +24,22 @@ class Courses(db.Model):
     time = db.Column(db.String(50), nullable=False)  # 9:00 am
     # course prerequisite that will contain course codes of the courses that are prerequisites for this course (e.g. cs110, cs111)
     prerequisites = db.Column(db.String(100), nullable=True)
+    offered_in_spring2024 = db.Column(db.Boolean, default=False)  # New field
+    schedule_options = db.relationship('CourseScheduleOptions', backref='course', lazy=True)
+
 
     def __repr__(self):
-        return f"Course('{self.name}', '{self.code}', '{self.time}', '{self.prerequisites}')"
+        return f"Course('{self.name}', '{self.code}', '{self.time}', '{self.prerequisites}', Offered in Spring 2024: '{self.offered_in_spring2024}')"
+
+class CourseScheduleOptions(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    course_id = db.Column(db.Integer, db.ForeignKey('courses.id'), nullable=False)
+    days = db.Column(db.String(50), nullable=False)  # e.g., Monday, Wednesday
+    start_time = db.Column(db.String(50), nullable=False)  # e.g., 19:00
+    timezone = db.Column(db.String(50), nullable=False)  # e.g., Europe/Berlin
+
+    def __repr__(self):
+        return f"CourseScheduleOptions(Course ID: '{self.course_id}', Days: '{self.days}', Start Time: '{self.start_time}', Timezone: '{self.timezone}')"
 
 
 # CoursesAvailableToSwap model (table that will contain all the courses that users have indicated they want to swap)
