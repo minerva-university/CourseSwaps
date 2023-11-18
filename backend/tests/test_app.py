@@ -30,7 +30,9 @@ class APITestCase(unittest.TestCase):
     def test_index(self):
         response = self.client.get("/")
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.data.decode("utf-8"), "Welcome to the backend!")# noqa 
+        self.assertEqual(
+            response.data.decode("utf-8"), "Welcome to the backend!"
+        )  # noqa
 
     @patch("API.blueprints.auth.oauth.create_client")
     def test_auth_google_login(self, mock_oauth_client):

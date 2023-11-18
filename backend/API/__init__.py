@@ -1,6 +1,6 @@
 import os
 from dotenv import load_dotenv
-from flask import Flask, make_response, jsonify, request, session
+from flask import Flask, make_response, jsonify, request
 from flask_login import LoginManager
 from .blueprints.auth import auth_bp
 from .blueprints.mycourses import mycourses_bp
