@@ -2,7 +2,7 @@ import "./App.css";
 import AuthPage from "./views/AuthPage";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { UserProvider } from "./contexts/UserContext";
-import UserformPage from "./components/UserForm/Userform";
+import UserformPage from "./components/UserForm/UserForm";
 import ExchangePage from "./views/ExchangeCoursesPage";
 import ApiProvider from "./contexts/ApiProvider";
 import Navbar from "./components/Navbar/Navbar";
