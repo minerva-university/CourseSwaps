@@ -42,8 +42,6 @@ const submitButtonStyle = {
 
 export default function UserFormPage() {
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
     class: "",
     minervaID: "",
     currentClasses: [],
@@ -79,26 +77,6 @@ export default function UserFormPage() {
           Fill out the form below to create your profile
         </Typography>
         <form onSubmit={handleSubmit}>
-          {/* <div style={{ display: "flex" }}>
-            <FormControl style={{ ...formControlStyle, marginRight: "8px" }}>
-              <TextField
-                label="First Name"
-                name="firstName"
-                required
-                onChange={handleChange}
-                value={formData.firstName}
-              />
-            </FormControl>
-            <FormControl style={{ ...formControlStyle, marginLeft: "8px" }}>
-              <TextField
-                label="Last Name"
-                name="lastName"
-                required
-                onChange={handleChange}
-                value={formData.lastName}
-              />
-            </FormControl>
-          </div> */}
           <FormControl style={formControlStyle}>
             <InputLabel id="class-label">Class</InputLabel>
             <Select
@@ -123,7 +101,10 @@ export default function UserFormPage() {
               value={formData.minervaID}
             />
           </FormControl>
-          <FormControl style={{ ...formControlStyle, minWidth: "400px" }}>
+          <FormControl
+            style={{ ...formControlStyle, minWidth: "400px" }}
+            data-testid="current-classes-select"
+          >
             <InputLabel id="current-classes-label">
               Currently Assigned Courses by MU Registrar
             </InputLabel>
@@ -200,7 +181,10 @@ export default function UserFormPage() {
               ))}
             </Select>
           </FormControl>
-          <FormControl style={{ ...formControlStyle, minWidth: "400px" }}>
+          <FormControl
+            style={{ ...formControlStyle, minWidth: "400px" }}
+            data-testid="previous-courses-select"
+          >
             <InputLabel id="previous-courses-label">
               Previous Courses (optional)
             </InputLabel>
