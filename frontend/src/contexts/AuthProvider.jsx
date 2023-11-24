@@ -9,8 +9,12 @@ const AuthContext = createContext();
 export const useAuth = () => useContext(AuthContext);
 
 export function AuthProvider({ children }) {
-  const [user, setUser] = useState(null);
-  const [authenticated, setAuthenticated] = useState(false);
+  const [user, setUser] = useState(
+    JSON.parse(localStorage.getItem("user")) || null
+  );
+  const [isAuthenticated, setisAuthenticated] = useState(
+    JSON.parse(localStorage.getItem("isAuthenticated")) || false
+  );
   const api = useApi();
 
   const login = useGoogleLogin({
@@ -23,7 +27,6 @@ export function AuthProvider({ children }) {
     onError: (res) => {
       console.log("Login Error", res);
     },
-    // flow: "access_token",
   });
 
   const authenticateUser = async (access_token) => {
@@ -35,16 +38,38 @@ export function AuthProvider({ children }) {
 
       if (data && data.user) {
         setUser(data.user);
-        setAuthenticated(true);
+        setisAuthenticated(true);
+        localStorage.setItem("user", JSON.stringify(data.user));
+        localStorage.setItem("isAuthenticated", true);
       } else {
         // Handle the case where data is not as expected
         console.log("Unexpected response format:", data);
       }
-      setAuthenticated(true);
+      setisAuthenticated(true);
     } catch (err) {
       console.log(err);
     }
   };
+
+  const logout = useCallback(async () => {
+    try {
+      // Inform the backend about the logout
+      await api.post("/auth/logout");
+
+      // Reset the user state
+      setUser(null);
+      setisAuthenticated(false);
+
+      // Clear authentication data from local storage
+      localStorage.removeItem("user");
+      localStorage.removeItem("isAuthenticated");
+
+      // You can also add any other cleanup or redirection logic here
+    } catch (err) {
+      console.error("Logout failed:", err);
+      // Handle any errors that occur during logout
+    }
+  }, [api]);
 
   const promptGoogleSignIn = useCallback(() => {
     login();
@@ -54,8 +79,9 @@ export function AuthProvider({ children }) {
     <AuthContext.Provider
       value={{
         user,
-        authenticated,
+        isAuthenticated,
         promptGoogleSignIn,
+        logout,
       }}
     >
       {children}

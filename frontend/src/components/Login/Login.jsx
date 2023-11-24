@@ -11,6 +11,7 @@ function Login() {
         color="primary"
         startIcon={<GoogleIcon />}
         onClick={promptGoogleSignIn}
+        data-testid="login-component"
       >
         Login with Google
       </Button>

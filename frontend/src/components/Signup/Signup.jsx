@@ -21,6 +21,7 @@ function SignUp() {
         color="primary"
         startIcon={<GoogleIcon />}
         onClick={promptGoogleSignIn}
+        data-testid="signup-component"
       >
         Sign Up with Google
       </Button>
