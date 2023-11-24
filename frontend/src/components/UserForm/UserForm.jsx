@@ -84,6 +84,7 @@ export default function UserFormPage() {
               name="class"
               value={formData.class}
               onChange={handleChange}
+              label="Class"
             >
               <MenuItem value="M24">M24</MenuItem>
               <MenuItem value="M25">M25</MenuItem>
@@ -114,6 +115,7 @@ export default function UserFormPage() {
               name="currentClasses"
               value={formData.currentClasses}
               onChange={handleChange}
+              label="Currently Assigned Courses by MU Registrar"
               renderValue={(selected) => (
                 <div>
                   {selected.map((value) => (
@@ -136,6 +138,7 @@ export default function UserFormPage() {
               name="major"
               value={formData.major}
               onChange={handleChange}
+              label="Major"
             >
               {majorsData.majors.map((major) => (
                 <MenuItem key={major.majorId} value={major.majorId}>
@@ -151,6 +154,7 @@ export default function UserFormPage() {
               name="concentration"
               value={formData.concentration}
               onChange={handleChange}
+              label="Concentration"
             >
               {/* Populate concentrations based on selected major */}
               {majorsData.majors
@@ -169,6 +173,7 @@ export default function UserFormPage() {
               name="minor"
               value={formData.minor}
               onChange={handleChange}
+              label="Minor"
             >
               {/* Populate minors based on selected major */}
               {majorsData.minors.map((minor, index) => (
@@ -195,6 +200,7 @@ export default function UserFormPage() {
               value={formData.previousCourses}
               onChange={handleChange}
               renderValue={(selected) => selected.join(", ")}
+              label="Previous Courses (optional)"
             >
               {coursesData.courses.map((course) => (
                 <MenuItem key={course.courseId} value={course.courseId}>
