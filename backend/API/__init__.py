@@ -7,6 +7,8 @@ from .blueprints.mycourses import mycourses_bp
 from .blueprints.availableswaps import availableswaps_bp
 from .blueprints.availableforpickup import availableforpickup_bp
 from .models import Users
+from API.course_builder import main
+
 
 # from .populate_db import populate_db
 from .models import db
@@ -49,7 +51,8 @@ def create_app(test_config=None):
 
     with app.app_context():
         db.create_all()
-        # populate_db()
+        if not app.config.get("TESTING"):
+            main()
 
     @app.after_request
     def after_request(response):

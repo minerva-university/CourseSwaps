@@ -17,7 +17,6 @@ class APITestCase(unittest.TestCase):
 
         with self.app.app_context():
             db.create_all()
-            # Create and insert a test user with only the Google ID, as that's what your model stores
             user = Users(id="test_google_id")
             db.session.add(user)
             db.session.commit()
@@ -30,7 +29,9 @@ class APITestCase(unittest.TestCase):
     def test_index(self):
         response = self.client.get("/")
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.data.decode("utf-8"), "Welcome to the backend!")# noqa 
+        self.assertEqual(
+            response.data.decode("utf-8"), "Welcome to the backend!"
+        )  # noqa
 
     @patch("API.blueprints.auth.oauth.create_client")
     def test_auth_google_login(self, mock_oauth_client):
