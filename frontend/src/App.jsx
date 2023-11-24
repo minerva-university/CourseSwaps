@@ -1,7 +1,7 @@
 import "./App.css";
 import AuthPage from "./views/AuthPage";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { UserProvider } from "./contexts/UserContext";
+import { AuthProvider } from "./contexts/AuthProvider";
 import UserformPage from "./components/UserForm/UserForm";
 import ExchangePage from "./views/ExchangeCoursesPage";
 import ApiProvider from "./contexts/ApiProvider";
@@ -10,7 +10,7 @@ import Navbar from "./components/Navbar/Navbar";
 function App() {
   return (
     <ApiProvider>
-      <UserProvider>
+      <AuthProvider>
         <BrowserRouter>
           <Navbar />
           <Routes>
@@ -19,7 +19,7 @@ function App() {
             <Route path="/userform" element={<UserformPage />} />
           </Routes>
         </BrowserRouter>
-      </UserProvider>
+      </AuthProvider>
     </ApiProvider>
   );
 }

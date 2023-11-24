@@ -4,11 +4,11 @@ import React, { createContext, useState, useContext, useCallback } from "react";
 import { useGoogleLogin } from "@react-oauth/google";
 import { useApi } from "./ApiProvider";
 
-const UserContext = createContext();
+const AuthContext = createContext();
 
-export const useUser = () => useContext(UserContext);
+export const useAuth = () => useContext(AuthContext);
 
-export function UserProvider({ children }) {
+export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [authenticated, setAuthenticated] = useState(false);
   const api = useApi();
@@ -51,7 +51,7 @@ export function UserProvider({ children }) {
   }, [login]);
 
   return (
-    <UserContext.Provider
+    <AuthContext.Provider
       value={{
         user,
         authenticated,
@@ -59,6 +59,6 @@ export function UserProvider({ children }) {
       }}
     >
       {children}
-    </UserContext.Provider>
+    </AuthContext.Provider>
   );
 }

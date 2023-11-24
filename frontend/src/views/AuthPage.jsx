@@ -1,5 +1,5 @@
 import React from "react";
-import { useUser } from "../contexts/UserContext";
+import { useAuth } from "../contexts/AuthProvider";
 import SignUp from "../components/Signup/Signup";
 import Login from "../components/Login/Login";
 import Logout from "../components/logout/Logout";
@@ -7,7 +7,7 @@ import Home from "./HomePage";
 import { Grid, Box } from "@mui/material";
 
 const AuthPage = () => {
-  const { authenticated, promptGoogleSignIn } = useUser();
+  const { authenticated, promptGoogleSignIn } = useAuth();
 
   return authenticated ? (
     <>

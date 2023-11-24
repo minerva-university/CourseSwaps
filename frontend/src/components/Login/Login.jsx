@@ -1,9 +1,9 @@
 import React from "react";
 import Button from "@mui/material/Button";
 import GoogleIcon from "@mui/icons-material/Google";
-import { useUser } from "../../contexts/UserContext";
+import { useAuth } from "../../contexts/AuthProvider";
 function Login() {
-  const { promptGoogleSignIn } = useUser();
+  const { promptGoogleSignIn } = useAuth();
   return (
     <div className="SignUp">
       <Button

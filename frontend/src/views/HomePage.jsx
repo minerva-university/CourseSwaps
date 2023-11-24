@@ -1,8 +1,8 @@
 import React from "react";
-import { useUser } from "../contexts/UserContext";
+import { useAuth } from "../contexts/AuthProvider";
 
 export default function Home() {
-  const { user } = useUser();
+  const { user } = useAuth();
   return (
     <div>
       {user && (

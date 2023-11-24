@@ -1,6 +1,6 @@
 import React from "react";
 import { render } from "@testing-library/react";
-import { UserProvider, useUser } from "../../src/contexts/UserContext";
+import { AuthProvider, useAuth } from "../../src/contexts/AuthProvider";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 
 jest.mock("../../src/contexts/ApiProvider", () => {
@@ -21,9 +21,9 @@ describe("UserContext", () => {
   it("should render children", () => {
     const { getByText } = render(
       <GoogleOAuthProvider clientId="your-client-id">
-        <UserProvider>
+        <AuthProvider>
           <div>Test</div>
-        </UserProvider>
+        </AuthProvider>
       </GoogleOAuthProvider>
     );
 
@@ -32,16 +32,16 @@ describe("UserContext", () => {
 
   it("should provide user context", () => {
     const TestComponent = () => {
-      const { user } = useUser();
+      const { user } = useAuth();
       expect(user).toBeNull();
       return null;
     };
 
     render(
       <GoogleOAuthProvider clientId="your-client-id">
-        <UserProvider>
+        <AuthProvider>
           <TestComponent />
-        </UserProvider>
+        </AuthProvider>
       </GoogleOAuthProvider>
     );
   });
