@@ -13,24 +13,47 @@ class Users(db.Model, UserMixin):
     )
 
     def __repr__(self):
-        return (
-            f"User('{self.id}. Current Courses: '{self.current_courses}', "
-            f"Completed Courses: '{self.completed_courses}', "
-            "Courses Available to Swap:"
-        )
+        return f"User('{self.id}. Current Courses: '{self.current_courses}', Completed Courses: '{self.completed_courses}', Courses Available to Swap:"  # noqa
 
 
-# Course model (contains all the courses in the database)
+course_prerequisites = db.Table(
+    "course_prerequisites",
+    db.Column("course_id", db.Integer, db.ForeignKey("courses.id"), primary_key=True),
+    db.Column(
+        "prerequisite_id", db.Integer, db.ForeignKey("courses.id"), primary_key=True
+    ),
+)
+
+
 class Courses(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
-    code = db.Column(db.String(50), unique=True, nullable=False)  # cs110
-    time = db.Column(db.String(50), nullable=False)  # 9:00 am
-    # contains course codes of the courses that are prerequisites for this course (e.g. cs110, cs111)
-    prerequisites = db.Column(db.String(100), nullable=True)
+    code = db.Column(db.String(50), unique=True, nullable=False)
+    timeslot_id = db.Column(
+        db.Integer, db.ForeignKey("course_schedule_options.id")
+    )  # Assuming CourseScheduleOptions is converted to 'course_schedule_options'
+    prerequisites = db.relationship(
+        "Courses",
+        secondary=course_prerequisites,
+        primaryjoin=(course_prerequisites.c.course_id == id),
+        secondaryjoin=(course_prerequisites.c.prerequisite_id == id),
+        backref=db.backref("prerequisite_for", lazy="dynamic"),
+        lazy="dynamic",
+    )
 
     def __repr__(self):
-        return f"Course('{self.name}', '{self.code}', '{self.time}', '{self.prerequisites}')"
+        return f"Course('{self.name}', '{self.code}')"
+
+    def to_dict(self):
+        return {"name": self.name, "code": self.code, "timeslot": self.timeslot_id}
+
+
+class CourseScheduleOptions(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    days = db.Column(db.String(50), nullable=False)
+    local_time = db.Column(db.String(10), nullable=False)
+    timezone = db.Column(db.String(50), nullable=False)
+    courses = db.relationship("Courses", backref="timeslot", lazy=True)
 
 
 # CoursesAvailableToSwap model (table that will contain all the courses that users have indicated they want to swap)
@@ -88,3 +111,10 @@ class CoursesAvailableForPickup(db.Model):
     def __repr__(self):
         # add time of the course with the course id
         return f"CourseAvailableForPickup(Course ID: '{self.course_id}')"
+
+
+# InitializationFlag model (table that will contain a single row that will indicate whether the database has been initialized or not)# noqa
+class InitializationFlag(db.Model):
+    __tablename__ = "initialization_flag"
+    id = db.Column(db.Integer, primary_key=True)
+    is_initialized = db.Column(db.Boolean, default=False)
