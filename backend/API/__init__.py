@@ -8,8 +8,6 @@ from .blueprints.availableswaps import availableswaps_bp
 from .blueprints.availableforpickup import availableforpickup_bp
 from .models import Users
 from .course_builder import main
-
-# from .populate_db import populate_db
 from .models import db
 
 
@@ -56,7 +54,7 @@ def create_app(test_config=None):
     @app.after_request
     def after_request(response):
         # Define allowed origins
-        allowed_origins = ["http://localhost:5173"]
+        allowed_origins = ["http://localhost:5173", "http://127.0.0.1:5173"]
 
         # Get the origin of the request
         origin = request.headers.get("Origin")
