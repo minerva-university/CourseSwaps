@@ -1,27 +1,21 @@
 import React from "react";
-import { useUser } from "../contexts/UserContext";
+import { useAuth } from "../contexts/AuthProvider";
 import SignUp from "../components/Signup/Signup";
 import Login from "../components/Login/Login";
-import Logout from "../components/logout/Logout";
-import Home from "./HomePage";
 import { Grid, Box } from "@mui/material";
+import { Navigate} from "react-router-dom";
 
 const AuthPage = () => {
-  const { authenticated, promptGoogleSignIn } = useUser();
+  const { isAuthenticated, promptGoogleSignIn } = useAuth();
 
-  return authenticated ? (
-    <>
-      <h1>Hello</h1>
-      <Home />
-      <Logout />
-    </>
+  return isAuthenticated ? (
+    <Navigate to="/" />
   ) : (
     <Box
       sx={{
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        minHeight: "100vh",
       }}
     >
       <Grid container spacing={2} justifyContent="center" alignItems="center">
