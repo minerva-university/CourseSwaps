@@ -9,6 +9,9 @@ from .blueprints.availableforpickup import availableforpickup_bp
 from .models import Users
 from .course_builder import main
 
+# from flask_cors import CORS
+
+
 # from .populate_db import populate_db
 from .models import db
 
@@ -21,6 +24,8 @@ login_manager = LoginManager()
 def create_app(test_config=None):
     app = Flask(__name__)
     from .blueprints.auth import oauth
+
+    # CORS(app, resources={r"/api/*": {"origins": "http://127.0.0.1:5173"}})
 
     oauth.init_app(app)
     login_manager.init_app(app)
@@ -56,7 +61,7 @@ def create_app(test_config=None):
     @app.after_request
     def after_request(response):
         # Define allowed origins
-        allowed_origins = ["http://localhost:5173"]
+        allowed_origins = ["http://localhost:5173", "http://127.0.0.1:5173"]
 
         # Get the origin of the request
         origin = request.headers.get("Origin")
