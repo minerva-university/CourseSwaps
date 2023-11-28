@@ -8,11 +8,6 @@ from .blueprints.availableswaps import availableswaps_bp
 from .blueprints.availableforpickup import availableforpickup_bp
 from .models import Users
 from .course_builder import main
-
-# from flask_cors import CORS
-
-
-# from .populate_db import populate_db
 from .models import db
 
 
@@ -24,8 +19,6 @@ login_manager = LoginManager()
 def create_app(test_config=None):
     app = Flask(__name__)
     from .blueprints.auth import oauth
-
-    # CORS(app, resources={r"/api/*": {"origins": "http://127.0.0.1:5173"}})
 
     oauth.init_app(app)
     login_manager.init_app(app)
