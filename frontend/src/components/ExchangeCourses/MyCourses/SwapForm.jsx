@@ -1,6 +1,6 @@
-import React from 'react';
-import Box from '@mui/material/Box';
-import SwapButton from './SwapButton';
+import React from "react";
+import Box from "@mui/material/Box";
+import SwapButton from "./SwapButton";
 
 const SwapForm = ({ userCourses, availableCourses }) => {
   const handleSwapSubmit = (selectedCourse, swapCourse) => {
@@ -9,8 +9,15 @@ const SwapForm = ({ userCourses, availableCourses }) => {
   };
 
   return (
-    <Box component="form" sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-      <SwapButton onSwapSubmit={handleSwapSubmit} userCourses={userCourses} availableCourses={availableCourses} />
+    <Box
+      component="form"
+      sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}
+    >
+      <SwapButton
+        onSwapSubmit={handleSwapSubmit}
+        userCourses={userCourses}
+        availableCourses={availableCourses}
+      />
     </Box>
   );
 };

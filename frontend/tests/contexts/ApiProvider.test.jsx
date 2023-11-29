@@ -1,6 +1,6 @@
 import React from "react";
 import { render } from "@testing-library/react";
-import ApiProvider, {useApi} from "../../src/contexts/ApiProvider";
+import ApiProvider, { useApi } from "../../src/contexts/ApiProvider";
 
 jest.mock("../../src/Hooks/ApiClient", () => {
   // Mock the constructor
@@ -20,14 +20,12 @@ jest.mock("../../src/Hooks/ApiClient", () => {
   };
 });
 
-
-
 describe("ApiProvider", () => {
   it("should render children", () => {
     const { getByText } = render(
       <ApiProvider>
         <div>Test</div>
-      </ApiProvider>
+      </ApiProvider>,
     );
 
     expect(getByText("Test")).toBeInTheDocument();
@@ -47,7 +45,7 @@ describe("ApiProvider", () => {
     render(
       <ApiProvider>
         <TestComponent />
-      </ApiProvider>
+      </ApiProvider>,
     );
   });
 });

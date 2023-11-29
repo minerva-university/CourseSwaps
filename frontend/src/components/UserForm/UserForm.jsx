@@ -56,7 +56,7 @@ export default function UserFormPage() {
     if (e.target.type === "select-multiple") {
       const values = Array.from(
         e.target.selectedOptions,
-        (option) => option.value
+        (option) => option.value,
       );
       setFormData({ ...formData, [name]: values });
     } else {

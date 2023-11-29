@@ -3,7 +3,8 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import SwapHorizIcon from "@mui/icons-material/SwapHoriz";
-import SwapForm from "./SwapForm"; // Import SwapForm component
+import SwapForm from "./SwapForm";
+import DropButton from "./DropButton";
 import Dialog from "@mui/material/Dialog";
 import DialogContent from "@mui/material/DialogContent";
 
@@ -61,14 +62,21 @@ const MyCoursesList = () => {
             alignItems: "center",
           }}
         >
-          <Typography variant="body1">{course}</Typography>
-          <Button
-            variant="contained"
-            onClick={() => handleSwapButtonClick(course)}
-            sx={{ backgroundColor: "black" }}
-          >
-            <SwapHorizIcon />
-          </Button>
+          <Typography variant="body1" sx={{ marginRight: 1 }}>
+            {" "}
+            {/* Add margin-right */}
+            {course}
+          </Typography>
+          <Box sx={{ display: "flex", gap: 1 }}>
+            <Button
+              variant="contained"
+              onClick={() => handleSwapButtonClick(course)}
+              sx={{ backgroundColor: "black" }}
+            >
+              <SwapHorizIcon />
+            </Button>
+            <DropButton courseName={course} />
+          </Box>
         </Box>
       ))}
 

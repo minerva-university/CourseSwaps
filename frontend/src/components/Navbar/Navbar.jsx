@@ -16,19 +16,19 @@ function Navbar() {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar>
-        <Toolbar sx={
-          {
+        <Toolbar
+          sx={{
             display: "flex",
             justifyContent: "space-between",
-          }
-        }>
-          <Box sx={
-            {
+          }}
+        >
+          <Box
+            sx={{
               display: "flex",
               alignItems: "center",
               gap: 2,
-            }
-          }>
+            }}
+          >
             <img
               src={MINERVA_LOGO}
               alt="Logo"
@@ -51,8 +51,7 @@ function Navbar() {
               </Button>
             </Box>
           ) : (
-            <Box>
-            </Box>
+            <Box></Box>
           )}
         </Toolbar>
       </AppBar>

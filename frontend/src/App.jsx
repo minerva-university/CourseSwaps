@@ -15,14 +15,14 @@ function App() {
       <AuthProvider>
         <BrowserRouter>
           <Navbar />
-          <Box sx={
-            {
+          <Box
+            sx={{
               display: "flex",
               justifyContent: "center",
               paddingTop: "10vh",
               minHeight: "100vh",
-            }
-          }>
+            }}
+          >
             <Routes>
               <Route
                 path="/"
@@ -34,11 +34,14 @@ function App() {
               />
               <Route path="/auth" element={<AuthPage />} />
 
-              <Route path="/userform" element={
-                <ProtectedRoute>
-                  <UserformPage />
-                </ProtectedRoute>
-              } />
+              <Route
+                path="/userform"
+                element={
+                  <ProtectedRoute>
+                    <UserformPage />
+                  </ProtectedRoute>
+                }
+              />
             </Routes>
           </Box>
         </BrowserRouter>
