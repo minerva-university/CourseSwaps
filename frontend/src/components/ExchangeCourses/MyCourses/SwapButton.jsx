@@ -6,13 +6,12 @@ import Box from '@mui/material/Box';
 
 const SwapButton = () => {
   const [anchorEl, setAnchorEl] = useState(null);
-  const [swapEl, setSwapEl] = useState(null);
   const [selectedCourse, setSelectedCourse] = useState('');
   const [swapCourse, setSwapCourse] = useState('');
   const [availableCourses, setAvailableCourses] = useState([]);
 
   const open = Boolean(anchorEl);
-  const swapOpen = Boolean(swapEl);
+
 
   const fetchAvailableSwaps = async () => {
     try {
@@ -34,10 +33,6 @@ const SwapButton = () => {
     fetchAvailableSwaps(); // Fetch the available swaps when the user wants to select a course to swap with
   };
 
-  const handleCourseSelect = (course) => {
-    setSelectedCourse(course);
-    handleClose();
-  };
 
   const handleSwapCourseSelect = (course) => {
     setSwapCourse(course);
@@ -53,7 +48,6 @@ const SwapButton = () => {
 
   const handleClose = () => {
     setAnchorEl(null);
-    setSwapEl(null);
   };
 
   return (
