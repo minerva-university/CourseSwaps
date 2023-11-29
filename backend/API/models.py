@@ -8,6 +8,8 @@ db = SQLAlchemy()
 class Users(db.Model, UserMixin):
     id = db.Column(db.String, primary_key=True)
     current_courses = db.relationship("UserCurrentCourses", backref="user", lazy=True)
+    major = db.Column(db.String(100))
+    class_year = db.Column(db.String(100))
     completed_courses = db.relationship(
         "UserCompletedCourses", backref="user", lazy=True
     )
