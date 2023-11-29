@@ -1,10 +1,15 @@
 import React from "react";
-import { render, fireEvent, screen } from "@testing-library/react";
+import { render, fireEvent, screen, waitFor } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import UserFormPage from "../../../src/components/UserForm/UserForm";
-
+import { useApi } from "../../../src/contexts/ApiProvider";
 // Mocking the console.log function to prevent output during tests
 console.log = jest.fn();
+
+// Mocking the useApi hook to prevent errors during tests
+jest.mock("../../../src/contexts/ApiProvider", () => ({
+  useApi: jest.fn(),
+}));
 
 describe("UserFormPage", () => {
   it("renders a form with the correct fields", () => {
@@ -27,6 +32,10 @@ describe("UserFormPage", () => {
   it("allows selecting options and submitting form data", async () => {
     render(<UserFormPage />);
     // Simulate filling in the Minerva Student ID
+
+    const mockPost = jest.fn(() => Promise.resolve({ status: 200 }));
+    useApi.mockReturnValue({ post: mockPost });
+
     fireEvent.change(screen.getByLabelText(/Minerva Student ID/), {
       target: { value: "123456" },
     });
@@ -89,6 +98,11 @@ describe("UserFormPage", () => {
       minor: "Arts & Humanities - Philosophy, Ethics, and the Law",
       previousCourses: ["CS113"],
     };
-    expect(console.log).toHaveBeenCalledWith(expectedFormData);
+   
+    await waitFor(() => {
+      expect(mockPost).toHaveBeenCalledWith("/register", expectedFormData);
+      expect(mockPost).toHaveBeenCalledTimes(1);
+      expect(mockPost).toHaveReturnedWith(Promise.resolve({ status: 200 }));
+    });
   });
 });

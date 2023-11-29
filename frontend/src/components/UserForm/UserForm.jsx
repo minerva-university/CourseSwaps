@@ -2,6 +2,7 @@
 import coursesData from "../../courses_data/courses.json"; //for the current classes and previous courses
 import majorsData from "../../courses_data/data.json"; //for the concentrations and majors
 import React, { useState } from "react";
+import { useApi } from "../../contexts/ApiProvider";
 import {
   TextField,
   Button,
@@ -64,10 +65,16 @@ export default function UserFormPage() {
     }
   };
 
-  const handleSubmit = (e) => {
+  const  api  = useApi();
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Perform form submission logic here, e.g., send data to an API or something else
-    console.log(formData);
+    const response = await api.post("/register", formData);
+
+    if (response.status === 200) {
+      console.log("Successfully registered user");
+    } else {
+      console.log("Failed to register user");
+    }
   };
 
   return (
