@@ -1,5 +1,6 @@
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin
+from sqlalchemy import UniqueConstraint
 
 db = SQLAlchemy()
 
@@ -87,21 +88,25 @@ class UserCurrentCourses(db.Model):
     course_id = db.Column(db.Integer, db.ForeignKey("courses.id"), nullable=False)
     course = db.relationship("Courses")
 
+    # Unique constraint for user_id and course_id
+    __table_args__ = (UniqueConstraint('user_id', 'course_id', name='_user_course_uc'),)
+
     def __repr__(self):
         return f"UserCurrentCourses(User ID: '{self.user_id}', Course ID: '{self.course_id}')"
 
 
-# UserCompletedCourses model (courses that a user has completed)
 class UserCompletedCourses(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
     course_id = db.Column(db.Integer, db.ForeignKey("courses.id"), nullable=False)
     course = db.relationship("Courses")
 
+    # Unique constraint for user_id and course_id
+    __table_args__ = (UniqueConstraint('user_id', 'course_id', name='_completed_user_course_uc'),)
+
     def __repr__(self):
-        return (
-            f"CompletedCourse(User ID: '{self.user_id}', Course ID: '{self.course_id}')"
-        )
+        return f"CompletedCourse(User ID: '{self.user_id}', Course ID: '{self.course_id}')"
+
 
 
 # Available courses to just pickup

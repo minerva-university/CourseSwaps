@@ -65,10 +65,10 @@ export default function UserFormPage() {
     }
   };
 
-  const  api  = useApi();
+  const api = useApi();
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const response = await api.post("/register", formData);
+    const response = await api.post("/userdata", formData);
 
     if (response.status === 200) {
       console.log("Successfully registered user");
