@@ -6,6 +6,7 @@ from .blueprints.auth import auth_bp
 from .blueprints.mycourses import mycourses_bp
 from .blueprints.availableswaps import availableswaps_bp
 from .blueprints.availableforpickup import availableforpickup_bp
+from .blueprints.userdata import userdata_bp
 from .models import Users
 from .course_builder import main
 from .models import db
@@ -28,6 +29,7 @@ def create_app(test_config=None):
     app.register_blueprint(mycourses_bp, url_prefix="/api")
     app.register_blueprint(availableswaps_bp, url_prefix="/api")
     app.register_blueprint(availableforpickup_bp, url_prefix="/api")
+    app.register_blueprint(userdata_bp, url_prefix="/api")
 
     # Configuration
     app.config.from_mapping(
