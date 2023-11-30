@@ -13,7 +13,9 @@ import {
   Divider,
   Paper,
   Grid,
+  Checkbox,
 } from "@mui/material";
+import Autocomplete from "@mui/material/Autocomplete";
 
 const formControlStyle = {
   minWidth: "200px",
@@ -123,31 +125,42 @@ export default function UserFormPage() {
               value={formData.minervaID}
             />
           </FormControl>
-          <FormControl style={{ ...formControlStyle, minWidth: "400px" }}>
-            <InputLabel id="current-classes-label">
-              Currently Assigned Courses by MU Registrar
-            </InputLabel>
-            <Select
-              labelId="current-classes-label"
-              multiple
-              name="currentClasses"
-              value={formData.currentClasses}
-              onChange={handleChange}
-              renderValue={(selected) => (
-                <div>
-                  {selected.map((value) => (
-                    <div key={value}>{value}</div>
-                  ))}
-                </div>
-              )}
-            >
-              {coursesData.courses.map((course) => (
-                <MenuItem key={course.courseId} value={course.courseId}>
-                  {`${course.courseId} - ${course.courseName}`}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
+          <Autocomplete
+            multiple
+            id="current-classes-selector"
+            options={coursesData.courses.map((course) => course.courseId)}
+            disableCloseOnSelect
+            getOptionLabel={(option) =>
+              `${option} - ${
+                coursesData.courses.find((course) => course.courseId === option)
+                  ?.courseName
+              }`
+            }
+            renderOption={(props, option, { selected }) => (
+              <li {...props}>
+                <Checkbox style={{ marginRight: 8 }} checked={selected} />
+                {`${option} - ${
+                  coursesData.courses.find(
+                    (course) => course.courseId === option
+                  )?.courseName
+                }`}
+              </li>
+            )}
+            value={formData.currentClasses}
+            onChange={(event, newValue) => {
+              if (newValue.length <= 4) {
+                setFormData({ ...formData, currentClasses: newValue });
+              }
+            }}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                label="Currently Assigned Courses by MU Registrar"
+                placeholder="Courses"
+              />
+            )}
+          />
+
           <FormControl style={formControlStyle}>
             <InputLabel id="major-label">Major</InputLabel>
             <Select
@@ -200,25 +213,40 @@ export default function UserFormPage() {
               ))}
             </Select>
           </FormControl>
-          <FormControl style={{ ...formControlStyle, minWidth: "400px" }}>
-            <InputLabel id="previous-courses-label">
-              Previous Courses (optional)
-            </InputLabel>
-            <Select
-              labelId="previous-courses-label"
-              multiple
-              name="previousCourses"
-              value={formData.previousCourses}
-              onChange={handleChange}
-              renderValue={(selected) => selected.join(", ")}
-            >
-              {coursesData.courses.map((course) => (
-                <MenuItem key={course.courseId} value={course.courseId}>
-                  {`${course.courseId} - ${course.courseName}`}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
+          <Autocomplete
+            multiple
+            id="previous-courses-selector"
+            options={coursesData.courses.map((course) => course.courseId)}
+            disableCloseOnSelect
+            getOptionLabel={(option) =>
+              `${option} - ${
+                coursesData.courses.find((course) => course.courseId === option)
+                  ?.courseName
+              }`
+            }
+            renderOption={(props, option, { selected }) => (
+              <li {...props}>
+                <Checkbox style={{ marginRight: 8 }} checked={selected} />
+                {`${option} - ${
+                  coursesData.courses.find(
+                    (course) => course.courseId === option
+                  )?.courseName
+                }`}
+              </li>
+            )}
+            value={formData.previousCourses}
+            onChange={(event, newValue) => {
+              setFormData({ ...formData, previousCourses: newValue });
+            }}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                label="Previous Courses (optional)"
+                placeholder="Courses"
+              />
+            )}
+          />
+
           <Divider style={{ marginTop: "16px", marginBottom: "16px" }} />
           <Button type="submit" variant="contained" style={submitButtonStyle}>
             Submit
