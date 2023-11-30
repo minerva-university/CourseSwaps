@@ -100,7 +100,7 @@ describe("UserFormPage", () => {
     };
    
     await waitFor(() => {
-      expect(mockPost).toHaveBeenCalledWith("/register", expectedFormData);
+      expect(mockPost).toHaveBeenCalledWith("/userdata", expectedFormData);
       expect(mockPost).toHaveBeenCalledTimes(1);
       expect(mockPost).toHaveReturnedWith(Promise.resolve({ status: 200 }));
     });

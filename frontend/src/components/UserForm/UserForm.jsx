@@ -2,6 +2,7 @@
 import coursesData from "../../courses_data/courses.json"; //for the current classes and previous courses
 import majorsData from "../../courses_data/data.json"; //for the concentrations and majors
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useApi } from "../../contexts/ApiProvider";
 import validateFormData from "./UserFormValidator";
 import {
@@ -95,6 +96,7 @@ export default function UserFormPage() {
     minor: "",
   });
   const [formErrors, setFormErrors] = useState({});
+  const navigate = useNavigate();
 
   // Function to check for any form errors
   const checkForErrors = (data) => {
@@ -135,6 +137,7 @@ export default function UserFormPage() {
         const response = await api.post("/userdata", formData);
         if (response.status === 200) {
           console.log("Successfully registered user");
+          navigate("/");
         } else {
           console.log("Failed to register user");
         }
