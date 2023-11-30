@@ -8,7 +8,7 @@ from .blueprints.availableswaps import availableswaps_bp
 from .blueprints.availableforpickup import availableforpickup_bp
 from .blueprints.userdata import userdata_bp
 from .models import Users
-from .course_builder import main
+from .populate_db import main
 from .models import db
 
 

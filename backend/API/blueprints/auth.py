@@ -55,6 +55,7 @@ def login():
                     "given_name": given_name,
                     "picture": picture,
                     "new_user": new_user,
+                    "role": user.role.name,
                 },
                 "message": "Login successful",
             }
