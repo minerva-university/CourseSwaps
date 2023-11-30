@@ -1,4 +1,3 @@
-// Assuming your JSON file is named courses.json and is in the src directory
 import coursesData from "../../courses_data/courses.json"; //for the current classes and previous courses
 import majorsData from "../../courses_data/data.json"; //for the concentrations and majors
 import React, { useState } from "react";
