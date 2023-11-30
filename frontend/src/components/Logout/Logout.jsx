@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-function Logout({ setUser, user, setAuthenticated }) {
+function Logout({ setUser, setAuthenticated }) {
   const navigate = useNavigate();
 
   const handleLogout = () => {

@@ -1,6 +1,5 @@
 import unittest
-from flask_login import LoginManager
-from werkzeug.security import generate_password_hash
+from unittest.mock import patch
 from API import create_app, db
 from API.models import Users
 
@@ -16,18 +15,10 @@ class APITestCase(unittest.TestCase):
         )
         self.client = self.app.test_client()
 
-        # Initialize the Flask-Login manager
-        self.login_manager = LoginManager()
-        self.login_manager.init_app(self.app)
-
-        # Create the database and tables
         with self.app.app_context():
             db.create_all()
-            # Create and insert a test user with a hashed password
-            hashed_password = generate_password_hash("testpassword", method="pbkdf2")
-            user = Users(
-                name="testuser", email="testuser@example.com", password=hashed_password
-            )
+            # Create and insert a test user with only the Google ID, as that's what your model stores
+            user = Users(id="test_google_id")
             db.session.add(user)
             db.session.commit()
 
@@ -39,36 +30,38 @@ class APITestCase(unittest.TestCase):
     def test_index(self):
         response = self.client.get("/")
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.data.decode("utf-8"), "Welcome to the backend!")
+        self.assertEqual(
+            response.data.decode("utf-8"), "Welcome to the backend!"
+        )  # noqa
 
-    def test_auth_register(self):
+    @patch("API.blueprints.auth.oauth.create_client")
+    def test_auth_google_login(self, mock_oauth_client):
+        # Mock the OAuth client and its response
+        mock_resp = mock_oauth_client.return_value.get.return_value
+        mock_resp.json.return_value = {
+            "id": "test_google_id",
+            "given_name": "Test User",
+            "picture": "test_picture_url",
+        }
+
+        # Perform the mock login
         response = self.client.post(
-            "/api/register",
-            json={
-                "username": "newuser",
-                "password": "newpassword",
-                "email": "newemail@gmail.com",
-            },
+            "/api/auth/google", json={"access_token": "dummy_token"}
         )
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.json["message"], "Registration successful")
+        # Check if user is in database
+        with self.app.app_context():
+            user = Users.query.filter_by(id="test_google_id").first()
+            self.assertIsNotNone(user)
 
-    def test_auth_login(self):
-        # Attempt to login with the test user credentials
-        response = self.client.post(
-            "/api/login", json={"username": "testuser", "password": "testpassword"}
-        )
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.json["message"], "Login successful")
+        self.assertIn("Login successful", response.json["message"])
 
     def test_auth_logout(self):
-        # Login the user first
-        login_response = self.client.post(
-            "/api/login", json={"username": "testuser", "password": "testpassword"}
-        )
-        self.assertEqual(login_response.status_code, 200)
-
-        # Then, attempt to logout
+        # Attempt to logout (assuming login is done via a different mechanism in tests)
         logout_response = self.client.post("/api/logout")
         self.assertEqual(logout_response.status_code, 200)
         self.assertEqual(logout_response.json["message"], "Logout successful")
+
+
+if __name__ == "__main__":
+    unittest.main()

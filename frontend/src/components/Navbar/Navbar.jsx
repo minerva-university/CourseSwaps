@@ -7,46 +7,51 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import Avatar from "@mui/material/Avatar";
 import NotificationsIcon from "@mui/icons-material/Notifications";
-import img from "../../assets/Logo.png";
+import { useAuth } from "../../contexts/AuthProvider";
 
 function Navbar() {
-  const isLoggedIn = true;
-  const user = {
-    /* TODO: get the name and avatar from google auth */
-    name: "John Doe",
-    avatar: "/static/images/avatars/avatar_1.png",
-  };
-
+  const { user, isAuthenticated, logout } = useAuth();
+  const MINERVA_LOGO =
+    "https://assets-global.website-files.com/64ca995f0fd30a33b2fd01cc/64ca995f0fd30a33b2fd03e4_minerva.svg";
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
-        <Toolbar>
-          <img
-            src={img}
-            alt="Logo"
-            style={{ width: "50px", height: "auto" }}
-          />
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            CourseSwap
-          </Typography>
+      <AppBar>
+        <Toolbar sx={
+          {
+            display: "flex",
+            justifyContent: "space-between",
+          }
+        }>
+          <Box sx={
+            {
+              display: "flex",
+              alignItems: "center",
+              gap: 2,
+            }
+          }>
+            <img
+              src={MINERVA_LOGO}
+              alt="Logo"
+              style={{ width: "auto", height: "auto" }}
+            />
+            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+              CourseSwap
+            </Typography>
+          </Box>
 
-          {isLoggedIn ? (
+          {isAuthenticated ? (
             <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
               <IconButton size="large" color="inherit">
                 <NotificationsIcon />
               </IconButton>
-              <Typography variant="subtitle1">{user.name}</Typography>
-              <Avatar alt={user.name} src={user.avatar} />{" "}
-              {/* TODO: Add the Logout functionality from UserContext */}
-              <Button color="inherit"> 
+              <Typography variant="subtitle1">{user.given_name}</Typography>
+              <Avatar alt={"User's Picture"} src={user.picture} />
+              <Button color="inherit" onClick={logout}>
                 Logout
-              </Button>{" "}
-              {/* Add the logout button here. */}
+              </Button>
             </Box>
           ) : (
             <Box>
-              <Button color="inherit">Login</Button>
-              <Button color="inherit">Signup</Button>
             </Box>
           )}
         </Toolbar>

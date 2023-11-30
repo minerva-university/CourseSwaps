@@ -157,3 +157,6 @@ yarn-debug.log*
 yarn-error.log*
 
 .vscode/
+
+# local env files
+/flaskenv

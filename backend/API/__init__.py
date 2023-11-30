@@ -1,12 +1,13 @@
 import os
 from dotenv import load_dotenv
-from flask import Flask, make_response, jsonify, request, session
+from flask import Flask, make_response, jsonify, request
 from flask_login import LoginManager
 from .blueprints.auth import auth_bp
 from .blueprints.mycourses import mycourses_bp
 from .blueprints.availableswaps import availableswaps_bp
 from .blueprints.availableforpickup import availableforpickup_bp
-from .populate_db import populate_db
+from .models import Users
+from .course_builder import main
 from .models import db
 
 
@@ -17,10 +18,10 @@ login_manager = LoginManager()
 
 def create_app(test_config=None):
     app = Flask(__name__)
-
     from .blueprints.auth import oauth
 
     oauth.init_app(app)
+    login_manager.init_app(app)
 
     # Register blueprints
     app.register_blueprint(auth_bp, url_prefix="/api")
@@ -47,12 +48,13 @@ def create_app(test_config=None):
 
     with app.app_context():
         db.create_all()
-        populate_db()
+        if not app.config.get("TESTING"):
+            main()
 
     @app.after_request
     def after_request(response):
         # Define allowed origins
-        allowed_origins = ["http://localhost:5173"]
+        allowed_origins = ["http://localhost:5173", "http://127.0.0.1:5173"]
 
         # Get the origin of the request
         origin = request.headers.get("Origin")
@@ -82,12 +84,18 @@ def create_app(test_config=None):
     def index():
         return "Welcome to the backend!"
 
+    @login_manager.user_loader
+    def load_user(user_id):
+        return Users.query.get(user_id)
+
     @app.route("/api/test", methods=["GET"])
     def test():
         try:
             return jsonify("test")
         except Exception as e:
             app.logger.error(f"Unexpected error: {e}", exc_info=True)
-            return make_response(jsonify({"error": "Internal Server Error"}), 500)# noqa
+            return make_response(
+                jsonify({"error": "Internal Server Error"}), 500
+            )  # noqa
 
     return app
