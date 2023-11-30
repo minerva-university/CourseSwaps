@@ -3,6 +3,7 @@ import { render, fireEvent, screen, waitFor } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import UserFormPage from "../../../src/components/UserForm/UserForm";
 import { useApi } from "../../../src/contexts/ApiProvider";
+import { BrowserRouter } from "react-router-dom";
 // Mocking the console.log function to prevent output during tests
 console.log = jest.fn();
 
@@ -13,7 +14,11 @@ jest.mock("../../../src/contexts/ApiProvider", () => ({
 
 describe("UserFormPage", () => {
   it("renders a form with the correct fields", () => {
-    render(<UserFormPage />);
+    render(
+      <BrowserRouter>
+        <UserFormPage />
+      </BrowserRouter>
+    );
 
     // Check that the form contains the correct fields
     expect(screen.getByLabelText(/Class/)).toBeInTheDocument();
@@ -22,7 +27,7 @@ describe("UserFormPage", () => {
       screen.getByLabelText(/Currently Assigned Courses by MU Registrar/)
     ).toBeInTheDocument();
     expect(
-      screen.getByLabelText(/Previous Courses \(optional\)/)
+      screen.getByLabelText(/Previous Courses/)
     ).toBeInTheDocument();
     expect(screen.getByLabelText(/Major/)).toBeInTheDocument();
     expect(screen.getByLabelText(/Concentration/)).toBeInTheDocument();
@@ -30,7 +35,11 @@ describe("UserFormPage", () => {
   });
 
   it("allows selecting options and submitting form data", async () => {
-    render(<UserFormPage />);
+    render(
+      <BrowserRouter>
+        <UserFormPage />
+      </BrowserRouter>
+    );
     // Simulate filling in the Minerva Student ID
 
     const mockPost = jest.fn(() => Promise.resolve({ status: 200 }));
@@ -75,7 +84,7 @@ describe("UserFormPage", () => {
 
     // Simulate selecting previous courses
     const previousCoursesSelect = screen.getByLabelText(
-      /Previous Courses \(optional\)/
+      /Previous Courses/
     );
     fireEvent.mouseDown(previousCoursesSelect);
     const allMatchingOptions = screen.getAllByText(
@@ -98,7 +107,7 @@ describe("UserFormPage", () => {
       minor: "Arts & Humanities - Philosophy, Ethics, and the Law",
       previousCourses: ["CS113"],
     };
-   
+
     await waitFor(() => {
       expect(mockPost).toHaveBeenCalledWith("/userdata", expectedFormData);
       expect(mockPost).toHaveBeenCalledTimes(1);
