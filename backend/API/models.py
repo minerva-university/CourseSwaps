@@ -89,7 +89,7 @@ class UserCurrentCourses(db.Model):
     course = db.relationship("Courses")
 
     # Unique constraint for user_id and course_id
-    __table_args__ = (UniqueConstraint('user_id', 'course_id', name='_user_course_uc'),)
+    __table_args__ = (UniqueConstraint("user_id", "course_id", name="_user_course_uc"),)
 
     def __repr__(self):
         return f"UserCurrentCourses(User ID: '{self.user_id}', Course ID: '{self.course_id}')"
@@ -102,11 +102,14 @@ class UserCompletedCourses(db.Model):
     course = db.relationship("Courses")
 
     # Unique constraint for user_id and course_id
-    __table_args__ = (UniqueConstraint('user_id', 'course_id', name='_completed_user_course_uc'),)
+    __table_args__ = (
+        UniqueConstraint("user_id", "course_id", name="_completed_user_course_uc"),
+    )
 
     def __repr__(self):
-        return f"CompletedCourse(User ID: '{self.user_id}', Course ID: '{self.course_id}')"
-
+        return (
+            f"CompletedCourse(User ID: '{self.user_id}', Course ID: '{self.course_id}')"
+        )
 
 
 # Available courses to just pickup

@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify, session
-from flask_login import login_user, current_user, login_required
-from ..models import Users, db, UserCurrentCourses, Courses, UserCompletedCourses
+from flask_login import login_user, login_required
+from ..models import Users, db
 from authlib.integrations.flask_client import OAuth
 import os
 
