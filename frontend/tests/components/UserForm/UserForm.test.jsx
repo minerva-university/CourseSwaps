@@ -90,17 +90,6 @@ describe("UserFormPage", () => {
 
     fireEvent.click(screen.getByText(/Submit/));
 
-    // Check that the form data was logged to the console
-    const expectedFormData = {
-      minervaID: "123456",
-      class: "M24",
-      currentClasses: ["CS110"],
-      major: "Computational Sciences",
-      concentration: ["Applied Problem Solving"],
-      minor: "Arts & Humanities - Philosophy, Ethics, and the Law",
-      previousCourses: ["CS113"],
-    };
-
     await waitFor(() => {
       const submittedData = mockPost.mock.calls[0][1];
 

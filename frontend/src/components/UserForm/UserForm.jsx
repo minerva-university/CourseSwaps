@@ -135,9 +135,9 @@ export default function UserFormPage() {
     }, 0);
 
     return () => clearTimeout(timeoutId);
-  }, [userData, isUpdateMode]);
-  console.log("userData is:", userData);
-  console.log("isUpdateMode is:", isUpdateMode);
+  }, [userData, isUpdateMode, initialFormData]);
+  // console.log("userData is:", userData);
+  // console.log("isUpdateMode is:", isUpdateMode);
 
   // Function to check for any form errors
   const checkForErrors = (data) => {

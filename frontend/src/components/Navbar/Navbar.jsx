@@ -20,11 +20,6 @@ function Navbar() {
     setIsViewProfileOpen(true);
   };
 
-  // Function to close the View User Profile component
-  const closeViewProfile = () => {
-    setIsViewProfileOpen(false);
-  };
-
   const MINERVA_LOGO =
     "https://assets-global.website-files.com/64ca995f0fd30a33b2fd01cc/64ca995f0fd30a33b2fd03e4_minerva.svg";
   return (
