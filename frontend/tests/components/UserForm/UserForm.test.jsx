@@ -26,9 +26,7 @@ describe("UserFormPage", () => {
     expect(
       screen.getByLabelText(/Currently Assigned Courses by MU Registrar/)
     ).toBeInTheDocument();
-    expect(
-      screen.getByLabelText(/Previous Courses/)
-    ).toBeInTheDocument();
+    expect(screen.getByLabelText(/Previous Courses/)).toBeInTheDocument();
     expect(screen.getByLabelText(/Major/)).toBeInTheDocument();
     expect(screen.getByLabelText(/Concentration/)).toBeInTheDocument();
     expect(screen.getByLabelText(/Minor/)).toBeInTheDocument();
@@ -40,6 +38,53 @@ describe("UserFormPage", () => {
         <UserFormPage />
       </BrowserRouter>
     );
+
+    it("populates concentration field based on selected major", async () => {
+      render(
+        <BrowserRouter>
+          <UserFormPage />
+        </BrowserRouter>
+      );
+
+      // Simulate selecting a major
+      fireEvent.mouseDown(screen.getByLabelText(/Major/));
+      fireEvent.click(screen.getByText("Computational Sciences")); // Replace with actual text
+
+      // Wait for concentrations to be populated based on the major selected
+      await waitFor(() => {
+        expect(screen.getByText("Applied Problem Solving")).toBeInTheDocument();
+      });
+    });
+
+    it("enables submit button when all fields are filled", async () => {
+      render(
+        <BrowserRouter>
+          <UserFormPage />
+        </BrowserRouter>
+      );
+
+      // Fill in all required fields...
+
+      // Simulate selecting a major
+      fireEvent.mouseDown(screen.getByLabelText(/Major/));
+      fireEvent.click(screen.getByText("Computational Sciences")); // Replace with actual text
+
+      // Wait for concentrations to be populated
+      await waitFor(() => {
+        expect(screen.getByText("Applied Problem Solving")).toBeInTheDocument();
+      });
+
+      // Simulate selecting a concentration
+      fireEvent.mouseDown(screen.getByLabelText(/Concentration/));
+      fireEvent.click(screen.getByText("Applied Problem Solving")); // Replace with actual text
+
+      // ... continue simulating filling in other required fields
+
+      // Check if the submit button is enabled now
+      const submitButton = screen.getByRole("button", { name: /Submit/ });
+      expect(submitButton).not.toBeDisabled();
+    });
+
     // Simulate filling in the Minerva Student ID
 
     const mockPost = jest.fn(() => Promise.resolve({ status: 200 }));
@@ -83,9 +128,7 @@ describe("UserFormPage", () => {
     fireEvent.click(minorOption);
 
     // Simulate selecting previous courses
-    const previousCoursesSelect = screen.getByLabelText(
-      /Previous Courses/
-    );
+    const previousCoursesSelect = screen.getByLabelText(/Previous Courses/);
     fireEvent.mouseDown(previousCoursesSelect);
     const allMatchingOptions = screen.getAllByText(
       "CS113 - Theory and Applications of Linear Algebra"
@@ -107,6 +150,31 @@ describe("UserFormPage", () => {
       minor: "Arts & Humanities - Philosophy, Ethics, and the Law",
       previousCourses: ["CS113"],
     };
+
+    it("disables submit button when concentration is not selected", async () => {
+      render(
+        <BrowserRouter>
+          <UserFormPage />
+        </BrowserRouter>
+      );
+
+      // Check if the submit button is initially disabled
+      let submitButton = screen.getByRole("button", { name: /Submit/ });
+      expect(submitButton).toBeDisabled();
+
+      // Simulate selecting a major
+      fireEvent.mouseDown(screen.getByLabelText(/Major/));
+      fireEvent.click(screen.getByText("Computational Sciences")); // Replace with actual text
+
+      // Wait for concentrations to be populated
+      await waitFor(() => {
+        expect(screen.getByText("Applied Problem Solving")).toBeInTheDocument();
+      });
+
+      // Check if the submit button is still disabled because concentration has not been selected
+      submitButton = screen.getByRole("button", { name: /Submit/ });
+      expect(submitButton).toBeDisabled();
+    });
 
     await waitFor(() => {
       expect(mockPost).toHaveBeenCalledWith("/userdata", expectedFormData);

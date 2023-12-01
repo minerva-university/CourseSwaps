@@ -49,7 +49,9 @@ const ViewUserProfile = ({ closeViewProfile }) => {
 
   const handleEditClick = () => {
     closeViewProfile();
-    navigate("/userform", { state: { ...userData, isUpdateMode: true } });
+    navigate("/userform", {
+      state: { userData: userData, isUpdateMode: true },
+    });
   };
 
   // Conditional rendering to check if userData properties are populated
