@@ -26,6 +26,14 @@ const validateFormData = (formData) => {
     console.log("form Is valid at conc", formIsValid);
   }
 
+  // Validate Concentration
+  if (formData.major === "Computational Sciences") {
+    if (typeof formData.concentration === "string" && !formData.concentration) {
+      errors.concentration = "Concentration is required";
+      formIsValid = false;
+    }
+  }
+
   // Check Minerva ID is exactly 6 numeric characters
   if (
     typeof formData.minervaID === "string" &&
