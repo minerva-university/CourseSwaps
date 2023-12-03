@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useApi } from '../../contexts/ApiProvider';
-import validateFormData from './UserFormValidator';
+import coursesData from "../../courses_data/courses.json"; //for the current classes and previous courses
+import majorsData from "../../courses_data/data.json"; //for the concentrations and majors
+import React, { useState, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+import { useApi } from "../../contexts/ApiProvider";
+import validateFormData from "./UserFormValidator";
 import {
   TextField,
   Button,
@@ -15,71 +17,177 @@ import {
   Grid,
   Checkbox,
   FormHelperText,
-  Autocomplete,
-} from '@mui/material';
+} from "@mui/material";
+import Autocomplete from "@mui/material/Autocomplete";
 
-import coursesData from '../../courses_data/courses.json';
-import majorsData from '../../courses_data/data.json';
+const formControlStyle = {
+  flexGrow: 1,
+  margin: "8px",
+};
 
-// Styles
-const formControlStyle = { flexGrow: 1, margin: '8px' };
-const paperStyle = { padding: '20px', width: '100%', maxWidth: '600px', margin: 'auto', marginTop: '50px' };
-const titleStyle = { marginBottom: '16px', textAlign: 'center', fontSize: '24px' };
-const submitButtonStyle = { marginTop: '16px', display: 'block', marginLeft: 'auto' };
-const gridContainerStyle = { display: 'flex', flexDirection: 'column', alignItems: 'center' };
-const autocompleteStyle = { flexGrow: 1, margin: '8px' };
-const menuPaperStyle = { maxHeight: 200 };
-const menuProps = { PaperProps: { style: menuPaperStyle } };
-const dualFieldContainerStyle = { display: 'flex', justifyContent: 'space-between', gap: '16px', width: '100%', margin: '8px 0' };
-const halfWidthContainerStyle = { display: 'flex', justifyContent: 'center', width: '100%', maxWidth: '800px', margin: '8px 0' };
+const paperStyle = {
+  padding: "20px",
+  width: "100%",
+  maxWidth: "600px",
+  margin: "auto",
+  marginTop: "50px",
+};
+
+const titleStyle = {
+  marginBottom: "16px",
+  textAlign: "center",
+  fontSize: "24px",
+};
+
+const submitButtonStyle = {
+  marginTop: "16px",
+  display: "block",
+  marginLeft: "auto",
+};
+
+const gridContainerStyle = {
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+};
+
+const autocompleteStyle = {
+  flexGrow: 1,
+  margin: "8px",
+};
+
+const menuPaperStyle = {
+  maxHeight: 200,
+};
+
+const menuProps = {
+  PaperProps: {
+    style: menuPaperStyle,
+  },
+};
+
+// for the major and concentration input fields
+const dualFieldContainerStyle = {
+  display: "flex",
+  justifyContent: "space-between",
+  gap: "16px",
+  width: "100%",
+  margin: "8px 0",
+};
+
+// for the minor input field
+const halfWidthContainerStyle = {
+  display: "flex",
+  justifyContent: "center",
+  width: "100%",
+  maxWidth: "800px",
+  margin: "8px 0",
+};
 
 export default function UserFormPage() {
-  const [formData, setFormData] = useState({
-    class: '',
-    minervaID: '',
-    currentClasses: [],
-    previousCourses: [],
-    major: '',
-    concentration: '',
-    minor: '',
-  });
-  const [formErrors, setFormErrors] = useState({});
+  const location = useLocation();
   const navigate = useNavigate();
-  const api = useApi();
 
-  const handleChange = (event, newValue) => {
-    if (event.target.name === 'currentClasses' || event.target.name === 'previousCourses') {
-      setFormData({ ...formData, [event.target.name]: newValue });
+  // Extract properties from location.state
+  const {
+    class: userClass = "",
+    minervaID = "",
+    currentClasses = [],
+    previousCourses = [],
+    major = "",
+    concentration = "",
+    minor = "",
+    isUpdateMode = false,
+  } = location.state || {};
+
+  // Initialize formData with default properties
+  const initialFormData = {
+    class: userClass,
+    minervaID,
+    currentClasses,
+    previousCourses,
+    major,
+    concentration,
+    minor,
+  };
+
+  const [formData, setFormData] = useState(initialFormData);
+
+  const [formErrors, setFormErrors] = useState({});
+  const userData = location.state?.userData || {};
+
+  // useEffect to set initial form values when userData is available
+  useEffect(() => {
+    if (userData && isUpdateMode) {
+      setFormData({
+        ...initialFormData,
+        ...userData,
+        concentration: userData.concentration,
+      });
+    }
+    // Set a timeout to ensure the concentrations for the major are loaded
+    const timeoutId = setTimeout(() => {
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        // Set the concentration after the major
+        concentration: userData.concentration,
+      }));
+    }, 0);
+
+    return () => clearTimeout(timeoutId);
+  }, [userData, isUpdateMode, initialFormData]);
+  // console.log("userData is:", userData);
+  // console.log("isUpdateMode is:", isUpdateMode);
+
+  // Function to check for any form errors
+  const checkForErrors = (data) => {
+    const validation = validateFormData(data);
+    setFormErrors(validation.errors);
+    console.log("formErrors is:", formErrors);
+    return validation.isValid;
+  };
+
+  // Handle field changes and perform live validation
+  const handleChange = (e, newValue) => {
+    if (
+      e.target.name === "currentClasses" ||
+      e.target.name === "previousCourses"
+    ) {
+      setFormData({ ...formData, [e.target.name]: newValue });
+      // validation check after the state is updated
+      setTimeout(
+        () => checkForErrors({ ...formData, [e.target.name]: newValue }),
+        0
+      );
     } else {
-      const { name, value } = event.target;
+      const { name, value } = e.target;
       setFormData({ ...formData, [name]: value });
-  
-      // Real-time validation for Minerva Student ID
-      if (name === 'minervaID') {
-        setFormErrors({
-          ...formErrors,
-          minervaID: /^\d{6}$/.test(value) ? '' : 'ID must be exactly 6 digits'
-        });
-      }
+      // validation check after the state is updated
+      setTimeout(() => checkForErrors({ ...formData, [name]: value }), 0);
     }
   };
 
+  const api = useApi();
+  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     const validation = validateFormData(formData);
     setFormErrors(validation.errors);
 
+    const endpoint = isUpdateMode ? "/update-user" : "/userdata";
+    const method = isUpdateMode ? api.put : api.post;
+
     if (validation.isValid) {
       try {
-        const response = await api.post('/userdata', formData);
+        const response = await method(endpoint, formData);
         if (response.status === 200) {
-          console.log('Successfully registered user');
-          navigate('/');
+          console.log("Operation successful");
+          navigate("/");
         } else {
-          console.log('Failed to register user');
+          console.log("Operation failed");
         }
       } catch (error) {
-        console.error('Error submitting form', error);
+        console.error("Error", error);
       }
     }
   };
@@ -87,9 +195,16 @@ export default function UserFormPage() {
   return (
     <Grid container style={gridContainerStyle}>
       <Paper elevation={3} style={paperStyle}>
-        <Typography variant="h4" style={titleStyle}>
-          Fill out the form below to create your profile
-        </Typography>
+        {isUpdateMode ? (
+          <Typography variant="h4" style={titleStyle}>
+            Update your profile
+          </Typography>
+        ) : (
+          <Typography variant="h4" style={titleStyle}>
+            Fill out the form below to create your profile
+          </Typography>
+        )}
+        <Divider style={{ marginBottom: "16px" }} />
         <form onSubmit={handleSubmit}>
           <div style={dualFieldContainerStyle}>
             <FormControl error={!!formErrors.class} style={formControlStyle}>
@@ -191,12 +306,24 @@ export default function UserFormPage() {
                 value={formData.concentration}
                 onChange={handleChange}
                 label="Concentration"
+                required
               >
                 {/* Populate concentrations based on selected major */}
+                {console.log("Concentration value:", formData.concentration)}
+                {console.log(
+                  "Concentration options:",
+                  majorsData.majors.find(
+                    (major) => major.majorId === formData.major
+                  )?.concentrations
+                )}
+                {/* Flatten the Concentrations array and populate the options */}
                 {majorsData.majors
                   .find((major) => major.majorId === formData.major)
-                  ?.Concentrations.map((concentration) => (
-                    <MenuItem key={concentration} value={concentration}>
+                  ?.Concentrations.flatMap(
+                    (concentrationArray) => concentrationArray
+                  )
+                  .map((concentration, index) => (
+                    <MenuItem key={index} value={concentration}>
                       {concentration}
                     </MenuItem>
                   ))}
@@ -277,7 +404,7 @@ export default function UserFormPage() {
             style={submitButtonStyle}
             disabled={!validateFormData(formData).isValid}
           >
-            Submit
+            {isUpdateMode ? "Update" : "Submit"}
           </Button>
         </form>
       </Paper>

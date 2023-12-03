@@ -18,18 +18,20 @@ const validateFormData = (formData) => {
     errors.previousCourses = "Select at least one previous course";
     formIsValid = false;
   }
-  if (
-    typeof formData.concentration === "string" &&
-    !formData.concentration.trim()
-  ) {
-    errors.concentration = "Concentration is required";
+
+  // Validate Current Courses
+  if (formData.currentClasses && formData.currentClasses.length === 0) {
+    errors.currentClasses = "Select at least one current course";
     formIsValid = false;
-  } else if (
-    Array.isArray(formData.concentration) &&
-    formData.concentration.length === 0
-  ) {
-    errors.concentration = "Concentration is required";
-    formIsValid = false;
+    console.log("form Is valid at conc", formIsValid);
+  }
+
+  // Validate Concentration
+  if (formData.major === "Computational Sciences") {
+    if (typeof formData.concentration === "string" && !formData.concentration) {
+      errors.concentration = "Concentration is required";
+      formIsValid = false;
+    }
   }
 
   // Check Minerva ID is exactly 6 numeric characters
