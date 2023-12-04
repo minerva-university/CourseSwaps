@@ -24,7 +24,7 @@ def mycourses():
             .filter(UserCurrentCourses.user_id == current_user.id)
             .all()
         )
-        print("User's current courses: ", current_courses)
+
         return (
             jsonify(
                 {
@@ -32,7 +32,7 @@ def mycourses():
                         {
                             "name": course.name,
                             "code": course.code,
-                            "time": course.time,
+                            # "time": course.time,
                             # "prerequisites": course.prerequisites,
                         }
                         for course in current_courses
@@ -52,8 +52,6 @@ def add_current_courses():
     """
     Add courses to the current user
     """
-
-    print("Current user: ", current_user)
 
     if not current_user.is_authenticated:
         return jsonify({"error": "User not logged in"}), 401

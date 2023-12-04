@@ -1,7 +1,8 @@
 import React from "react";
 import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
 
-const PickupCourseItem = ({ title }) => {
+const PickupCourseItem = ({ code, title, count }) => {
   return (
     <Box
       sx={{
@@ -13,7 +14,7 @@ const PickupCourseItem = ({ title }) => {
         marginBottom: 2,
       }}
     >
-      {title}
+      {code}: {title}<br></br>Available: {count}
     </Box>
   );
 };
