@@ -10,7 +10,7 @@ function Logout({ setUser, setAuthenticated }) {
 
     // Clear the user data by calling setUser with an empty object
     setUser({});
-    setAuthenticated(false)
+    setAuthenticated(false);
 
     // Navigate to the home page or any other appropriate page after logout
     navigate("/");

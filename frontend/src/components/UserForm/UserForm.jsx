@@ -47,9 +47,11 @@ export default function UserFormPage() {
   const navigate = useNavigate();
   const api = useApi();
 
+  
   const handleChange = (event, newValue) => {
     if (event.target.name === 'currentClasses' || event.target.name === 'previousCourses') {
       setFormData({ ...formData, [event.target.name]: newValue });
+
     } else {
       const { name, value } = event.target;
       setFormData({ ...formData, [name]: value });

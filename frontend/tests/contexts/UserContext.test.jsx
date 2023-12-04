@@ -24,7 +24,7 @@ describe("UserContext", () => {
         <AuthProvider>
           <div>Test</div>
         </AuthProvider>
-      </GoogleOAuthProvider>
+      </GoogleOAuthProvider>,
     );
 
     expect(getByText("Test")).toBeInTheDocument();
@@ -42,7 +42,7 @@ describe("UserContext", () => {
         <AuthProvider>
           <TestComponent />
         </AuthProvider>
-      </GoogleOAuthProvider>
+      </GoogleOAuthProvider>,
     );
   });
 });

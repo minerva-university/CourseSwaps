@@ -24,7 +24,7 @@ describe("AuthPage", () => {
     render(
       <Router>
         <AuthPage />
-      </Router>
+      </Router>,
     );
     const signUpComponent = screen.getByTestId("signup-component");
     const loginComponent = screen.getByTestId("login-component");

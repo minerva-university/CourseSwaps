@@ -3,7 +3,7 @@ import { useAuth } from "../contexts/AuthProvider";
 import SignUp from "../components/Signup/Signup";
 import Login from "../components/Login/Login";
 import { Grid, Box } from "@mui/material";
-import { Navigate} from "react-router-dom";
+import { Navigate } from "react-router-dom";
 
 const AuthPage = () => {
   const { isAuthenticated, promptGoogleSignIn, user} = useAuth();
