@@ -14,9 +14,6 @@ class Users(db.Model, UserMixin):
     completed_courses = db.relationship(
         "UserCompletedCourses", backref="user", lazy=True
     )
-    minerva_id = db.Column(db.String(100))
-    concentration = db.Column(db.String(255))
-    minor = db.Column(db.String(100))
 
     def __repr__(self):
         return f"User('{self.id}. Current Courses: '{self.current_courses}', Completed Courses: '{self.completed_courses}', Courses Available to Swap:"  # noqa
