@@ -10,8 +10,7 @@ export const useRefresh = () => useContext(RefreshContext);
 
 export const RefreshProvider = ({ children }) => {
   const [refreshKey, setRefreshKey] = useState(0);
-  console.log("RefreshProvider");
-
+  
   const triggerRefresh = useCallback(() => {
     setRefreshKey(oldKey => oldKey + 1);
   }, []);

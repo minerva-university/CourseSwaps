@@ -18,14 +18,12 @@ const PickupComponent = ({ courseId }) => {
 
   const handlePickup = async () => {
     try {
-      console.log(courseId);
       const response = await api.post('/pickupcourse', { courseId });
       if (response.ok) {
         setSnackbarMessage("Course successfully picked up");
         setSnackbarSeverity("success");
         setOpen(true);
       } else {
-        console.log(response)
         setSnackbarMessage(response.body.error)
         setSnackbarSeverity("error");
         setOpen(true);

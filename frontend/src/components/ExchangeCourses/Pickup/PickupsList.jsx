@@ -17,7 +17,6 @@ const PickupsList = () => {
         const response = await api.get('/availableforpickup');
         if (response.ok && response.status === 200) {
           setCourses(response.body.available_courses);
-          console.log(response.body.available_courses)
         } else {
           console.error('Failed to fetch courses', response);
         }
