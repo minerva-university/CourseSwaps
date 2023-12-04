@@ -13,15 +13,16 @@ def register():
         data = request.get_json()
         class_year = data["class"]
         major = data["major"]
-        currently_assigned = set(data["currentClasses"])  # Use sets for easier comparison
+        currently_assigned = set(data["currentClasses"])
         completed_courses = set(data["previousCourses"])
         minerva_id = data.get("minervaID")
-        concentration = ', '.join(data.get("concentration", [])) if data.get("concentration") else None
         minor = data.get("minor", None)
 
         user = Users.query.filter_by(id=current_user.id).first()
         if not user:
             return jsonify({"error": "User not found"}), 404
+
+        concentration = data.get("concentration", user.concentration)
 
         user.class_year = class_year
         user.major = major
@@ -107,7 +108,7 @@ def get_user_data():
             "previousCourses": [course.course.code for course in user.completed_courses],
         }
 
-        # print("user data is: ", user_data)
+        print("user data is: ", user_data)
         return jsonify(user_data), 200
 
     except Exception as e:

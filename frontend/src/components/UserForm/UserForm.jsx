@@ -119,23 +119,15 @@ export default function UserFormPage() {
   // useEffect to set initial form values when userData is available
   useEffect(() => {
     if (userData && isUpdateMode) {
+      // Populate form with userData in update mode
       setFormData({
         ...initialFormData,
         ...userData,
-        concentration: userData.concentration,
+        concentration: userData.concentration || "",
       });
     }
-    // Set a timeout to ensure the concentrations for the major are loaded
-    const timeoutId = setTimeout(() => {
-      setFormData((prevFormData) => ({
-        ...prevFormData,
-        // Set the concentration after the major
-        concentration: userData.concentration,
-      }));
-    }, 0);
+  }, [userData, isUpdateMode]);
 
-    return () => clearTimeout(timeoutId);
-  }, [userData, isUpdateMode, initialFormData]);
   // console.log("userData is:", userData);
   // console.log("isUpdateMode is:", isUpdateMode);
 
@@ -308,21 +300,16 @@ export default function UserFormPage() {
                 label="Concentration"
                 required
               >
-                {/* Populate concentrations based on selected major */}
                 {console.log("Concentration value:", formData.concentration)}
                 {console.log(
                   "Concentration options:",
                   majorsData.majors.find(
                     (major) => major.majorId === formData.major
-                  )?.concentrations
+                  )?.Concentrations
                 )}
-                {/* Flatten the Concentrations array and populate the options */}
                 {majorsData.majors
                   .find((major) => major.majorId === formData.major)
-                  ?.Concentrations.flatMap(
-                    (concentrationArray) => concentrationArray
-                  )
-                  .map((concentration, index) => (
+                  ?.Concentrations.map((concentration, index) => (
                     <MenuItem key={index} value={concentration}>
                       {concentration}
                     </MenuItem>
