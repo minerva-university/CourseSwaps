@@ -142,7 +142,10 @@ def update_user():
 
         # Add new current courses
         for course_code in new_current_courses:
-            if all(course_code != user_course.course.code for user_course in user.current_courses if user_course.course is not None):
+            if all(
+                    course_code != user_course.course.code
+                    for user_course in user.current_courses
+                    if user_course.course is not None):
                 course = Courses.query.filter_by(code=course_code).first()
                 if course:
                     user.current_courses.append(UserCurrentCourses(user_id=user.id, course_id=course.id))
@@ -157,7 +160,10 @@ def update_user():
 
         # Add new previous courses
         for course_code in new_previous_courses:
-            if all(course_code != user_completed_course.course.code for user_completed_course in user.completed_courses if user_completed_course.course is not None):
+            if all(
+                    course_code != user_completed_course.course.code
+                    for user_completed_course in user.completed_courses
+                    if user_completed_course.course is not None):
                 course = Courses.query.filter_by(code=course_code).first()
                 if course:
                     user.completed_courses.append(UserCompletedCourses(user_id=user.id, course_id=course.id))
