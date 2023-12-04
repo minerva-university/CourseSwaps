@@ -1,6 +1,5 @@
 from flask import Blueprint, request, jsonify, session
-from werkzeug.security import generate_password_hash
-from flask_login import login_user
+from flask_login import login_user, login_required
 from ..models import Users, db
 from authlib.integrations.flask_client import OAuth
 import os
@@ -19,22 +18,6 @@ google = oauth.register(
     api_base_url="https://www.googleapis.com/oauth2/v1/",
     client_kwargs={"scope": "openid profile email"},
 )
-
-
-@auth_bp.route("/register", methods=["POST"])
-def register():
-    #  TODO : needs refactoring to cater for the now changed auth login.
-    data = request.get_json()
-    username = data.get("username")
-    password = data.get("password")
-    email = data.get("email")
-    if username and password:
-        hashed_password = generate_password_hash(password, method="pbkdf2")
-        new_user = Users(name=username, password=hashed_password, email=email)
-        db.session.add(new_user)
-        db.session.commit()
-        return jsonify({"message": "Registration successful"}), 200
-    return jsonify({"error": "Invalid Input"}), 400
 
 
 @auth_bp.route("/auth/google", methods=["POST"])
@@ -57,6 +40,9 @@ def login():
         user = Users(id=user_id)
         db.session.add(user)
         db.session.commit()
+        new_user = True
+    else:
+        new_user = False
 
     login_user(user)
     session["profile"] = resp.json()
@@ -68,6 +54,7 @@ def login():
                     "id": user_id,
                     "given_name": given_name,
                     "picture": picture,
+                    "new_user": new_user,
                 },
                 "message": "Login successful",
             }
@@ -77,6 +64,7 @@ def login():
 
 
 @auth_bp.route("/logout", methods=["POST"])
+@login_required
 def logout():
     # Logout logic here, e.g., clear a session or token
     return jsonify({"message": "Logout successful"}), 200
