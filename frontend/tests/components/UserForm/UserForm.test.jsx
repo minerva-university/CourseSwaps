@@ -24,7 +24,7 @@ describe("UserFormPage", () => {
     expect(screen.getByLabelText(/Class/)).toBeInTheDocument();
     expect(screen.getByLabelText(/Minerva Student ID/)).toBeInTheDocument();
     expect(
-      screen.getByLabelText(/Currently Assigned Courses by MU Registrar/)
+      screen.getByLabelText(/Currently Assigned Courses by MU Registrar/),
     ).toBeInTheDocument();
     expect(
       screen.getByLabelText(/Previous Courses/)
@@ -55,11 +55,11 @@ describe("UserFormPage", () => {
 
     // Simulate selecting current classes
     const currentClassesSelect = screen.getByLabelText(
-      /Currently Assigned Courses by MU Registrar/
+      /Currently Assigned Courses by MU Registrar/,
     );
     fireEvent.mouseDown(currentClassesSelect);
     const currentClassOption = await screen.findByText(
-      "CS110 - Problem Solving with Data Structures and Algorithms"
+      "CS110 - Problem Solving with Data Structures and Algorithms",
     );
     fireEvent.click(currentClassOption);
 
@@ -71,14 +71,14 @@ describe("UserFormPage", () => {
     // Simulate selecting a concentration (assuming it's dependent on the major)
     fireEvent.mouseDown(screen.getByLabelText(/Concentration/));
     const concentrationOption = await screen.findByText(
-      "Applied Problem Solving"
+      "Applied Problem Solving",
     );
     fireEvent.click(concentrationOption);
 
     // Simulate selecting a minor
     fireEvent.mouseDown(screen.getByLabelText(/Minor/));
     const minorOption = await screen.findByText(
-      "Arts & Humanities - Philosophy, Ethics, and the Law"
+      "Arts & Humanities - Philosophy, Ethics, and the Law",
     );
     fireEvent.click(minorOption);
 
@@ -88,7 +88,7 @@ describe("UserFormPage", () => {
     );
     fireEvent.mouseDown(previousCoursesSelect);
     const allMatchingOptions = screen.getAllByText(
-      "CS113 - Theory and Applications of Linear Algebra"
+      "CS113 - Theory and Applications of Linear Algebra",
     );
     const previousCourseOption = allMatchingOptions[1];
     fireEvent.click(previousCourseOption);
