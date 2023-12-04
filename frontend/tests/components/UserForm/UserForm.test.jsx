@@ -26,7 +26,9 @@ describe("UserFormPage", () => {
     expect(
       screen.getByLabelText(/Currently Assigned Courses by MU Registrar/)
     ).toBeInTheDocument();
-    expect(screen.getByLabelText(/Previous Courses/)).toBeInTheDocument();
+    expect(
+      screen.getByLabelText(/Previous Courses/)
+    ).toBeInTheDocument();
     expect(screen.getByLabelText(/Major/)).toBeInTheDocument();
     expect(screen.getByLabelText(/Concentration/)).toBeInTheDocument();
     expect(screen.getByLabelText(/Minor/)).toBeInTheDocument();
@@ -61,16 +63,17 @@ describe("UserFormPage", () => {
     );
     fireEvent.click(currentClassOption);
 
-    // Simulate selecting a major which will dynamically set concentration options
+    // Simulate selecting a major
     fireEvent.mouseDown(screen.getByLabelText(/Major/));
-    fireEvent.click(screen.getByText("Computational Sciences"));
+    const majorOption = await screen.findByText("Computational Sciences"); // Replace with an actual major ID
+    fireEvent.click(majorOption);
 
-    // Simulate selecting a concentration
-    // Wait for the concentration options to be populated based on the selected major
-    await waitFor(() => {
-      fireEvent.mouseDown(screen.getByLabelText(/Concentration/));
-      fireEvent.click(screen.getByText("Applied Problem Solving"));
-    });
+    // Simulate selecting a concentration (assuming it's dependent on the major)
+    fireEvent.mouseDown(screen.getByLabelText(/Concentration/));
+    const concentrationOption = await screen.findByText(
+      "Applied Problem Solving"
+    );
+    fireEvent.click(concentrationOption);
 
     // Simulate selecting a minor
     fireEvent.mouseDown(screen.getByLabelText(/Minor/));
@@ -80,7 +83,9 @@ describe("UserFormPage", () => {
     fireEvent.click(minorOption);
 
     // Simulate selecting previous courses
-    const previousCoursesSelect = screen.getByLabelText(/Previous Courses/);
+    const previousCoursesSelect = screen.getByLabelText(
+      /Previous Courses/
+    );
     fireEvent.mouseDown(previousCoursesSelect);
     const allMatchingOptions = screen.getAllByText(
       "CS113 - Theory and Applications of Linear Algebra"
@@ -88,21 +93,23 @@ describe("UserFormPage", () => {
     const previousCourseOption = allMatchingOptions[1];
     fireEvent.click(previousCourseOption);
 
-    fireEvent.click(screen.getByText(/Submit/));
+    // Simulate form submission
+    const submitButton = screen.getByText(/Submit/);
+    fireEvent.click(submitButton);
+
+    // Check that the form data was logged to the console
+    const expectedFormData = {
+      minervaID: "123456",
+      class: "M24",
+      currentClasses: ["CS110"],
+      major: "Computational Sciences",
+      concentration: ["Applied Problem Solving"],
+      minor: "Arts & Humanities - Philosophy, Ethics, and the Law",
+      previousCourses: ["CS113"],
+    };
 
     await waitFor(() => {
-      const submittedData = mockPost.mock.calls[0][1];
-
-      expect(submittedData.minervaID).toBe("123456");
-      expect(submittedData.class).toBe("M24");
-      expect(submittedData.currentClasses).toEqual(["CS110"]);
-      expect(submittedData.major).toBe("Computational Sciences");
-      // Check if the selected concentration is one of the expected values
-      // expect(submittedData.concentration).toBeDefined();
-
-      expect(submittedData.minor).toBe(
-        "Arts & Humanities - Philosophy, Ethics, and the Law"
-      );
+      expect(mockPost).toHaveBeenCalledWith("/userdata", expectedFormData);
       expect(mockPost).toHaveBeenCalledTimes(1);
       expect(mockPost).toHaveReturnedWith(Promise.resolve({ status: 200 }));
     });
