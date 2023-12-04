@@ -94,7 +94,14 @@ def pickup_course():
 
         # If the course is not available for pickup
         if not course:
-            return jsonify({"error": "Course not available for pickup. Someone might have picked it up already."}), 400
+            return (
+                jsonify(
+                    {
+                        "error": "Course not available for pickup. Someone might have picked it up already."
+                    }
+                ),
+                400,
+            )
 
         # If the course count is 0
         if course.count == 0:

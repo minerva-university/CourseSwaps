@@ -115,13 +115,17 @@ class UserCompletedCourses(db.Model):
 # Available courses to just pickup
 class CoursesAvailableForPickup(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    course_id = db.Column(db.Integer, db.ForeignKey("courses.id"), nullable=False, unique=True)
+    course_id = db.Column(
+        db.Integer, db.ForeignKey("courses.id"), nullable=False, unique=True
+    )
     course = db.relationship("Courses")
     count = db.Column(db.Integer, nullable=False, default=0)
 
     def __repr__(self):
         # add time of the course with the course id
-        return f"CourseAvailableForPickup(Name: '{self.course.name}', Count: '{self.count}"
+        return (
+            f"CourseAvailableForPickup(Name: '{self.course.name}', Count: '{self.count}"
+        )
 
 
 # InitializationFlag model (table that will contain a single row that will indicate whether the database has been initialized or not)# noqa
