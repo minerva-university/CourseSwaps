@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -17,6 +17,12 @@ function Navbar() {
   // State to control the visibility of the Update User Profile component
   const [isViewProfileOpen, setIsViewProfileOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      setAnchorEl(null);
+    }
+  }, [isAuthenticated]);
 
   // Function to open the View User Profile component
   const openViewProfile = () => {
