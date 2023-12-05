@@ -65,9 +65,6 @@ def pickup_course():
     if not current_user.is_authenticated:
         return jsonify({"error": "User not logged in"}), 401
 
-    print(data)
-    print(course_id)
-
     try:
         # If the user already has 4 courses in their current courses return an error
         if len(current_user.current_courses) >= 4:
@@ -153,6 +150,51 @@ def pickup_course():
         db.session.commit()
 
         return jsonify({"message": "Course added to current courses"}), 200
+
+    except Exception as e:
+        print(f"Error: {e}")
+        return jsonify({"error": "Something went wrong"}), 500
+
+
+@availableforpickup_bp.route("/dropcourse", methods=["POST"])
+@login_required
+def drop_course():
+    """
+    Drop courses from the current user
+    """
+    data = request.get_json()
+    course_id = data.get("courseId")
+
+    if not current_user.is_authenticated:
+        return jsonify({"error": "User not logged in"}), 401
+
+    try:
+        # remove the course from the current user
+        user_current_course = (
+            db.session.query(UserCurrentCourses)
+            .filter(
+                (UserCurrentCourses.course_id == course_id)
+                & (UserCurrentCourses.user_id == current_user.id)
+            )
+            .first()
+        )
+        db.session.delete(user_current_course)
+        # if the course is present in available for pickup table, increment the count
+        course_available_for_pickup = (
+            db.session.query(CoursesAvailableForPickup)
+            .filter(CoursesAvailableForPickup.course_id == course_id)
+            .first()
+        )
+        if course_available_for_pickup:
+            course_available_for_pickup.count += 1
+        else:
+            course_available_for_pickup = CoursesAvailableForPickup(
+                course_id=course_id, count=1
+            )
+            db.session.add(course_available_for_pickup)
+        db.session.commit()
+
+        return jsonify({"message": "Course dropped"}), 200
 
     except Exception as e:
         print(f"Error: {e}")

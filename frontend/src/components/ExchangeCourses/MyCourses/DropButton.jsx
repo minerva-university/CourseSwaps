@@ -7,42 +7,71 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import DeleteIcon from "@mui/icons-material/Delete";
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from "@mui/material/Alert";
+import { useApi } from "../../../contexts/ApiProvider";
+import { useRefresh } from "../../../contexts/RefreshProvider";
 
-const DropCourseButton = ({ courseName }) => {
-  const [openDialog, setOpenDialog] = useState(false); // State to handle dialog open/close
-  const [confirmed, setConfirmed] = useState(false); // State to track confirmation
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
+
+const DropCourseButton = ({ courseName, courseId }) => {
+  const [openDialog, setOpenDialog] = useState(false);
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState('');
+  const [snackbarSeverity, setSnackbarSeverity] = useState('info');
+  const api = useApi();
+  const { triggerRefresh } = useRefresh();
 
   const handleOpenDialog = () => {
     setOpenDialog(true);
   };
 
-  const handleConfirm = () => {
-    console.log(`Course ${courseName} confirmed for drop.`);
-    // Perform the drop logic here
+  const handleConfirm = async () => {
+    try {
+      const response = await api.post("/dropcourse", { courseId });
+      console.log(response)
+      if (response.ok) {
+        setSnackbarMessage(response.body.message);
+        setSnackbarSeverity("success");
+      } else {
+        setSnackbarMessage(response.body.error);
+        setSnackbarSeverity("error");
+      }
+    } catch (error) {
+      setSnackbarMessage(`Error dropping course ${courseName}: ${error}`);
+      setSnackbarSeverity("error");
+    }
     setOpenDialog(false);
-    setConfirmed(true);
+    setOpenSnackbar(true);
+    triggerRefresh();
   };
 
   const handleCloseDialog = () => {
     setOpenDialog(false);
   };
 
+  const handleCloseSnackbar = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    console.log('Closing snackbar');
+    setOpenSnackbar(false);
+    setSnackbarMessage('');
+    setSnackbarSeverity('info');
+  };
   return (
-    <Box
-      sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}
-    >
-      {/* Drop Course button */}
+    <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
       <Button
         variant="outlined"
         size="small"
         onClick={handleOpenDialog}
-        startIcon={<DeleteIcon />} // Add the Delete icon as the start icon
-        disabled={confirmed} // Disable the button if already confirmed
+        startIcon={<DeleteIcon />}
       >
-        {confirmed ? "Dropped" : "Drop"}
+        Drop
       </Button>
 
-      {/* Confirmation Dialog */}
       <Dialog open={openDialog} onClose={handleCloseDialog}>
         <DialogTitle>Confirm Drop</DialogTitle>
         <DialogContent>
@@ -52,17 +81,17 @@ const DropCourseButton = ({ courseName }) => {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCloseDialog}>Cancel</Button>
-          {!confirmed && (
-            <Button
-              onClick={handleConfirm}
-              color="secondary"
-              sx={{ color: "black" }} // Set the text color to black
-            >
-              Confirm
-            </Button>
-          )}
+          <Button onClick={handleConfirm}>
+            Confirm
+          </Button>
         </DialogActions>
       </Dialog>
+
+      <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar}>
+        <Alert onClose={handleCloseSnackbar} severity={snackbarSeverity} sx={{ width: '100%' }}>
+          {snackbarMessage}
+        </Alert>
+      </Snackbar>
     </Box>
   );
 };
