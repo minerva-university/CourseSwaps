@@ -309,7 +309,6 @@ export default function UserFormPage() {
                 value={formData.concentration}
                 onChange={handleChange}
                 label="Concentration"
-                required
               >
                 {majorsData.majors
                   .find((major) => major.majorId === formData.major)
