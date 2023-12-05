@@ -4,27 +4,37 @@ import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
-import Button from "@mui/material/Button";
 import Avatar from "@mui/material/Avatar";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import { useAuth } from "../../contexts/AuthProvider";
 import ViewUserProfile from "../ViewUserProfile/ViewUserProfile";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import Tooltip from "@mui/material/Tooltip";
 
 function Navbar() {
   const { user, isAuthenticated, logout } = useAuth();
   // State to control the visibility of the Update User Profile component
   const [isViewProfileOpen, setIsViewProfileOpen] = useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
 
   // Function to open the View User Profile component
   const openViewProfile = () => {
     setIsViewProfileOpen(true);
+  };
+  const handleAvatarClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
   };
 
   const MINERVA_LOGO =
     "https://assets-global.website-files.com/64ca995f0fd30a33b2fd01cc/64ca995f0fd30a33b2fd03e4_minerva.svg";
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar>
+      <AppBar position="static">
         <Toolbar
           sx={{
             display: "flex",
@@ -54,20 +64,30 @@ function Navbar() {
                 <NotificationsIcon />
               </IconButton>
               <Typography variant="subtitle1">{user.given_name}</Typography>
-              <Avatar
-                alt={"User's Picture"}
-                src={user.picture}
-                onClick={openViewProfile}
-              />
-              <Button color="inherit" onClick={logout}>
-                Logout
-              </Button>
+
+              <Tooltip title="View Profile">
+                <Avatar
+                  alt={"User's Picture"}
+                  src={user.picture}
+                  onClick={handleAvatarClick}
+                  style={{ cursor: "pointer" }}
+                />
+              </Tooltip>
+              <Menu
+                anchorEl={anchorEl}
+                open={Boolean(anchorEl)}
+                onClose={handleMenuClose}
+              >
+                <MenuItem onClick={openViewProfile}>View Profile</MenuItem>
+                <MenuItem onClick={logout}>Logout</MenuItem>
+              </Menu>
             </Box>
           ) : (
             <Box></Box>
           )}
         </Toolbar>
       </AppBar>
+
       {/* Conditional rendering of View User Profile component */}
       {isViewProfileOpen && (
         <div

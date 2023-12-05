@@ -173,5 +173,5 @@ def update_user():
 
     except Exception as e:
         db.session.rollback()
-        current_app.logger.error(f"Error in update_user: {e}")
+        # current_app.logger.error(f"Error in update_user: {e}")
         return jsonify({"error": str(e)}), 500
