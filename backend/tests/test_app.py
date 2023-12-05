@@ -2,6 +2,7 @@ import unittest
 from unittest.mock import patch
 from API import create_app, db
 from API.models import Users
+from flask_login import login_user
 
 
 class APITestCase(unittest.TestCase):
@@ -57,10 +58,28 @@ class APITestCase(unittest.TestCase):
         self.assertIn("Login successful", response.json["message"])
 
     def test_auth_logout(self):
-        # Attempt to logout (assuming login is done via a different mechanism in tests)
-        logout_response = self.client.post("/api/logout")
-        self.assertEqual(logout_response.status_code, 200)
-        self.assertEqual(logout_response.json["message"], "Logout successful")
+        with self.app.app_context():
+            # Create a mock user instance
+            user = Users(id="1234567")
+            # Assuming you have a way to add and commit this user to your database, do that
+            with self.app.app_context():
+                db.session.add(user)
+                db.session.commit()
+
+            # Log in the user using Flask-Login
+            user = Users.query.get("1234567")
+            # Use the test client to create a request context
+            # Use the test client to create a request context
+
+            with self.client:
+                # Log in the user within the request context
+                with self.app.test_request_context("/"):
+                    login_user(user)
+
+                # Now, test the logout functionality
+                response = self.client.post("/api/auth/logout")
+                self.assertEqual(response.status_code, 200)
+                self.assertIn("Logout successful", response.json["message"])
 
 
 if __name__ == "__main__":
