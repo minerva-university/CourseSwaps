@@ -3,6 +3,7 @@ import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import Box from "@mui/material/Box";
+import { useApi } from "../../../contexts/ApiProvider";
 
 const SwapButton = () => {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -11,15 +12,11 @@ const SwapButton = () => {
   const [availableCourses, setAvailableCourses] = useState([]);
 
   const open = Boolean(anchorEl);
+  const api = useApi();
 
   const fetchAvailableSwaps = async () => {
     try {
-      const response = await fetch("/availableswaps", {
-        method: "GET",
-      });
-      if (!response.ok) {
-        throw new Error("Network response was not ok.");
-      }
+      const response = await api.get("/availableswaps");
       const data = await response.json();
       setAvailableCourses(data.availableswaps);
     } catch (error) {
