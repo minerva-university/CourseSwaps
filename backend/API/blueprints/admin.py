@@ -15,7 +15,7 @@ def add_availableforpickup():
     # Get all courses available for pickup. Return all data
     try:
         # to available to pickup add the course and increase the count of the course
-
+        pass
 
     except Exception as e:
         print(e)
