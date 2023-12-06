@@ -6,10 +6,12 @@ import {
   Typography,
   Autocomplete,
 } from "@mui/material";
+import { useApi } from "../../contexts/ApiProvider";
 
 const AddAvailableToPickup = ({ currentCourses }) => {
   const [selectedCourse, setSelectedCourse] = useState(null);
   const [quantity, setQuantity] = useState("");
+  const { api } = useApi();
 
   const handleCourseChange = (event, value) => {
     setSelectedCourse(value);
@@ -22,7 +24,25 @@ const AddAvailableToPickup = ({ currentCourses }) => {
   const handleSubmit = (event) => {
     event.preventDefault();
     console.log(`Course: ${selectedCourse?.courseId}, Quantity: ${quantity}`);
-    // Implement the logic to send data to the backend
+    if (selectedCourse && quantity) {
+      try {
+        const response = api.post("/admin/available-to-pickup", {
+          courseId: selectedCourse.courseId,
+          quantity,
+        });
+
+        console.log(response);
+        if (response.status === 200) {
+          alert("Course added successfully");
+        } else if (response.status === 401) {
+          alert(response.error);
+        } else {
+          alert("Error adding course");
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    }
   };
 
   return (
