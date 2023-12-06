@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
@@ -7,14 +7,40 @@ import SwapForm from "./SwapForm";
 import DropButton from "./DropButton";
 import Dialog from "@mui/material/Dialog";
 import DialogContent from "@mui/material/DialogContent";
+import { useApi } from "../../../contexts/ApiProvider";
+import { useRefresh } from "../../../contexts/RefreshProvider";
+
 
 const MyCoursesList = () => {
   const [selectedCourse, setSelectedCourse] = useState(null);
+  const [userCourses, setUserCourses] = useState([]);
   const [open, setOpen] = useState(false);
+  const api = useApi();
+  const { refreshKey } = useRefresh();
 
   // Dummy data for userCourses and availableCourses
-  const userCourses = ["Course 1", "Course 2", "Course 3"];
   const availableCourses = ["Course A", "Course B", "Course C"];
+
+  useEffect(() => {
+    const fetchUserCourses = async () => {
+      try {
+        const response = await api.get('/mycourses'); // Adjust the endpoint as needed
+        if (response.ok) {
+          if (response.body.current_courses) {
+          setUserCourses(response.body.current_courses);
+        } else {
+          console.error('The user currently has no courses. If this is a bug, contact the administrator.');
+        }
+        } else {
+          console.error('Error fetching courses', response.body.error);
+        }
+      } catch (error) {
+        console.error('Error fetching courses', error);
+      }
+    };
+
+    fetchUserCourses();
+  }, [api, refreshKey]);
 
   const handleSwapButtonClick = (course) => {
     setSelectedCourse(course);
@@ -64,8 +90,7 @@ const MyCoursesList = () => {
         >
           <Typography variant="body1" sx={{ marginRight: 1 }}>
             {" "}
-            {/* Add margin-right */}
-            {course}
+            {course.code}: {course.name}
           </Typography>
           <Box sx={{ display: "flex", gap: 1 }}>
             <Button
@@ -75,7 +100,7 @@ const MyCoursesList = () => {
             >
               <SwapHorizIcon />
             </Button>
-            <DropButton courseName={course} />
+            <DropButton key={course.id} courseName={course.name} courseId={course.id}/>
           </Box>
         </Box>
       ))}

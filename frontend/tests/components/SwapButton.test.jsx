@@ -1,7 +1,7 @@
 import React from "react";
-import { render, fireEvent, screen} from "@testing-library/react";
 import SwapButton from "../../src/components/ExchangeCourses/MyCourses/SwapButton";
 import { useApi } from "../../src/contexts/ApiProvider";
+import { render, screen, fireEvent } from "@testing-library/react";
 
 jest.mock("../../src/contexts/ApiProvider", () => ({
   useApi: jest.fn(),
