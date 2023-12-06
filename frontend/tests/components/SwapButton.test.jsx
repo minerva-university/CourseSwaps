@@ -1,5 +1,4 @@
 import React from "react";
-import { render, fireEvent, screen } from "@testing-library/react";
 import SwapButton from "../../src/components/ExchangeCourses/MyCourses/SwapButton";
 import { useApi } from "../../src/contexts/ApiProvider";
 
@@ -39,6 +38,7 @@ describe("SwapButton Component", () => {
 
     render(<SwapButton />);
     fireEvent.click(screen.getByRole("button", { name: /swap with/i }));
+
 
     expect(mockGet).toHaveBeenCalledTimes(1);
     expect(mockGet).toHaveBeenCalledWith("/availableswaps");
