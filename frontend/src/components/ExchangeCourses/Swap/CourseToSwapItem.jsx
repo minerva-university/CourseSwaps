@@ -13,7 +13,7 @@ const CourseToSwapItem = ({ username, givesCourse, wantsCourse }) => {
         marginBottom: 2,
       }}
     >
-      {username} {givesCourse} {wantsCourse}
+      {username}<br></br>Gives: {givesCourse.code}: {givesCourse.title} at {givesCourse.time}<br></br>Wants: {wantsCourse.code}: {wantsCourse.title} at {wantsCourse.time}
     </Box>
   );
 };
