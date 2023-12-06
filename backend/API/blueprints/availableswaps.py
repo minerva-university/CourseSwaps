@@ -15,7 +15,7 @@ availableswaps_bp = Blueprint("availableswaps_bp", __name__)
 @availableswaps_bp.route("/availableswaps", methods=["GET"])
 @login_required
 def availableswaps():
-    print("A user is trying to get available swaps")
+    print("Current user: ", current_user)
     if not current_user.is_authenticated:
         return jsonify({"error": "User not logged in"}), 401
 
@@ -68,7 +68,7 @@ def availableswaps():
 @availableswaps_bp.route("/availableswaps", methods=["POST"])
 @login_required
 def add_available_swap():
-    print("A user is trying to add an available swap")
+    print("Current user: ", current_user)
     if not current_user.is_authenticated:
         return jsonify({"error": "User not logged in"}), 401
 

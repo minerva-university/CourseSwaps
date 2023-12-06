@@ -15,7 +15,7 @@ def mycourses():
     """
     Get all courses for the current user
     """
-    print("A user is trying to get their courses")
+    print("Current user: ", current_user)
     if not current_user.is_authenticated:
         return jsonify({"error": "User not logged in"}), 401
 
