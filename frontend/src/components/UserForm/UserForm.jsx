@@ -1,9 +1,7 @@
-import coursesData from "../../courses_data/courses.json"; //for the current classes and previous courses
-import majorsData from "../../courses_data/data.json"; //for the concentrations and majors
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { useApi } from "../../contexts/ApiProvider";
-import validateFormData from "./UserFormValidator";
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useApi } from '../../contexts/ApiProvider';
+import validateFormData from './UserFormValidator';
 import {
   TextField,
   Button,
@@ -17,131 +15,73 @@ import {
   Grid,
   Checkbox,
   FormHelperText,
-} from "@mui/material";
-import Autocomplete from "@mui/material/Autocomplete";
+  Autocomplete,
+} from '@mui/material';
 
-const formControlStyle = {
-  flexGrow: 1,
-  margin: "8px",
-};
+import coursesData from '../../courses_data/courses.json';
+import majorsData from '../../courses_data/data.json';
 
-const paperStyle = {
-  padding: "20px",
-  width: "100%",
-  maxWidth: "600px",
-  margin: "auto",
-  marginTop: "50px",
-};
-
-const titleStyle = {
-  marginBottom: "16px",
-  textAlign: "center",
-  fontSize: "24px",
-};
-
-const submitButtonStyle = {
-  marginTop: "16px",
-  display: "block",
-  marginLeft: "auto",
-};
-
-const gridContainerStyle = {
-  display: "flex",
-  flexDirection: "column",
-  alignItems: "center",
-};
-
-const autocompleteStyle = {
-  flexGrow: 1,
-  margin: "8px",
-};
-
-const menuPaperStyle = {
-  maxHeight: 200,
-};
-
-const menuProps = {
-  PaperProps: {
-    style: menuPaperStyle,
-  },
-};
-
-// for the major and concentration input fields
-const dualFieldContainerStyle = {
-  display: "flex",
-  justifyContent: "space-between",
-  gap: "16px",
-  width: "100%",
-  margin: "8px 0",
-};
-
-// for the minor input field
-const halfWidthContainerStyle = {
-  display: "flex",
-  justifyContent: "center",
-  width: "100%",
-  maxWidth: "800px",
-  margin: "8px 0",
-};
+// Styles
+const formControlStyle = { flexGrow: 1, margin: '8px' };
+const paperStyle = { padding: '20px', width: '100%', maxWidth: '600px', margin: 'auto', marginTop: '50px' };
+const titleStyle = { marginBottom: '16px', textAlign: 'center', fontSize: '24px' };
+const submitButtonStyle = { marginTop: '16px', display: 'block', marginLeft: 'auto' };
+const gridContainerStyle = { display: 'flex', flexDirection: 'column', alignItems: 'center' };
+const autocompleteStyle = { flexGrow: 1, margin: '8px' };
+const menuPaperStyle = { maxHeight: 200 };
+const menuProps = { PaperProps: { style: menuPaperStyle } };
+const dualFieldContainerStyle = { display: 'flex', justifyContent: 'space-between', gap: '16px', width: '100%', margin: '8px 0' };
+const halfWidthContainerStyle = { display: 'flex', justifyContent: 'center', width: '100%', maxWidth: '800px', margin: '8px 0' };
 
 export default function UserFormPage() {
   const [formData, setFormData] = useState({
-    class: "",
-    minervaID: "",
+    class: '',
+    minervaID: '',
     currentClasses: [],
     previousCourses: [],
-    major: "",
-    concentration: "",
-    minor: "",
+    major: '',
+    concentration: '',
+    minor: '',
   });
   const [formErrors, setFormErrors] = useState({});
   const navigate = useNavigate();
+  const api = useApi();
 
-  // Function to check for any form errors
-  const checkForErrors = (data) => {
-    const validation = validateFormData(data);
-    setFormErrors(validation.errors);
-    return validation.isValid;
-  };
+  
+  const handleChange = (event, newValue) => {
+    if (event.target.name === 'currentClasses' || event.target.name === 'previousCourses') {
+      setFormData({ ...formData, [event.target.name]: newValue });
 
-  // Handle field changes and perform live validation
-  const handleChange = (e, newValue) => {
-    if (
-      e.target.name === "currentClasses" ||
-      e.target.name === "previousCourses"
-    ) {
-      setFormData({ ...formData, [e.target.name]: newValue });
-      // Perform validation check after the state is updated
-      setTimeout(
-        () => checkForErrors({ ...formData, [e.target.name]: newValue }),
-        0
-      );
     } else {
-      const { name, value } = e.target;
+      const { name, value } = event.target;
       setFormData({ ...formData, [name]: value });
-      // Perform validation check after the state is updated
-      setTimeout(() => checkForErrors({ ...formData, [name]: value }), 0);
+  
+      // Real-time validation for Minerva Student ID
+      if (name === 'minervaID') {
+        setFormErrors({
+          ...formErrors,
+          minervaID: /^\d{6}$/.test(value) ? '' : 'ID must be exactly 6 digits'
+        });
+      }
     }
   };
 
-  const api = useApi();
   const handleSubmit = async (e) => {
     e.preventDefault();
     const validation = validateFormData(formData);
     setFormErrors(validation.errors);
 
     if (validation.isValid) {
-      // Submit the form data
       try {
-        const response = await api.post("/userdata", formData);
+        const response = await api.post('/userdata', formData);
         if (response.status === 200) {
-          console.log("Successfully registered user");
-          navigate("/");
+          console.log('Successfully registered user');
+          navigate('/');
         } else {
-          console.log("Failed to register user");
+          console.log('Failed to register user');
         }
       } catch (error) {
-        console.error("Error submitting form", error);
+        console.error('Error submitting form', error);
       }
     }
   };

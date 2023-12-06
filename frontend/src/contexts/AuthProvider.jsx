@@ -8,10 +8,10 @@ export const useAuth = () => useContext(AuthContext);
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(
-    JSON.parse(localStorage.getItem("user")) || null
+    JSON.parse(localStorage.getItem("user")) || null,
   );
   const [isAuthenticated, setisAuthenticated] = useState(
-    JSON.parse(localStorage.getItem("isAuthenticated")) || false
+    JSON.parse(localStorage.getItem("isAuthenticated")) || false,
   );
   const api = useApi();
 
