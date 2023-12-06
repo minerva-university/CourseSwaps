@@ -1,7 +1,7 @@
 import React from "react";
 import Box from "@mui/material/Box";
 
-const CourseToSwapItem = ({ title }) => {
+const CourseToSwapItem = ({ username, givesCourse, wantsCourse }) => {
   return (
     <Box
       sx={{
@@ -13,7 +13,7 @@ const CourseToSwapItem = ({ title }) => {
         marginBottom: 2,
       }}
     >
-      {title}
+      {username}<br></br>Gives: {givesCourse.code}: {givesCourse.title} at {givesCourse.time}<br></br>Wants: {wantsCourse.code}: {wantsCourse.title} at {wantsCourse.time}
     </Box>
   );
 };
