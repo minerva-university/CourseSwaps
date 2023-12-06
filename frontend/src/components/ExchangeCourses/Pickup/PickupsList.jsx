@@ -1,32 +1,42 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import Box from "@mui/material/Box";
 import PickupCourseItem from "./PickupCourseItem";
 import Typography from "@mui/material/Typography";
 import { useApi } from "../../../contexts/ApiProvider";
 import { useRefresh } from "../../../contexts/RefreshProvider";
+import { usePeriodicRefresh } from "../../../contexts/usePeriodicRefresh";
 
 const PickupsList = () => {
   const [courses, setCourses] = useState([]);
   const api = useApi();
   const { refreshKey } = useRefresh();
+  const { subscribe, unsubscribe } = usePeriodicRefresh();
 
+  // useCallback to memoize the fetchCourses function
+  const fetchCourses = useCallback(async () => {
+    try {
+      const response = await api.get('/availableforpickup');
+      if (response.ok && response.status === 200) {
+        setCourses(response.body.available_courses);
+      } else {
+        console.error('Failed to fetch courses', response);
+      }
+    } catch (error) {
+      console.error('Error fetching courses:', error);
+    }
+  }, [api]); // api as dependency
 
   useEffect(() => {
-    const fetchCourses = async () => {
-      try {
-        const response = await api.get('/availableforpickup');
-        if (response.ok && response.status === 200) {
-          setCourses(response.body.available_courses);
-        } else {
-          console.error('Failed to fetch courses', response);
-        }
-      } catch (error) {
-        console.error('Error fetching courses:', error);
-      }
-    };
-
     fetchCourses();
-  }, [api, refreshKey]);
+  }, [fetchCourses, refreshKey]);
+
+  useEffect(() => {
+    subscribe(fetchCourses);
+
+    return () => {
+      unsubscribe(fetchCourses);
+    };
+  }, [subscribe, unsubscribe, fetchCourses]);
 
   return (
     <Box
