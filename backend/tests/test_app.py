@@ -81,5 +81,6 @@ class APITestCase(unittest.TestCase):
                 self.assertEqual(response.status_code, 200)
                 self.assertIn("Logout successful", response.json["message"])
 
+
 if __name__ == "__main__":
     unittest.main()
