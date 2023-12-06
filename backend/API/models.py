@@ -48,7 +48,12 @@ class Courses(db.Model):
         return f"Course('{self.name}', '{self.code}')"
 
     def to_dict(self):
-        return {"name": self.name, "code": self.code, "timeslot": self.timeslot_id}
+        return {
+            "name": self.name,
+            "code": self.code,
+            "timeslot": self.timeslot_id,
+            "prerequisites": self.prerequisites,
+        }  # noqa
 
 
 class CourseScheduleOptions(db.Model):

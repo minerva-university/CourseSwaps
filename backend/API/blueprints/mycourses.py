@@ -32,8 +32,11 @@ def mycourses():
                         {
                             "name": course.name,
                             "code": course.code,
-                            "time": course.time,
-                            # "prerequisites": course.prerequisites,
+                            "time": course.timeslot_id,
+                            "prerequisites": [
+                                {"name": prerequisite.name, "code": prerequisite.code}
+                                for prerequisite in course.prerequisites
+                            ],
                         }
                         for course in current_courses
                     ]
@@ -46,7 +49,7 @@ def mycourses():
         return jsonify({"error": "Something went wrong"}), 500
 
 
-@mycourses_bp.route("/mycourses", methods=["POST"])
+@mycourses_bp.route("/addmycourses", methods=["POST"])
 @login_required
 def add_current_courses():
     """
