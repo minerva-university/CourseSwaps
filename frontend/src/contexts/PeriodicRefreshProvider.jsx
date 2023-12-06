@@ -1,26 +1,10 @@
-import React, { createContext, useContext, useState, useEffect, useCallback } from "react";
+import React, { useEffect } from 'react';
+import PeriodicRefreshContext from './PeriodicRefreshContext';
+import { usePeriodicRefreshProvider } from './usePeriodicRefresh';
 
-const PeriodicRefreshContext = createContext({
-  subscribe: () => {},
-  unsubscribe: () => {}
-});
-
-export const usePeriodicRefresh = () => useContext(PeriodicRefreshContext);
 
 export const PeriodicRefreshProvider = ({ children }) => {
-  const [subscribers, setSubscribers] = useState(new Set());
-
-  const subscribe = useCallback((callback) => {
-    setSubscribers((prev) => new Set(prev.add(callback)));
-  }, []);
-
-  const unsubscribe = useCallback((callback) => {
-    setSubscribers((prev) => {
-      const newSubscribers = new Set(prev);
-      newSubscribers.delete(callback);
-      return newSubscribers;
-    });
-  }, []);
+  const { subscribe, unsubscribe, subscribers } = usePeriodicRefreshProvider();
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -37,4 +21,4 @@ export const PeriodicRefreshProvider = ({ children }) => {
   );
 };
 
-export default PeriodicRefreshContext;
+export default PeriodicRefreshProvider;

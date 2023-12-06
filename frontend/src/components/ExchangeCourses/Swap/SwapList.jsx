@@ -4,7 +4,7 @@ import CourseToSwapItem from "./CourseToSwapItem";
 import Typography from "@mui/material/Typography";
 import { useApi } from "../../../contexts/ApiProvider";
 import { useRefresh } from "../../../contexts/RefreshProvider";
-import { usePeriodicRefresh } from "../../../contexts/PeriodicRefreshProvider";
+import { usePeriodicRefresh } from "../../../contexts/usePeriodicRefresh";
 
 const SwapList = () => {
   const [swaps, setSwaps] = useState([]); // Initialize as an empty array
