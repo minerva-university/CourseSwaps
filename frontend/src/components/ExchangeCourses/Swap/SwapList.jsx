@@ -1,7 +1,10 @@
 import React from "react";
 import Box from "@mui/material/Box";
 import CourseToSwapItem from "./CourseToSwapItem";
-import { Typography } from "@mui/material";
+import Typography from "@mui/material/Typography";
+import { useApi } from "../../../contexts/ApiProvider";
+import { useRefresh } from "../../../contexts/useRefresh";
+import { usePeriodicRefresh } from "../../../contexts/usePeriodicRefresh";
 
 const SwapList = () => {
   return (

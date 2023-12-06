@@ -3,7 +3,8 @@ import Box from "@mui/material/Box";
 import PickupCourseItem from "./PickupCourseItem";
 import Typography from "@mui/material/Typography";
 import { useApi } from "../../../contexts/ApiProvider";
-import { useRefresh } from "../../../contexts/RefreshProvider";
+import { useRefresh } from "../../../contexts/useRefresh";
+import { usePeriodicRefresh } from "../../../contexts/usePeriodicRefresh";
 
 const PickupsList = () => {
   const [courses, setCourses] = useState([]);

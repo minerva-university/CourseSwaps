@@ -8,7 +8,7 @@ import DropButton from "./DropButton";
 import Dialog from "@mui/material/Dialog";
 import DialogContent from "@mui/material/DialogContent";
 import { useApi } from "../../../contexts/ApiProvider";
-import { useRefresh } from "../../../contexts/RefreshProvider";
+import { useRefresh } from "../../../contexts/useRefresh";
 
 
 const MyCoursesList = () => {
