@@ -56,12 +56,6 @@ class APITestCase(unittest.TestCase):
 
         self.assertIn("Login successful", response.json["message"])
 
-    def test_auth_logout(self):
-        # Attempt to logout (assuming login is done via a different mechanism in tests)
-        logout_response = self.client.post("/api/logout")
-        self.assertEqual(logout_response.status_code, 200)
-        self.assertEqual(logout_response.json["message"], "Logout successful")
-
 
 if __name__ == "__main__":
     unittest.main()

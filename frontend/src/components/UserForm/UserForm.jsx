@@ -113,6 +113,8 @@ export default function UserFormPage() {
 
   const [formData, setFormData] = useState(initialFormData);
 
+  const [touchedFields, setTouchedFields] = useState({});
+
   const [formErrors, setFormErrors] = useState({});
   const userData = location.state?.userData || {};
 
@@ -132,31 +134,40 @@ export default function UserFormPage() {
   // console.log("isUpdateMode is:", isUpdateMode);
 
   // Function to check for any form errors
-  const checkForErrors = (data) => {
-    const validation = validateFormData(data);
+  const checkForErrors = (data, fieldsToValidate) => {
+    const validation = validateFormData(data, fieldsToValidate);
     setFormErrors(validation.errors);
-    console.log("formErrors is:", formErrors);
     return validation.isValid;
   };
 
   // Handle field changes and perform live validation
   const handleChange = (e, newValue) => {
-    if (
-      e.target.name === "currentClasses" ||
-      e.target.name === "previousCourses"
-    ) {
-      setFormData({ ...formData, [e.target.name]: newValue });
-      // validation check after the state is updated
-      setTimeout(
-        () => checkForErrors({ ...formData, [e.target.name]: newValue }),
-        0
-      );
+    const { name, value } = e.target ? e.target : { name: "", value: "" };
+
+    // If major is changed, reset concentration
+    if (name === "major") {
+      setFormData({ ...formData, [name]: value, concentration: "" });
+      setTouchedFields({ ...touchedFields, [name]: true, concentration: true });
+    } else if (name === "currentClasses" || name === "previousCourses") {
+      setFormData({ ...formData, [name]: newValue });
+      setTouchedFields({ ...touchedFields, [name]: true });
     } else {
-      const { name, value } = e.target;
       setFormData({ ...formData, [name]: value });
-      // validation check after the state is updated
-      setTimeout(() => checkForErrors({ ...formData, [name]: value }), 0);
+      setTouchedFields({ ...touchedFields, [name]: true });
     }
+
+    // Trigger validation for touched fields
+    const fieldsToValidate = Object.keys(touchedFields).concat(name);
+    checkForErrors(
+      {
+        ...formData,
+        [name]:
+          name === "currentClasses" || name === "previousCourses"
+            ? newValue
+            : value,
+      },
+      fieldsToValidate
+    );
   };
 
   const api = useApi();
@@ -298,15 +309,7 @@ export default function UserFormPage() {
                 value={formData.concentration}
                 onChange={handleChange}
                 label="Concentration"
-                required
               >
-                {console.log("Concentration value:", formData.concentration)}
-                {console.log(
-                  "Concentration options:",
-                  majorsData.majors.find(
-                    (major) => major.majorId === formData.major
-                  )?.Concentrations
-                )}
                 {majorsData.majors
                   .find((major) => major.majorId === formData.major)
                   ?.Concentrations.map((concentration, index) => (

@@ -14,9 +14,6 @@ class Users(db.Model, UserMixin):
     completed_courses = db.relationship(
         "UserCompletedCourses", backref="user", lazy=True
     )
-    minerva_id = db.Column(db.String(100))
-    concentration = db.Column(db.String(255))
-    minor = db.Column(db.String(100))
 
     def __repr__(self):
         return f"User('{self.id}. Current Courses: '{self.current_courses}', Completed Courses: '{self.completed_courses}', Courses Available to Swap:"  # noqa
@@ -118,12 +115,17 @@ class UserCompletedCourses(db.Model):
 # Available courses to just pickup
 class CoursesAvailableForPickup(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    course_id = db.Column(db.Integer, db.ForeignKey("courses.id"), nullable=False)
+    course_id = db.Column(
+        db.Integer, db.ForeignKey("courses.id"), nullable=False, unique=True
+    )
     course = db.relationship("Courses")
+    count = db.Column(db.Integer, nullable=False, default=0)
 
     def __repr__(self):
         # add time of the course with the course id
-        return f"CourseAvailableForPickup(Course ID: '{self.course_id}')"
+        return (
+            f"CourseAvailableForPickup(Name: '{self.course.name}', Count: '{self.count}"
+        )
 
 
 # InitializationFlag model (table that will contain a single row that will indicate whether the database has been initialized or not)# noqa

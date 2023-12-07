@@ -160,3 +160,4 @@ yarn-error.log*
 
 # local env files
 /flaskenv
+/myenv
