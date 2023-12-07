@@ -1,9 +1,10 @@
 from flask import Blueprint, jsonify, request
 from flask_login import login_required, current_user
-
+from flask_cors import CORS
 from ..models import db, Courses, UserCurrentCourses, UserCompletedCourses, Users
 
 userdata_bp = Blueprint("userdata_bp", __name__)
+CORS(userdata_bp, supports_credentials=True)
 
 
 @userdata_bp.route("/userdata", methods=["POST"])

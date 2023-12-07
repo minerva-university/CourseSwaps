@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify
 from flask_login import login_required, current_user
-
+from flask_cors import CORS
 from ..models import (
     db,
     Courses,
@@ -10,6 +10,7 @@ from ..models import (
 )
 
 availableswaps_bp = Blueprint("availableswaps_bp", __name__)
+CORS(availableswaps_bp, supports_credentials=True)
 
 
 @availableswaps_bp.route("/availableswaps", methods=["GET"])

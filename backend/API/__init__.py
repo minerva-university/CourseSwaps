@@ -1,16 +1,19 @@
 import os
 from dotenv import load_dotenv
-from flask import Flask, make_response, jsonify, request
+from flask import Flask, make_response, jsonify
+from flask_cors import CORS
 from flask_login import LoginManager
-from .blueprints.auth import auth_bp
+
+# Ensure your blueprint imports are correctF
+from .blueprints.auth import auth_bp, oauth
 from .blueprints.mycourses import mycourses_bp
 from .blueprints.availableswaps import availableswaps_bp
 from .blueprints.availableforpickup import availableforpickup_bp
 from .blueprints.userdata import userdata_bp
-from .models import Users
+from .blueprints.admin import admin_bp
+from .models import Users, db
 from .populate_db import main
-from .models import db
-
+import logging
 
 load_dotenv()
 
@@ -19,17 +22,24 @@ login_manager = LoginManager()
 
 def create_app(test_config=None):
     app = Flask(__name__)
-    from .blueprints.auth import oauth
-
     oauth.init_app(app)
     login_manager.init_app(app)
 
-    # Register blueprints
+    logging.basicConfig(level=logging.DEBUG)
+    app.logger.setLevel(logging.DEBUG)
+
+    # General CORS setup for the whole app
+    CORS(
+        app,
+        resources={r"/api/*": {"origins": "http://localhost:5173"}},
+        supports_credentials=True,
+    )
     app.register_blueprint(auth_bp, url_prefix="/api")
     app.register_blueprint(mycourses_bp, url_prefix="/api")
     app.register_blueprint(availableswaps_bp, url_prefix="/api")
     app.register_blueprint(availableforpickup_bp, url_prefix="/api")
     app.register_blueprint(userdata_bp, url_prefix="/api")
+    app.register_blueprint(admin_bp, url_prefix="/api")
 
     # Configuration
     app.config.from_mapping(
@@ -53,38 +63,13 @@ def create_app(test_config=None):
         if not app.config.get("TESTING"):
             main()
 
-    @app.after_request
-    def after_request(response):
-        # Define allowed origins
-        allowed_origins = ["http://localhost:5173", "http://127.0.0.1:5173"]
-
-        # Get the origin of the request
-        origin = request.headers.get("Origin")
-
-        # If the origin is in our list of allowed origins, set the CORS headers
-        if origin in allowed_origins:
-            response.headers.add("Access-Control-Allow-Origin", origin)
-            response.headers.add("Vary", "Origin")
-
-        # Specify which headers are allowed in requests
-        response.headers.add(
-            "Access-Control-Allow-Headers",
-            "Content-Type,Authorization,X-Requested-With",
-        )
-
-        # Specify which methods are allowed
-        response.headers.add(
-            "Access-Control-Allow-Methods", "GET,PUT,POST,DELETE,PATCH,OPTIONS"
-        )
-
-        # Allow cookies and other credentials
-        response.headers.add("Access-Control-Allow-Credentials", "true")
-
-        return response
-
     @app.route("/")
     def index():
         return "Welcome to the backend!"
+
+    @app.route("/<path:path>", methods=["OPTIONS"])
+    def handle_global_options(path):
+        return "", 200
 
     @login_manager.user_loader
     def load_user(user_id):
@@ -96,8 +81,6 @@ def create_app(test_config=None):
             return jsonify("test")
         except Exception as e:
             app.logger.error(f"Unexpected error: {e}", exc_info=True)
-            return make_response(
-                jsonify({"error": "Internal Server Error"}), 500
-            )  # noqa
+            return make_response(jsonify({"error": "Internal Server Error"}), 500)
 
     return app

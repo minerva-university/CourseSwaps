@@ -5,44 +5,66 @@ import {
   Box,
   Typography,
   Autocomplete,
+  Snackbar,
+  Alert
 } from "@mui/material";
 import { useApi } from "../../contexts/ApiProvider";
 
 const AddAvailableToPickup = ({ currentCourses }) => {
   const [selectedCourse, setSelectedCourse] = useState(null);
-  const [quantity, setQuantity] = useState("");
-  const { api } = useApi();
+  const [quantity, setQuantity] = useState(1); // Default quantity set to 1
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState('');
+  const [snackbarSeverity, setSnackbarSeverity] = useState('info');
+  const api = useApi();
 
   const handleCourseChange = (event, value) => {
     setSelectedCourse(value);
   };
 
   const handleQuantityChange = (event) => {
-    setQuantity(event.target.value);
+    setQuantity(Number(event.target.value)); // Ensure quantity is treated as a number
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log(`Course: ${selectedCourse?.courseId}, Quantity: ${quantity}`);
-    if (selectedCourse && quantity) {
+    if (selectedCourse) {
       try {
-        const response = api.post("/admin/available-to-pickup", {
-          courseId: selectedCourse.courseId,
+        const response = await api.post("/availabletopickup", {
+          courseCode: selectedCourse.courseId,
           quantity,
         });
 
         console.log(response);
+
         if (response.status === 200) {
-          alert("Course added successfully");
-        } else if (response.status === 401) {
-          alert(response.error);
+          setSnackbarMessage("Course added successfully");
+          setSnackbarSeverity("success");
         } else {
-          alert("Error adding course");
+          // assuming the API returns a JSON object with an error message
+          const data = await response.data;
+          setSnackbarMessage(data.error || "Error adding course");
+          setSnackbarSeverity("error");
         }
       } catch (error) {
         console.error(error);
+        setSnackbarMessage("An error occurred while adding the course.");
+        setSnackbarSeverity("error");
+      } finally {
+        setOpenSnackbar(true);
       }
+    } else {
+      setSnackbarMessage("Please select a course and enter a valid quantity.");
+      setSnackbarSeverity("warning");
+      setOpenSnackbar(true);
     }
+  };
+
+  const handleCloseSnackbar = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpenSnackbar(false);
   };
 
   return (
@@ -63,7 +85,6 @@ const AddAvailableToPickup = ({ currentCourses }) => {
               label="Choose a Course"
               variant="outlined"
               margin="normal"
-              sx={{ "& .MuiOutlinedInput-root": { borderColor: "black" } }} // Add this line
             />
           )}
           isOptionEqualToValue={(option, value) =>
@@ -78,6 +99,7 @@ const AddAvailableToPickup = ({ currentCourses }) => {
           value={quantity}
           onChange={handleQuantityChange}
           variant="outlined"
+          InputProps={{ inputProps: { min: 1 } }} // Ensure the minimum quantity is 1
         />
         <Button
           type="submit"
@@ -88,6 +110,11 @@ const AddAvailableToPickup = ({ currentCourses }) => {
           Add
         </Button>
       </Box>
+      <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar}>
+        <Alert onClose={handleCloseSnackbar} severity={snackbarSeverity} sx={{ width: '100%' }}>
+          {snackbarMessage}
+        </Alert>
+      </Snackbar>
     </Box>
   );
 };

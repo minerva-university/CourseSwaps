@@ -3,8 +3,11 @@ from flask_login import login_user, login_required
 from ..models import Users, db
 from authlib.integrations.flask_client import OAuth
 import os
+from flask_cors import CORS
 
 auth_bp = Blueprint("auth_bp", __name__)
+CORS(auth_bp, supports_credentials=True)
+
 oauth = OAuth()
 
 google = oauth.register(

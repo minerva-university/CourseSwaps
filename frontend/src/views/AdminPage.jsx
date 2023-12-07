@@ -44,7 +44,6 @@ const AdminDashboardPage = () => {
         }}
       >
         <AddAvailableToPickup currentCourses={currentCourses} />
-        {/* Additional components can be added here */}
       </Box>
     </Box>
   );
