@@ -99,7 +99,6 @@ const AddAvailableToPickup = ({ currentCourses }) => {
           value={quantity}
           onChange={handleQuantityChange}
           variant="outlined"
-          InputProps={{ inputProps: { min: 1 } }} // Ensure the minimum quantity is 1
         />
         <Button
           type="submit"
