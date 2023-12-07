@@ -5,6 +5,12 @@ from sqlalchemy import UniqueConstraint
 db = SQLAlchemy()
 
 
+# Role model (table that will contain all the roles that users can have)
+class Roles(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(50), unique=True, nullable=False)
+
+
 # User model
 class Users(db.Model, UserMixin):
     id = db.Column(db.String, primary_key=True)
@@ -14,6 +20,8 @@ class Users(db.Model, UserMixin):
     completed_courses = db.relationship(
         "UserCompletedCourses", backref="user", lazy=True
     )
+    role_id = db.Column(db.Integer, db.ForeignKey("roles.id"), nullable=False, default=1)
+    role = db.relationship("Roles", backref="users", lazy=True)
 
     def __repr__(self):
         return f"User('{self.id}. Current Courses: '{self.current_courses}', Completed Courses: '{self.completed_courses}', Courses Available to Swap:"  # noqa

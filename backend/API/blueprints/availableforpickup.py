@@ -1,5 +1,6 @@
 from flask import Blueprint, jsonify, request
 from flask_login import current_user, login_required
+from flask_cors import CORS
 from ..models import (
     db,
     Courses,
@@ -9,6 +10,7 @@ from ..models import (
 )
 
 availableforpickup_bp = Blueprint("availableforpickup_bp", __name__)
+CORS(availableforpickup_bp, supports_credentials=True)
 
 
 @availableforpickup_bp.route("/availableforpickup", methods=["GET"])

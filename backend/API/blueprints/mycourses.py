@@ -1,5 +1,6 @@
 from flask import Blueprint, jsonify
 from flask_login import login_required, current_user
+from flask_cors import CORS
 from ..models import (
     db,
     Courses,
@@ -7,6 +8,7 @@ from ..models import (
 )
 
 mycourses_bp = Blueprint("mycourses_bp", __name__)
+CORS(mycourses_bp, supports_credentials=True)
 
 
 @mycourses_bp.route("/mycourses", methods=["GET"])
