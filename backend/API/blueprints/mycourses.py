@@ -1,9 +1,14 @@
 from flask import Blueprint, jsonify
 from flask_login import login_required, current_user
-
-from ..models import db, Courses, UserCurrentCourses
+from flask_cors import CORS
+from ..models import (
+    db,
+    Courses,
+    UserCurrentCourses,
+)
 
 mycourses_bp = Blueprint("mycourses_bp", __name__)
+CORS(mycourses_bp, supports_credentials=True)
 
 
 @mycourses_bp.route("/mycourses", methods=["GET"])
@@ -12,7 +17,7 @@ def mycourses():
     """
     Get all courses for the current user
     """
-    print("Current user: ", current_user)
+    print("A user is trying to get their courses")
     if not current_user.is_authenticated:
         return jsonify({"error": "User not logged in"}), 401
 
@@ -24,7 +29,7 @@ def mycourses():
             .filter(UserCurrentCourses.user_id == current_user.id)
             .all()
         )
-        print("User's current courses: ", current_courses)
+
         return (
             jsonify(
                 {
@@ -32,8 +37,12 @@ def mycourses():
                         {
                             "name": course.name,
                             "code": course.code,
-                            "time": course.time,
-                            # "prerequisites": course.prerequisites,
+                            "time": course.timeslot_id,
+                            "prerequisites": [
+                                {"name": prerequisite.name, "code": prerequisite.code}
+                                for prerequisite in course.prerequisites
+                            ],
+                            "id": course.id,
                         }
                         for course in current_courses
                     ]
@@ -41,26 +50,6 @@ def mycourses():
             ),
             200,
         )
-    except Exception as e:
-        print(e)
-        return jsonify({"error": "Something went wrong"}), 500
-
-
-@mycourses_bp.route("/mycourses", methods=["POST"])
-@login_required
-def add_current_courses():
-    """
-    Add courses to the current user
-    """
-
-    print("Current user: ", current_user)
-
-    if not current_user.is_authenticated:
-        return jsonify({"error": "User not logged in"}), 401
-
-    try:
-        pass
-        # other things have to be figured out before this
     except Exception as e:
         print(e)
         return jsonify({"error": "Something went wrong"}), 500

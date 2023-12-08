@@ -18,19 +18,6 @@ const validateFormData = (formData, fieldsToValidate = []) => {
     errors.previousCourses = "Select at least one previous course";
     formIsValid = false;
   }
-  // if (
-  //   typeof formData.concentration === "string" &&
-  //   !formData.concentration.trim()
-  // ) {
-  //   errors.concentration = "Concentration is required";
-  //   formIsValid = false;
-  // } else if (
-  //   Array.isArray(formData.concentration) &&
-  //   formData.concentration.length === 0
-  // ) {
-  //   errors.concentration = "Concentration is required";
-  //   formIsValid = false;
-  // }
 
   // Check Minerva ID is exactly 6 numeric characters
   if (

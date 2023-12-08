@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./contexts/AuthProvider";
 import UserformPage from "./components/UserForm/UserForm";
 import ExchangePage from "./views/ExchangeCoursesPage";
+import AdminPage from "./views/AdminPage";
 import ApiProvider from "./contexts/ApiProvider";
 import Navbar from "./components/Navbar/Navbar";
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -24,6 +25,7 @@ function App() {
             }}
           >
             <Routes>
+              <Route path="/auth" element={<AuthPage />} />
               <Route
                 path="/"
                 element={
@@ -32,8 +34,14 @@ function App() {
                   </ProtectedRoute>
                 }
               />
-              <Route path="/auth" element={<AuthPage />} />
-
+              <Route
+                path="/admin"
+                element={
+                  <ProtectedRoute>
+                    <AdminPage />
+                  </ProtectedRoute>
+                }
+              />
               <Route
                 path="/userform"
                 element={

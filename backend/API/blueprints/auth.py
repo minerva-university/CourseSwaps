@@ -1,10 +1,13 @@
 from flask import Blueprint, request, jsonify, session
-from flask_login import login_user, login_required
+from flask_login import login_user, login_required, logout_user
 from ..models import Users, db
 from authlib.integrations.flask_client import OAuth
 import os
+from flask_cors import CORS
 
 auth_bp = Blueprint("auth_bp", __name__)
+CORS(auth_bp, supports_credentials=True)
+
 oauth = OAuth()
 
 google = oauth.register(
@@ -55,6 +58,7 @@ def login():
                     "given_name": given_name,
                     "picture": picture,
                     "new_user": new_user,
+                    "role": user.role.name,
                 },
                 "message": "Login successful",
             }
@@ -63,8 +67,19 @@ def login():
     )
 
 
-@auth_bp.route("/logout", methods=["POST"])
+@auth_bp.route("/auth/logout", methods=["POST"])
 @login_required
 def logout():
-    # Logout logic here, e.g., clear a session or token
-    return jsonify({"message": "Logout successful"}), 200
+    try:
+        # Attempt to log out the user
+        logout_user()
+
+        # Return a success message if logout is successful
+        return jsonify({"message": "Logout successful"}), 200
+
+    except Exception as e:
+        # Log the error or handle it as needed
+        # print(e)  # For debugging, optionally log the exception to the console
+
+        # Return an error message if something goes wrong
+        return jsonify({"error": "Logout failed", "details": str(e)}), 500

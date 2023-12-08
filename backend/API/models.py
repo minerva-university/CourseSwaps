@@ -5,6 +5,12 @@ from sqlalchemy import UniqueConstraint
 db = SQLAlchemy()
 
 
+# Role model (table that will contain all the roles that users can have)
+class Roles(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(50), unique=True, nullable=False)
+
+
 # User model
 class Users(db.Model, UserMixin):
     id = db.Column(db.String, primary_key=True)
@@ -14,9 +20,8 @@ class Users(db.Model, UserMixin):
     completed_courses = db.relationship(
         "UserCompletedCourses", backref="user", lazy=True
     )
-    minerva_id = db.Column(db.String(100))
-    concentration = db.Column(db.String(255))
-    minor = db.Column(db.String(100))
+    role_id = db.Column(db.Integer, db.ForeignKey("roles.id"), nullable=False, default=1)
+    role = db.relationship("Roles", backref="users", lazy=True)
 
     def __repr__(self):
         return f"User('{self.id}. Current Courses: '{self.current_courses}', Completed Courses: '{self.completed_courses}', Courses Available to Swap:"  # noqa
@@ -51,7 +56,12 @@ class Courses(db.Model):
         return f"Course('{self.name}', '{self.code}')"
 
     def to_dict(self):
-        return {"name": self.name, "code": self.code, "timeslot": self.timeslot_id}
+        return {
+            "name": self.name,
+            "code": self.code,
+            "timeslot": self.timeslot_id,
+            "prerequisites": self.prerequisites,
+        }  # noqa
 
 
 class CourseScheduleOptions(db.Model):
@@ -118,12 +128,17 @@ class UserCompletedCourses(db.Model):
 # Available courses to just pickup
 class CoursesAvailableForPickup(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    course_id = db.Column(db.Integer, db.ForeignKey("courses.id"), nullable=False)
+    course_id = db.Column(
+        db.Integer, db.ForeignKey("courses.id"), nullable=False, unique=True
+    )
     course = db.relationship("Courses")
+    count = db.Column(db.Integer, nullable=False, default=0)
 
     def __repr__(self):
         # add time of the course with the course id
-        return f"CourseAvailableForPickup(Course ID: '{self.course_id}')"
+        return (
+            f"CourseAvailableForPickup(Name: '{self.course.name}', Count: '{self.count}"
+        )
 
 
 # InitializationFlag model (table that will contain a single row that will indicate whether the database has been initialized or not)# noqa

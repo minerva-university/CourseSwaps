@@ -3,11 +3,6 @@ const BASE_API_URL = import.meta.env.VITE_APP_API_URL;
 export default class SwapsApiClient {
   constructor() {
     this.base_url = BASE_API_URL + "/api";
-    this.request = this.request.bind(this);
-    this.get = this.get.bind(this);
-    this.post = this.post.bind(this);
-    this.put = this.put.bind(this);
-    this.delete = this.delete.bind(this);
   }
 
   async request(options) {
