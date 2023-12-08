@@ -177,12 +177,16 @@ export default function UserFormPage() {
     const validation = validateFormData(formData);
     setFormErrors(validation.errors);
 
-    const endpoint = isUpdateMode ? "/update-user" : "/userdata";
-    const method = isUpdateMode ? api.put : api.post;
 
     if (validation.isValid) {
+      let response 
       try {
-        const response = await method(endpoint, formData);
+        if (isUpdateMode) {
+          response = await api.put("/update-user", formData);
+        } else {
+          response = await api.post("/userdata", formData);
+        }
+        // const response = await method(endpoint, formData);
         if (response.status === 200) {
           console.log("Operation successful");
           navigate("/");

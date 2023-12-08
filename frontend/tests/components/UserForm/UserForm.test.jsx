@@ -103,7 +103,7 @@ describe("UserFormPage", () => {
       class: "M24",
       currentClasses: ["CS110"],
       major: "Computational Sciences",
-      concentration: ["Applied Problem Solving"],
+      concentration: "Applied Problem Solving",
       minor: "Arts & Humanities - Philosophy, Ethics, and the Law",
       previousCourses: ["CS113"],
     };
