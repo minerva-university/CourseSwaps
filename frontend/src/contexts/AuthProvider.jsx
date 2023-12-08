@@ -1,5 +1,3 @@
-/* eslint-disable react-refresh/only-export-components */
-/* eslint-disable react/prop-types */
 import React, { createContext, useState, useContext, useCallback } from "react";
 import { useGoogleLogin } from "@react-oauth/google";
 import { useApi } from "./ApiProvider";
@@ -31,21 +29,25 @@ export function AuthProvider({ children }) {
 
   const authenticateUser = async (access_token) => {
     try {
-      const response = await api.post("/auth/google", {
-        access_token,
-      });
+      const response = await api.post("/auth/google", { access_token });
       const data = response.body;
 
       if (data && data.user) {
-        setUser(data.user);
+        setUser(data.user); // Includes the role
         setisAuthenticated(true);
-        localStorage.setItem("user", JSON.stringify(data.user));
+        localStorage.setItem(
+          "user",
+          JSON.stringify({
+            id: data.user.id,
+            given_name: data.user.given_name,
+            picture: data.user.picture,
+            role: data.user.role,
+          })
+        ); // Storing minimal user data for session management
         localStorage.setItem("isAuthenticated", true);
       } else {
-        // Handle the case where data is not as expected
         console.log("Unexpected response format:", data);
       }
-      setisAuthenticated(true);
     } catch (err) {
       console.log(err);
     }
@@ -53,21 +55,13 @@ export function AuthProvider({ children }) {
 
   const logout = useCallback(async () => {
     try {
-      // Inform the backend about the logout
       await api.post("/auth/logout");
-
-      // Reset the user state
       setUser(null);
       setisAuthenticated(false);
-
-      // Clear authentication data from local storage
       localStorage.removeItem("user");
       localStorage.removeItem("isAuthenticated");
-
-      // You can also add any other cleanup or redirection logic here
     } catch (err) {
       console.error("Logout failed:", err);
-      // Handle any errors that occur during logout
     }
   }, [api]);
 

@@ -1,5 +1,6 @@
 from flask import Blueprint, jsonify
 from flask_login import login_required, current_user
+from flask_cors import CORS
 from ..models import (
     db,
     Courses,
@@ -7,6 +8,7 @@ from ..models import (
 )
 
 mycourses_bp = Blueprint("mycourses_bp", __name__)
+CORS(mycourses_bp, supports_credentials=True)
 
 
 @mycourses_bp.route("/mycourses", methods=["GET"])
@@ -35,6 +37,11 @@ def mycourses():
                         {
                             "name": course.name,
                             "code": course.code,
+                            "time": course.timeslot_id,
+                            "prerequisites": [
+                                {"name": prerequisite.name, "code": prerequisite.code}
+                                for prerequisite in course.prerequisites
+                            ],
                             "id": course.id,
                         }
                         for course in current_courses

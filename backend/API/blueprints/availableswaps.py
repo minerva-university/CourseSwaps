@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify
 from flask_login import login_required, current_user
-
+from flask_cors import CORS
 from ..models import (
     db,
     Courses,
@@ -10,59 +10,61 @@ from ..models import (
 )
 
 availableswaps_bp = Blueprint("availableswaps_bp", __name__)
+CORS(availableswaps_bp, supports_credentials=True)
 
 
 @availableswaps_bp.route("/availableswaps", methods=["GET"])
 @login_required
-def availableswaps():
-    print("A user is trying to get available swaps")
+def available_swaps():
     if not current_user.is_authenticated:
-        return jsonify({"error": "User not logged in"}), 401
-
+        return jsonify({"error": "Unauthorized access"}), 401
     try:
-        # Fetch completed course codes for the current user
-        completed_courses = (
-            db.session.query(Courses.code)
-            .join(UserCompletedCourses, UserCompletedCourses.course_id == Courses.id)
-            .filter(UserCompletedCourses.user_id == current_user.id)
-            .all()
-        )
-        completed_course_codes = {course.code for course in completed_courses}
+        # Use the current logged-in user's ID
+        user_id = current_user.id
 
-        # Get all courses available to swap, filtering by prerequisites
-        available_swaps = (
-            db.session.query(CoursesAvailableToSwap)
-            .join(Courses, Courses.id == CoursesAvailableToSwap.giving_course_id)
-            .outerjoin(
-                UserCurrentCourses,
-                (UserCurrentCourses.course_id == Courses.id)
-                & (UserCurrentCourses.user_id == current_user.id),
-            )
-            .outerjoin(
-                UserCompletedCourses,
-                (UserCompletedCourses.course_id == Courses.id)
-                & (UserCompletedCourses.user_id == current_user.id),
-            )
-            .filter(UserCurrentCourses.id.is_(None))
-            .filter(UserCompletedCourses.id.is_(None))
-            .filter(~Courses.prerequisites.in_(completed_course_codes))
-            .all()
-        )
-
-        swap_data = [
-            {
-                "id": swap.giving_course_id,
-                "name": swap.courses.name,
-                "code": swap.courses.code,
-                "time": swap.courses.time,
-                "prerequisites": swap.courses.prerequisites,
-            }
-            for swap in available_swaps
+        # Filter out courses the user has completed
+        completed_courses_ids = [
+            c.course_id for c in UserCompletedCourses.query.filter_by(user_id=user_id)
         ]
-        return jsonify({"available_swaps": swap_data}), 200
+
+        # Filter out courses the user is currently taking
+        current_courses_ids = [
+            c.course_id for c in UserCurrentCourses.query.filter_by(user_id=user_id)
+        ]
+
+        # Get all courses available to swap
+        available_swaps = CoursesAvailableToSwap.query.all()
+
+        eligible_swaps = []
+        for swap in available_swaps:
+            # Check if the giving course is neither completed nor currently taken by the user
+            if (
+                swap.giving_course_id not in completed_courses_ids
+                and swap.giving_course_id not in current_courses_ids
+            ):
+                # Check if user has completed at least one of the prerequisites
+                giving_course = Courses.query.get(swap.giving_course_id)
+                prerequisites = giving_course.prerequisites
+                if any(prereq.id in completed_courses_ids for prereq in prerequisites):
+                    course_schedule = giving_course.timeslot
+                    swap_details = {
+                        "swap_id": swap.id,
+                        "user_id": swap.user_id,
+                        "giving_course_id": swap.giving_course_id,
+                        "giving_course_name": giving_course.name,
+                        "giving_course_code": giving_course.code,
+                        "wanted_course_id": swap.wanted_course_id,
+                        "course_time": course_schedule.local_time
+                        if course_schedule
+                        else None,
+                        # Add more fields as needed
+                    }
+                    eligible_swaps.append(swap_details)
+
+        return jsonify({"available_swaps": eligible_swaps}), 200
     except Exception as e:
         print(e)
-        return jsonify({"error": "Something went wrong"}), 500
+        return jsonify({"error": "An unexpected error occurred"}), 500
 
 
 @availableswaps_bp.route("/availableswaps", methods=["POST"])
@@ -74,7 +76,7 @@ def add_available_swap():
 
     try:
         data = request.get_json()
-        user_id = data.get("user_id")
+        user_id = current_user.id
         giving_course_id = data.get("giving_course_id")
         wanted_course_id = data.get("wanted_course_id")
 
