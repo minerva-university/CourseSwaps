@@ -13,6 +13,7 @@ function Logout({ setUser, setAuthenticated, setAnchorEl }) {
     setAuthenticated(false);
     setAnchorEl(null);
 
+
     // Navigate to the home page or any other appropriate page after logout
     navigate("/");
   };
