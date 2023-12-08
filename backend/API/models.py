@@ -17,6 +17,9 @@ class Users(db.Model, UserMixin):
     current_courses = db.relationship("UserCurrentCourses", backref="user", lazy=True)
     major = db.Column(db.String(100))
     class_year = db.Column(db.String(100))
+    minerva_id = db.Column(db.String(100))
+    concentration = db.Column(db.String(100))
+    minor = db.Column(db.String(100))
     completed_courses = db.relationship(
         "UserCompletedCourses", backref="user", lazy=True
     )
