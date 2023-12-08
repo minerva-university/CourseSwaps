@@ -67,7 +67,7 @@ def available_swaps():
         return jsonify({"error": "An unexpected error occurred"}), 500
 
 
-@availableswaps_bp.route("/add_availableswaps", methods=["POST"])
+@availableswaps_bp.route("/availableswaps", methods=["POST"])
 @login_required
 def add_available_swap():
     print("Current user: ", current_user)

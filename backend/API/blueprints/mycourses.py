@@ -41,7 +41,6 @@ def mycourses():
                                 for prerequisite in course.prerequisites
                             ],
                             "id": course.id,
-
                         }
                         for course in current_courses
                     ]
