@@ -37,6 +37,11 @@ def mycourses():
                         {
                             "name": course.name,
                             "code": course.code,
+                            "time": course.timeslot_id,
+                            "prerequisites": [
+                                {"name": prerequisite.name, "code": prerequisite.code}
+                                for prerequisite in course.prerequisites
+                            ],
                             "id": course.id,
                         }
                         for course in current_courses
