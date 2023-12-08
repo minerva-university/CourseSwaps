@@ -1,5 +1,6 @@
 from flask import Blueprint, jsonify
 from flask_login import login_required, current_user
+from flask_cors import CORS
 from ..models import (
     db,
     Courses,
@@ -7,6 +8,7 @@ from ..models import (
 )
 
 mycourses_bp = Blueprint("mycourses_bp", __name__)
+CORS(mycourses_bp, supports_credentials=True)
 
 
 @mycourses_bp.route("/mycourses", methods=["GET"])
@@ -15,7 +17,7 @@ def mycourses():
     """
     Get all courses for the current user
     """
-    print("Current user: ", current_user)
+    print("A user is trying to get their courses")
     if not current_user.is_authenticated:
         return jsonify({"error": "User not logged in"}), 401
 

@@ -10,7 +10,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
 import { useApi } from "../../../contexts/ApiProvider";
-import { useRefresh } from "../../../contexts/RefreshProvider";
+import { useRefresh } from "../../../contexts/useRefresh";
 
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;

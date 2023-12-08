@@ -1,7 +1,6 @@
 from flask import Blueprint, request, jsonify
 from flask_login import login_required, current_user
-
-
+from flask_cors import CORS
 from ..models import (
     db,
     Courses,
@@ -11,6 +10,7 @@ from ..models import (
 )
 
 availableswaps_bp = Blueprint("availableswaps_bp", __name__)
+CORS(availableswaps_bp, supports_credentials=True)
 
 
 @availableswaps_bp.route("/availableswaps", methods=["GET"])
@@ -70,7 +70,7 @@ def available_swaps():
 @availableswaps_bp.route("/availableswaps", methods=["POST"])
 @login_required
 def add_available_swap():
-    print("Current user: ", current_user)
+    print("A user is trying to add an available swap")
     if not current_user.is_authenticated:
         return jsonify({"error": "User not logged in"}), 401
 
