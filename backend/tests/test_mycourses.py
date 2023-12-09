@@ -82,7 +82,6 @@ class MyCoursesTestCase(unittest.TestCase):
                 response = self.client.get("api/mycourses")
                 self.assertEqual(response.status_code, 200)
                 json_data = response.json
-                print(json_data)
                 self.assertEqual(len(json_data["current_courses"]), 1)
 
     def tearDown(self):
