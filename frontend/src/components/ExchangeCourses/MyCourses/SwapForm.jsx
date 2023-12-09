@@ -17,9 +17,10 @@ import { useApi } from "../../../contexts/ApiProvider";
 const SwapForm = ({ open, onClose, selectedCourse }) => {
   const [selectedCourses, setSelectedCourses] = useState([]);
   const [availableCourses, setAvailableCourses] = useState([]);
-   const [snackbarOpen, setSnackbarOpen] = useState(false);
-   const [snackbarMessage, setSnackbarMessage] = useState("");
-   const [snackbarSeverity, setSnackbarSeverity] = useState("info");
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [snackbarSeverity, setSnackbarSeverity] = useState("info");
+  const [confirmDialogOpen, setConfirmDialogOpen] = useState(false);
   const api = useApi();
 
   useEffect(() => {
@@ -39,8 +40,13 @@ const SwapForm = ({ open, onClose, selectedCourse }) => {
     fetchAvailableSwaps();
   }, [api]);
 
-  const handleConfirmSwap = async () => { 
+  const handleConfirmSwap = () => {
+    setConfirmDialogOpen(true);
+  };
+
+  const handleActualSwap = async () => {
     try {
+      setConfirmDialogOpen(false);
       const response = await api.post("/add_availableswaps", {
         selectedCourse,
         selectedCourses,
@@ -62,10 +68,30 @@ const SwapForm = ({ open, onClose, selectedCourse }) => {
     }
   };
 
-   const handleCloseSnackbar = () => {
-     setSnackbarOpen(false);
-   };
+  const handleCloseSnackbar = () => {
+    setSnackbarOpen(false);
+  };
 
+  const ConfirmationDialog = ({ selectedCourse }) => {
+    return (
+      <Dialog
+        open={confirmDialogOpen}
+        onClose={() => setConfirmDialogOpen(false)}
+      >
+        <DialogTitle>Confirm Course Swap</DialogTitle>
+        <DialogContent>
+          <Typography>
+            Are you sure you want to swap {selectedCourse?.code} for{" "}
+            {selectedCourses.map((course) => course.course_code).join(", ")}?
+          </Typography>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setConfirmDialogOpen(false)}>Cancel</Button>
+          <Button onClick={handleActualSwap}>Confirm</Button>
+        </DialogActions>
+      </Dialog>
+    );
+  };
 
   return (
     <Box
@@ -118,6 +144,7 @@ const SwapForm = ({ open, onClose, selectedCourse }) => {
           </Button>
         </DialogActions>
       </Dialog>
+      <ConfirmationDialog selectedCourse={selectedCourse} />
       <Snackbar
         open={snackbarOpen}
         autoHideDuration={800}
