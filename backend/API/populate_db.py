@@ -74,8 +74,8 @@ def populate_roles():
     # Check if roles already exist
     if Roles.query.first() is None:
         # Create and add the roles
-        admin_role = Roles(name='user')
-        user_role = Roles(name='admin')
+        admin_role = Roles(name="user")
+        user_role = Roles(name="admin")
         db.session.add(admin_role)
         db.session.add(user_role)
         db.session.commit()
