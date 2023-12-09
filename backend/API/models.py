@@ -20,7 +20,9 @@ class Users(db.Model, UserMixin):
     completed_courses = db.relationship(
         "UserCompletedCourses", backref="user", lazy=True
     )
-    role_id = db.Column(db.Integer, db.ForeignKey("roles.id"), nullable=False, default=1)
+    role_id = db.Column(
+        db.Integer, db.ForeignKey("roles.id"), nullable=False, default=1
+    )
     role = db.relationship("Roles", backref="users", lazy=True)
 
     def __repr__(self):
