@@ -18,6 +18,7 @@ class AvailableSwapsTestCase(unittest.TestCase):
                 "TESTING": True,
                 "SQLALCHEMY_DATABASE_URI": "sqlite:///:memory:",
                 "WTF_CSRF_ENABLED": False,
+                "SECRET_KEY": "Testing_Key",
             }
         )
         self.client = self.app.test_client()
