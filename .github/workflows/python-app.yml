@@ -25,8 +25,11 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
       working-directory: 'backend'
-
       
+    - name: Set PYTHONPATH
+      run: echo "PYTHONPATH=$PYTHONPATH:$(pwd)" >> $GITHUB_ENV
+      working-directory: 'backend'
+    
     - name: Run Tests
       run: |
         python -m unittest discover
