@@ -101,7 +101,9 @@ const SwapForm = ({ open, onClose, selectedCourse }) => {
         alignItems: "center",
         width: "80%",
       }}
+      
     >
+      {!confirmDialogOpen && (
       <Dialog
         open={open}
         onClose={onClose}
@@ -144,6 +146,7 @@ const SwapForm = ({ open, onClose, selectedCourse }) => {
           </Button>
         </DialogActions>
       </Dialog>
+      )}
       <ConfirmationDialog selectedCourse={selectedCourse} />
       <Snackbar
         open={snackbarOpen}

@@ -1,7 +1,7 @@
 import unittest
 from unittest.mock import patch
 from API import create_app, db
-from API.models import Users
+from API.models import Users, Roles
 from flask_login import login_user
 
 
@@ -19,14 +19,11 @@ class APITestCase(unittest.TestCase):
         with self.app.app_context():
             db.create_all()
             # Create and insert a test user with only the Google ID, as that's what your model stores
-            user = Users(id="test_google_id")
+            test_role = Roles(id=1, name="user")
+            db.session.add(test_role)
+            user = Users(id="test_google_id", role_id=test_role.id)
             db.session.add(user)
             db.session.commit()
-
-    def tearDown(self):
-        with self.app.app_context():
-            db.session.remove()
-            db.drop_all()
 
     def test_index(self):
         response = self.client.get("/")
@@ -43,6 +40,8 @@ class APITestCase(unittest.TestCase):
             "id": "test_google_id",
             "given_name": "Test User",
             "picture": "test_picture_url",
+            "role": "user",
+            "new_user": True,
         }
 
         # Perform the mock login
@@ -61,16 +60,12 @@ class APITestCase(unittest.TestCase):
         with self.app.app_context():
             # Create a mock user instance
             user = Users(id="1234567")
-            # Assuming you have a way to add and commit this user to your database, do that
             with self.app.app_context():
                 db.session.add(user)
                 db.session.commit()
 
             # Log in the user using Flask-Login
             user = Users.query.get("1234567")
-            # Use the test client to create a request context
-            # Use the test client to create a request context
-
             with self.client:
                 # Log in the user within the request context
                 with self.app.test_request_context("/"):
@@ -80,6 +75,11 @@ class APITestCase(unittest.TestCase):
                 response = self.client.post("/api/auth/logout")
                 self.assertEqual(response.status_code, 200)
                 self.assertIn("Logout successful", response.json["message"])
+
+    def tearDown(self):
+        with self.app.app_context():
+            db.session.remove()
+            db.drop_all()
 
 
 if __name__ == "__main__":

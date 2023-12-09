@@ -58,7 +58,7 @@ class AvailableSwapsTestCase(unittest.TestCase):
 
             # Set Course 3 as currently being taken by the user
             user.current_courses = [
-                UserCurrentCourses(user_id=user.id, course_id=course3.id),
+                UserCurrentCourses(user_id=user.id, course_id=course4.id),
             ]
 
             # Set Course 4 as available to swap for the user
@@ -66,7 +66,7 @@ class AvailableSwapsTestCase(unittest.TestCase):
                 CoursesAvailableToSwap(
                     user_id=user_2.id,
                     giving_course_id=course6.id,
-                    wanted_course_id=course5.id,
+                    wanted_course_id=course4.id,
                 ),
             ]
             db.session.add_all(available_swaps)
@@ -82,10 +82,28 @@ class AvailableSwapsTestCase(unittest.TestCase):
                 response = self.client.get("api/availableswaps")
                 self.assertEqual(response.status_code, 401)
 
+    def test_availableswaps_authenticated(self):
+        with self.app.app_context():
+            with self.client:
+                user = Users.query.filter_by(id="123456").first()
+                with self.app.test_request_context("/"):
+                    login_user(user)
+
+            response = self.client.get("api/availableswaps")
+            self.assertEqual(response.status_code, 200)
+            json_data = response.json
+            self.assertEqual(len(json_data["available_swaps"]), 1)
+            self.assertEqual(
+                json_data["available_swaps"][0]["giving_course_name"], "Course 6"
+            )
+            self.assertEqual(
+                json_data["available_swaps"][0]["wanted_course_name"], "Course 4"
+            )
+
     def test_add_availableswap_unauthenticated(self):
         with self.app.app_context():
             with self.client:
-                response = self.client.post("api/availableswaps")
+                response = self.client.post("api/add_availableswaps")
                 self.assertEqual(response.status_code, 401)
 
     def test_add_availableswap_authorized(self):
@@ -95,10 +113,45 @@ class AvailableSwapsTestCase(unittest.TestCase):
                 with self.app.test_request_context("/"):
                     login_user(user)
 
-            data = {"giving_course_id": 3, "wanted_course_id": 6}
+            data = {
+                "selectedCourse": {
+                    "id": 1,
+                    "name": "Test Course",
+                    "code": "TEST 101",
+                    "course_timeslot": 1,
+                    "prerequisites": [],
+                },
+                "selectedCourses": [
+                    {
+                        "course_id": 2,
+                        "course_name": "Another Test Course",
+                        "course_code": "TEST 102",
+                        "course_timeslot": 1,
+                        "prerequisites": [],
+                    }
+                ],
+            }
             response = self.client.post(
-                "api/availableswaps", json=data, content_type="application/json"
+                "api/add_availableswaps", json=data, content_type="application/json"
             )
             self.assertEqual(response.status_code, 200)
             json_data = response.json
-            self.assertEqual(json_data["message"], "Available swap added successfully")
+            self.assertEqual(json_data["message"], "Available swaps added successfully")
+
+    def test_swap_courses_unauthenticated(self):
+        with self.app.app_context():
+            with self.client:
+                response = self.client.get("api/swap_courses")
+                self.assertEqual(response.status_code, 401)
+
+    def test_swap_courses_authenticated(self):
+        with self.app.app_context():
+            with self.client:
+                user = Users.query.filter_by(id="123456").first()
+                with self.app.test_request_context("/"):
+                    login_user(user)
+
+            response = self.client.get("api/swap_courses")
+            self.assertEqual(response.status_code, 200)
+            json_data = response.json
+            self.assertEqual(len(json_data["all_courses"]), 3)

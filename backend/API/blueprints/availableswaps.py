@@ -41,6 +41,7 @@ def available_swaps():
             if (
                 swap.giving_course_id not in completed_courses_ids
                 and swap.giving_course_id not in current_courses_ids
+                and swap.wanted_course_id in current_courses_ids
             ):
                 # Check if user has completed at least one of the prerequisites
                 giving_course = Courses.query.get(swap.giving_course_id)
@@ -54,13 +55,18 @@ def available_swaps():
                         "giving_course_name": giving_course.name,
                         "giving_course_code": giving_course.code,
                         "wanted_course_id": swap.wanted_course_id,
+                        "wanted_course_name": Courses.query.get(
+                            swap.wanted_course_id
+                        ).name,
+                        "wanted_course_code": Courses.query.get(
+                            swap.wanted_course_id
+                        ).code,
                         "course_time": course_schedule.local_time
                         if course_schedule
                         else None,
-                        # Add more fields as needed
                     }
                     eligible_swaps.append(swap_details)
-
+        print(eligible_swaps)
         return jsonify({"available_swaps": eligible_swaps}), 200
     except Exception as e:
         print(e)
