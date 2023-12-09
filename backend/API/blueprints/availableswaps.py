@@ -67,7 +67,7 @@ def available_swaps():
         return jsonify({"error": "An unexpected error occurred"}), 500
 
 
-@availableswaps_bp.route("/availableswaps", methods=["POST"])
+@availableswaps_bp.route("/add_availableswaps", methods=["POST"])
 @login_required
 def add_available_swap():
     print("A user is trying to add an available swap")
@@ -77,18 +77,67 @@ def add_available_swap():
     try:
         data = request.get_json()
         user_id = current_user.id
-        giving_course_id = data.get("giving_course_id")
-        wanted_course_id = data.get("wanted_course_id")
+        giving_course = data.get("selectedCourse")
+        wanted_courses = data.get("selectedCourses")
 
-        if user_id and giving_course_id and wanted_course_id:
-            new_available_swap = CoursesAvailableToSwap(
-                user_id=user_id,
-                giving_course_id=giving_course_id,
-                wanted_course_id=wanted_course_id,
-            )
-            db.session.add(new_available_swap)
-            db.session.commit()
-            return jsonify({"message": "Available swap added successfully"}), 200
+        if not giving_course or not wanted_courses:
+            return jsonify({"error": "Missing course data"}), 400
+
+        giving_course_id = giving_course.get("id")
+        for wanted_course in wanted_courses:
+            wanted_course_id = wanted_course.get("course_id")
+            if giving_course_id and wanted_course_id:
+                new_available_swap = CoursesAvailableToSwap(
+                    user_id=user_id,
+                    giving_course_id=giving_course_id,
+                    wanted_course_id=wanted_course_id,
+                )
+                db.session.add(new_available_swap)
+
+        db.session.commit()
+        return jsonify({"message": "Available swaps added successfully"}), 200
     except Exception as e:
         print(e)
         return jsonify({"error": "Invalid Input"}), 400
+
+
+@availableswaps_bp.route("/swap_courses", methods=["GET"])
+@login_required
+def all_courses():
+    if not current_user.is_authenticated:
+        return jsonify({"error": "Unauthorized access"}), 401
+
+    try:
+        all_courses = Courses.query.all()
+        # filter out completed courses and current courses
+        completed_courses_ids = [
+            c.course_id
+            for c in UserCompletedCourses.query.filter_by(user_id=current_user.id)
+        ]
+        current_courses_ids = [
+            c.course_id
+            for c in UserCurrentCourses.query.filter_by(user_id=current_user.id)
+        ]
+        courses = []
+
+        for course in all_courses:
+            if (
+                course.id not in completed_courses_ids
+                and course.id not in current_courses_ids
+            ):
+                course_details = {
+                    "course_id": course.id,
+                    "course_name": course.name,
+                    "course_code": course.code,
+                    "course_timeslot": course.timeslot_id,
+                    "prerequisites": [
+                        {"name": prerequisite.name, "code": prerequisite.code}
+                        for prerequisite in course.prerequisites
+                    ],
+                }
+                courses.append(course_details)
+
+        return jsonify({"all_courses": courses}), 200
+    except Exception as e:
+        print(e)
+        return jsonify({"error": "An unexpected error occurred"}), 500
