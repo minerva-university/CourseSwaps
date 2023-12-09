@@ -52,7 +52,7 @@ export default function UserFormPage() {
     // Check for overlapping courses whenever currentClasses or previousCourses change
     setFormErrors(formErrors => {
       const overlapError = formData.currentClasses.some(course => formData.previousCourses.includes(course))
-        ? 'Cannot select the same course as both current and previous'
+        ? 'Cannot select the same course as both currently assigned course and previously completed course'
         : '';
   
       return { ...formErrors, currentClasses: overlapError, previousCourses: overlapError };
@@ -278,7 +278,7 @@ export default function UserFormPage() {
                 {...params}
                 error={!!formErrors.previousCourses}
                 helperText={
-                  formErrors.previousCourses || "Cannot select the same course as both current and previous"
+                  formErrors.previousCourses || "Cannot select the same course as both currently assigned course and previously completed course"
                 }
                 label="Previous Courses"
                 placeholder="Courses"

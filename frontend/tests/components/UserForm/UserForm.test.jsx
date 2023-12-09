@@ -142,7 +142,7 @@ describe("UserFormPage", () => {
   
     // Check for error message
     await waitFor(() => {
-      const errorMessage = screen.getByText('Cannot select the same course as both current and previous');
+      const errorMessage = screen.getByText('Cannot select the same course as both currently assigned course and previously completed course');
       expect(errorMessage).toBeInTheDocument();
     });
   });
