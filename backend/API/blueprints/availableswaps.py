@@ -66,7 +66,6 @@ def available_swaps():
                         else None,
                     }
                     eligible_swaps.append(swap_details)
-        print(eligible_swaps)
         return jsonify({"available_swaps": eligible_swaps}), 200
     except Exception as e:
         print(e)
@@ -76,7 +75,6 @@ def available_swaps():
 @availableswaps_bp.route("/add_availableswaps", methods=["POST"])
 @login_required
 def add_available_swap():
-    print("A user is trying to add an available swap")
     if not current_user.is_authenticated:
         return jsonify({"error": "User not logged in"}), 401
 
