@@ -66,7 +66,6 @@ def available_swaps():
                         else None,
                     }
                     eligible_swaps.append(swap_details)
-        print(eligible_swaps)
         return jsonify({"available_swaps": eligible_swaps}), 200
     except Exception as e:
         print(e)
