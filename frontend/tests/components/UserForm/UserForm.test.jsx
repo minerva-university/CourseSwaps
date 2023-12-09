@@ -114,4 +114,37 @@ describe("UserFormPage", () => {
       expect(mockPost).toHaveReturnedWith(Promise.resolve({ status: 200 }));
     });
   });
+
+
+
+
+  
+  it("displays an error when the same course is selected as both current and previous", async () => {
+    render(
+      <BrowserRouter>
+        <UserFormPage />
+      </BrowserRouter>
+    );
+  
+    // Select the same course for current and previous courses
+    const commonCourse = "CS110 - Problem Solving with Data Structures and Algorithms";
+  
+    // Open the current classes dropdown
+    const currentClassesButton = screen.getByLabelText(
+      /Currently Assigned Courses by MU Registrar/,
+    );
+    fireEvent.mouseDown(currentClassesButton);
+    await waitFor(() => screen.getByRole('presentation')); // Wait for the dropdown to be present
+  
+    // Click the common course in the current classes dropdown
+    const currentCourseOption = await screen.findByText(commonCourse);
+    fireEvent.click(currentCourseOption);
+  
+    // Check for error message
+    await waitFor(() => {
+      const errorMessage = screen.getByText('Cannot select the same course as both currently assigned course and previously completed course');
+      expect(errorMessage).toBeInTheDocument();
+    });
+  });
 });
+

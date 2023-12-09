@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useApi } from '../../contexts/ApiProvider';
 import validateFormData from './UserFormValidator';
@@ -47,16 +47,29 @@ export default function UserFormPage() {
   const navigate = useNavigate();
   const api = useApi();
 
+
+  useEffect(() => {
+    // Check for overlapping courses whenever currentClasses or previousCourses change
+    setFormErrors(formErrors => {
+      const overlapError = formData.currentClasses.some(course => formData.previousCourses.includes(course))
+        ? 'Cannot select the same course as both currently assigned course and previously completed course'
+        : '';
+  
+      return { ...formErrors, currentClasses: overlapError, previousCourses: overlapError };
+    });
+  }, [formData.currentClasses, formData.previousCourses]);
+  
+
   
   const handleChange = (event, newValue) => {
     if (event.target.name === 'currentClasses' || event.target.name === 'previousCourses') {
+      // Only update formData, the useEffect hook will handle error checking
       setFormData({ ...formData, [event.target.name]: newValue });
-
     } else {
       const { name, value } = event.target;
       setFormData({ ...formData, [name]: value });
   
-      // Real-time validation for Minerva Student ID
+      // Existing validation for Minerva Student ID
       if (name === 'minervaID') {
         setFormErrors({
           ...formErrors,
@@ -65,6 +78,7 @@ export default function UserFormPage() {
       }
     }
   };
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -264,7 +278,7 @@ export default function UserFormPage() {
                 {...params}
                 error={!!formErrors.previousCourses}
                 helperText={
-                  formErrors.previousCourses || "Select at least one course"
+                  formErrors.previousCourses || "Cannot select the same course as both currently assigned course and previously completed course"
                 }
                 label="Previous Courses"
                 placeholder="Courses"
