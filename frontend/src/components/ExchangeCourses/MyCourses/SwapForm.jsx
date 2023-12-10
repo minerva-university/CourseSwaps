@@ -80,10 +80,10 @@ const SwapForm = ({ open, onClose, selectedCourse }) => {
       >
         <DialogTitle>Confirm Course Swap</DialogTitle>
         <DialogContent>
-          <Typography>
-            Are you sure you want to swap {selectedCourse?.code} for{" "}
-            {selectedCourses.map((course) => course.course_code).join(", ")}?
-          </Typography>
+        <Typography>
+          Are you sure you want to swap {`${selectedCourse?.code} - ${selectedCourse?.name}`} for{" "}
+          {selectedCourses.map((course) => `${course.course_code} - ${course.course_name}`).join(", ")}?
+        </Typography>
         </DialogContent>
         <DialogActions>
           <Button onClick={() => setConfirmDialogOpen(false)}>Cancel</Button>
@@ -123,7 +123,7 @@ const SwapForm = ({ open, onClose, selectedCourse }) => {
             <Autocomplete
               multiple
               options={availableCourses}
-              getOptionLabel={(option) => option.course_code}
+              getOptionLabel={(option) => `${option.course_code} - ${option.course_name}`}
               onChange={(event, newValue) => setSelectedCourses(newValue)}
               renderInput={(params) => (
                 <TextField
