@@ -62,7 +62,7 @@ describe("ViewUserProfile", () => {
     fireEvent.click(closeButton);
     expect(mockCloseViewProfile).toHaveBeenCalled();
   });
-  
+  //TODO: Comment out this test and fix later
   // it("displays an error when the same course is selected as both current and previous", async () => {
   //   render(
   //     <BrowserRouter>
