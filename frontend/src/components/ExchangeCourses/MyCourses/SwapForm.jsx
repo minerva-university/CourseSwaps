@@ -101,51 +101,50 @@ const SwapForm = ({ open, onClose, selectedCourse }) => {
         alignItems: "center",
         width: "80%",
       }}
-      
     >
       {!confirmDialogOpen && (
-      <Dialog
-        open={open}
-        onClose={onClose}
-        fullWidth={true}
-        maxWidth="md" // Adjust dialog width here
-        sx={{
-          "& .MuiDialog-paper": {
-            maxWidth: "50%",
-            height: "auto",
-          },
-        }} // Custom styles
-      >
-        <DialogTitle>Choose Courses to Swap</DialogTitle>
-        <DialogContent>
-          <Typography variant="body1" gutterBottom>
-            Select all the courses you would be willing to swap for.
-          </Typography>
-          <Autocomplete
-            multiple
-            options={availableCourses}
-            getOptionLabel={(option) => option.course_code}
-            onChange={(event, newValue) => setSelectedCourses(newValue)}
-            renderInput={(params) => (
-              <TextField
-                {...params}
-                variant="standard"
-                label="Search Courses"
-                fullWidth
-              />
-            )}
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={onClose}>Cancel</Button>
-          <Button
-            onClick={handleConfirmSwap}
-            disabled={selectedCourses.length === 0}
-          >
-            Confirm Swap
-          </Button>
-        </DialogActions>
-      </Dialog>
+        <Dialog
+          open={open}
+          onClose={onClose}
+          fullWidth={true}
+          maxWidth="md" // Adjust dialog width here
+          sx={{
+            "& .MuiDialog-paper": {
+              maxWidth: "50%",
+              height: "auto",
+            },
+          }} // Custom styles
+        >
+          <DialogTitle>Choose Courses to Swap</DialogTitle>
+          <DialogContent>
+            <Typography variant="body1" gutterBottom>
+              Select all the courses you would be willing to swap for.
+            </Typography>
+            <Autocomplete
+              multiple
+              options={availableCourses}
+              getOptionLabel={(option) => option.course_code}
+              onChange={(event, newValue) => setSelectedCourses(newValue)}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  variant="standard"
+                  label="Search Courses"
+                  fullWidth
+                />
+              )}
+            />
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={onClose}>Cancel</Button>
+            <Button
+              onClick={handleConfirmSwap}
+              disabled={selectedCourses.length === 0}
+            >
+              Confirm Swap
+            </Button>
+          </DialogActions>
+        </Dialog>
       )}
       <ConfirmationDialog selectedCourse={selectedCourse} />
       <Snackbar
