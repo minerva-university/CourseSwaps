@@ -28,6 +28,7 @@ describe("SwapForm", () => {
 
   it("renders the component", async () => {
     render(
+
       <SwapForm
         open={true}
         onClose={() => {}}

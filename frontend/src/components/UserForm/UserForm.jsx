@@ -1,7 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useApi } from '../../contexts/ApiProvider';
-import validateFormData from './UserFormValidator';
+import coursesData from "../../courses_data/courses.json"; //for the current classes and previous courses
+import majorsData from "../../courses_data/data.json"; //for the concentrations and majors
+import React, { useState, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+import { useApi } from "../../contexts/ApiProvider";
+import validateFormData from "./UserFormValidator";
 import {
   TextField,
   Button,
@@ -15,87 +17,184 @@ import {
   Grid,
   Checkbox,
   FormHelperText,
-  Autocomplete,
-} from '@mui/material';
+} from "@mui/material";
+import Autocomplete from "@mui/material/Autocomplete";
 
-import coursesData from '../../courses_data/courses.json';
-import majorsData from '../../courses_data/data.json';
+const formControlStyle = {
+  flexGrow: 1,
+  margin: "8px",
+};
 
-// Styles
-const formControlStyle = { flexGrow: 1, margin: '8px' };
-const paperStyle = { padding: '20px', width: '100%', maxWidth: '600px', margin: 'auto', marginTop: '50px' };
-const titleStyle = { marginBottom: '16px', textAlign: 'center', fontSize: '24px' };
-const submitButtonStyle = { marginTop: '16px', display: 'block', marginLeft: 'auto' };
-const gridContainerStyle = { display: 'flex', flexDirection: 'column', alignItems: 'center' };
-const autocompleteStyle = { flexGrow: 1, margin: '8px' };
-const menuPaperStyle = { maxHeight: 200 };
-const menuProps = { PaperProps: { style: menuPaperStyle } };
-const dualFieldContainerStyle = { display: 'flex', justifyContent: 'space-between', gap: '16px', width: '100%', margin: '8px 0' };
-const halfWidthContainerStyle = { display: 'flex', justifyContent: 'center', width: '100%', maxWidth: '800px', margin: '8px 0' };
+const paperStyle = {
+  padding: "20px",
+  width: "100%",
+  maxWidth: "600px",
+  margin: "auto",
+  marginTop: "50px",
+};
+
+const titleStyle = {
+  marginBottom: "16px",
+  textAlign: "center",
+  fontSize: "24px",
+};
+
+const submitButtonStyle = {
+  marginTop: "16px",
+  display: "block",
+  marginLeft: "auto",
+};
+
+const gridContainerStyle = {
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+};
+
+const autocompleteStyle = {
+  flexGrow: 1,
+  margin: "8px",
+};
+
+const menuPaperStyle = {
+  maxHeight: 200,
+};
+
+const menuProps = {
+  PaperProps: {
+    style: menuPaperStyle,
+  },
+};
+
+// for the major and concentration input fields
+const dualFieldContainerStyle = {
+  display: "flex",
+  justifyContent: "space-between",
+  gap: "16px",
+  width: "100%",
+  margin: "8px 0",
+};
+
+// for the minor input field
+const halfWidthContainerStyle = {
+  display: "flex",
+  justifyContent: "center",
+  width: "100%",
+  maxWidth: "800px",
+  margin: "8px 0",
+};
 
 export default function UserFormPage() {
-  const [formData, setFormData] = useState({
-    class: '',
-    minervaID: '',
-    currentClasses: [],
-    previousCourses: [],
-    major: '',
-    concentration: '',
-    minor: '',
-  });
-  const [formErrors, setFormErrors] = useState({});
+  const location = useLocation();
   const navigate = useNavigate();
-  const api = useApi();
 
+  // Extract properties from location.state
+  const {
+    class: userClass = "",
+    minervaID = "",
+    currentClasses = [],
+    previousCourses = [],
+    major = "",
+    concentration = "",
+    minor = "",
+    isUpdateMode = false,
+  } = location.state || {};
 
-  useEffect(() => {
-    // Check for overlapping courses whenever currentClasses or previousCourses change
-    setFormErrors(formErrors => {
-      const overlapError = formData.currentClasses.some(course => formData.previousCourses.includes(course))
-        ? 'Cannot select the same course as both currently assigned course and previously completed course'
-        : '';
-  
-      return { ...formErrors, currentClasses: overlapError, previousCourses: overlapError };
-    });
-  }, [formData.currentClasses, formData.previousCourses]);
-  
-
-  
-  const handleChange = (event, newValue) => {
-    if (event.target.name === 'currentClasses' || event.target.name === 'previousCourses') {
-      // Only update formData, the useEffect hook will handle error checking
-      setFormData({ ...formData, [event.target.name]: newValue });
-    } else {
-      const { name, value } = event.target;
-      setFormData({ ...formData, [name]: value });
-  
-      // Existing validation for Minerva Student ID
-      if (name === 'minervaID') {
-        setFormErrors({
-          ...formErrors,
-          minervaID: /^\d{6}$/.test(value) ? '' : 'ID must be exactly 6 digits'
-        });
-      }
-    }
+  // Initialize formData with default properties
+  const initialFormData = {
+    class: userClass,
+    minervaID,
+    currentClasses,
+    previousCourses,
+    major,
+    concentration,
+    minor,
   };
-  
 
+  const [formData, setFormData] = useState(initialFormData);
+
+  const [touchedFields, setTouchedFields] = useState({});
+
+  const [formErrors, setFormErrors] = useState({});
+  const userData = location.state?.userData || {};
+
+  // useEffect to set initial form values when userData is available
+  useEffect(() => {
+    if (userData && isUpdateMode) {
+      // Populate form with userData in update mode
+      setFormData({
+        ...initialFormData,
+        ...userData,
+        concentration: userData.concentration || "",
+      });
+    }
+  }, [userData, isUpdateMode]);
+
+  // console.log("userData is:", userData);
+  // console.log("isUpdateMode is:", isUpdateMode);
+
+  // Function to check for any form errors
+  const checkForErrors = (data, fieldsToValidate) => {
+    const validation = validateFormData(data, fieldsToValidate);
+    setFormErrors(validation.errors);
+    return validation.isValid;
+  };
+
+  // Handle field changes and perform live validation
+  const handleChange = (e, newValue) => {
+    const { name, value } = e.target ? e.target : { name: "", value: "" };
+
+    // If major is changed, reset concentration
+    if (name === "major") {
+      setFormData({ ...formData, [name]: value, concentration: "" });
+      setTouchedFields({ ...touchedFields, [name]: true, concentration: true });
+    } else if (name === "currentClasses" || name === "previousCourses") {
+      setFormData({ ...formData, [name]: newValue });
+      setTouchedFields({ ...touchedFields, [name]: true });
+    } else {
+      setFormData({ ...formData, [name]: value });
+      setTouchedFields({ ...touchedFields, [name]: true });
+    }
+
+    // Trigger validation for touched fields
+    const fieldsToValidate = Object.keys(touchedFields).concat(name);
+    checkForErrors(
+      {
+        ...formData,
+        [name]:
+          name === "currentClasses" || name === "previousCourses"
+            ? newValue
+            : value,
+      },
+      fieldsToValidate
+    );
+  };
+
+  const api = useApi();
+  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     const validation = validateFormData(formData);
     setFormErrors(validation.errors);
 
+    const endpoint = isUpdateMode ? "/update-user" : "/userdata";
+
     if (validation.isValid) {
+      let response;
       try {
-        const response = await api.post('/userdata', formData);
-        if (response.status === 200) {
-          console.log('Successfully registered user');
-          navigate('/');
+        if (isUpdateMode) {
+          response = await api.put(endpoint, formData);
         } else {
-          console.log('Failed to register user');
+          response = await api.post(endpoint, formData);
+        }
+        if (response.status === 200) {
+          console.log("Operation successful");
+          navigate("/");
+        } else {
+          console.log("Operation failed");
         }
       } catch (error) {
-        console.error('Error submitting form', error);
+        console.error("Error", error);
       }
     }
   };
@@ -103,9 +202,16 @@ export default function UserFormPage() {
   return (
     <Grid container style={gridContainerStyle}>
       <Paper elevation={3} style={paperStyle}>
-        <Typography variant="h4" style={titleStyle}>
-          Fill out the form below to create your profile
-        </Typography>
+        {isUpdateMode ? (
+          <Typography variant="h4" style={titleStyle}>
+            Update your profile
+          </Typography>
+        ) : (
+          <Typography variant="h4" style={titleStyle}>
+            Fill out the form below to create your profile
+          </Typography>
+        )}
+        <Divider style={{ marginBottom: "16px" }} />
         <form onSubmit={handleSubmit}>
           <div style={dualFieldContainerStyle}>
             <FormControl error={!!formErrors.class} style={formControlStyle}>
@@ -208,11 +314,10 @@ export default function UserFormPage() {
                 onChange={handleChange}
                 label="Concentration"
               >
-                {/* Populate concentrations based on selected major */}
                 {majorsData.majors
                   .find((major) => major.majorId === formData.major)
-                  ?.Concentrations.map((concentration) => (
-                    <MenuItem key={concentration} value={concentration}>
+                  ?.Concentrations.map((concentration, index) => (
+                    <MenuItem key={index} value={concentration}>
                       {concentration}
                     </MenuItem>
                   ))}
@@ -278,7 +383,7 @@ export default function UserFormPage() {
                 {...params}
                 error={!!formErrors.previousCourses}
                 helperText={
-                  formErrors.previousCourses || "Cannot select the same course as both currently assigned course and previously completed course"
+                  formErrors.previousCourses || "Select at least one course"
                 }
                 label="Previous Courses"
                 placeholder="Courses"
@@ -293,7 +398,7 @@ export default function UserFormPage() {
             style={submitButtonStyle}
             disabled={!validateFormData(formData).isValid}
           >
-            Submit
+            {isUpdateMode ? "Update" : "Submit"}
           </Button>
         </form>
       </Paper>

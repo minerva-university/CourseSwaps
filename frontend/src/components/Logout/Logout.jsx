@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-function Logout({ setUser, setAuthenticated }) {
+function Logout({ setUser, setAuthenticated, setAnchorEl }) {
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -11,6 +11,8 @@ function Logout({ setUser, setAuthenticated }) {
     // Clear the user data by calling setUser with an empty object
     setUser({});
     setAuthenticated(false);
+    setAnchorEl(null);
+
 
     // Navigate to the home page or any other appropriate page after logout
     navigate("/");
