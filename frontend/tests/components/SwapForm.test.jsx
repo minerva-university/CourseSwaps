@@ -9,8 +9,8 @@ jest.mock("../../src/contexts/ApiProvider", () => ({
 }));
 
 const mockCourses = [
-  { course_code: "COURSE1", name: "Course 1" },
-  { course_code: "COURSE2", name: "Course 2" },
+  { course_code: "COURSE1", course_name: "Course 1" },
+  { course_code: "COURSE2", course_name: "Course 2" },
 ];
 
 describe("SwapForm", () => {
@@ -45,7 +45,7 @@ describe("SwapForm", () => {
       <SwapForm
         open={true}
         onClose={() => {}}
-        selectedCourse={{ code: "CS110", name: "CS110" }}
+        selectedCourse={{ code: "CS110", name: "Data Structures and Algorithms" }}
       />
     );
 
@@ -54,7 +54,7 @@ describe("SwapForm", () => {
 
     // Wait for the options to be loaded and visible
     await waitFor(() =>
-      expect(screen.getByText("COURSE1")).toBeInTheDocument()
+      expect(screen.getByText(/COURSE1 - Course 1/)).toBeInTheDocument()
     );
   });
 
@@ -72,11 +72,11 @@ describe("SwapForm", () => {
 
     // Wait for the options to be loaded and visible
     await waitFor(() =>
-      expect(screen.getByText("COURSE1")).toBeInTheDocument()
+      expect(screen.getByText("COURSE1 - Course 1")).toBeInTheDocument()
     );
 
     // Select an option
-    fireEvent.click(screen.getByText("COURSE1"));
+    fireEvent.click(screen.getByText("COURSE1 - Course 1"));
 
     // Click the 'Confirm Swap' button
     fireEvent.click(screen.getByText("Confirm Swap"));
