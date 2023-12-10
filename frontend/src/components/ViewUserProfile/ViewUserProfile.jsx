@@ -33,9 +33,7 @@ const ViewUserProfile = ({ closeViewProfile }) => {
         const response = await api.get("/view-userdata", {
           withCredentials: true,
         });
-        console.log(response); // Log the full response object
         if (response.status === 200 && response.body) {
-          console.log("Data received:", response.body); // Log the response body
           setUserData(response.body);
         } else {
           console.log("Failed to fetch user data", response.status);
@@ -56,7 +54,12 @@ const ViewUserProfile = ({ closeViewProfile }) => {
 
   // Conditional rendering to check if userData properties are populated
   return (
-    <Grid container justifyContent="center" style={{ padding: "20px" }}>
+    <Grid
+      container
+      justifyContent="center"
+      style={{ padding: "20px" }}
+      data-testid="view-user-profile"
+    >
       <Paper
         elevation={3}
         style={{ padding: "20px", maxWidth: "600px", width: "100%" }}

@@ -51,15 +51,19 @@ describe("ViewUserProfile", () => {
     });
   });
 
-  it("responds to 'Edit Profile' button click", () => {
-    const editButton = screen.getByText("Edit Profile");
-    fireEvent.click(editButton);
-    expect(mockCloseViewProfile).toHaveBeenCalled();
+  it("responds to 'Edit Profile' button click", async () => {
+    await waitFor(() => {
+      const editButton = screen.getByText("Edit Profile");
+      fireEvent.click(editButton);
+      expect(mockCloseViewProfile).toHaveBeenCalled();
+    });
   });
 
-  it("responds to 'Close' button click", () => {
-    const closeButton = screen.getByText("Close");
-    fireEvent.click(closeButton);
-    expect(mockCloseViewProfile).toHaveBeenCalled();
+  it("responds to 'Close' button click", async () => {
+    await waitFor(() => {
+      const closeButton = screen.getByText("Close");
+      fireEvent.click(closeButton);
+      expect(mockCloseViewProfile).toHaveBeenCalled();
+    });
   });
 });

@@ -2,10 +2,10 @@ import React from "react";
 import { render, screen, waitFor, fireEvent } from "@testing-library/react";
 import "@testing-library/jest-dom";
 
-import ViewUserProfile from "../../../src/components/ViewUserProfile/ViewUserProfile"; // Adjust the import path as needed
+import ViewUserProfile from "../../../src/components/ViewUserProfile/ViewUserProfile";
 import { BrowserRouter } from "react-router-dom";
 
-// Mocking useApi and useNavigate
+// Mocking useApi
 jest.mock("../../../src/contexts/ApiProvider", () => ({
   useApi: () => ({
     get: jest.fn().mockResolvedValue({
@@ -23,13 +23,10 @@ jest.mock("../../../src/contexts/ApiProvider", () => ({
   }),
 }));
 
-jest.mock("react-router-dom", () => ({
-  ...jest.requireActual("react-router-dom"),
-  useNavigate: () => jest.fn(),
-}));
-
 describe("ViewUserProfile", () => {
-  const mockCloseViewProfile = jest.fn();
+  const mockCloseViewProfile = jest.fn(
+    () => console.log("Close View Profile"),
+  );
 
   beforeEach(() => {
     render(
@@ -51,16 +48,21 @@ describe("ViewUserProfile", () => {
     });
   });
 
-  it("responds to 'Edit Profile' button click", () => {
-    const editButton = screen.getByText("Edit Profile");
-    fireEvent.click(editButton);
-    expect(mockCloseViewProfile).toHaveBeenCalled();
+  it("responds to 'Edit Profile' button click", async () => {
+    
+    await waitFor(() => {
+      const editButton = screen.getByText("Edit Profile");
+      fireEvent.click(editButton);
+      expect(mockCloseViewProfile).toHaveBeenCalled();
+    });
   });
 
-  it("responds to 'Close' button click", () => {
-    const closeButton = screen.getByText("Close");
-    fireEvent.click(closeButton);
-    expect(mockCloseViewProfile).toHaveBeenCalled();
+  it("responds to 'Close' button click", async () => {
+    await waitFor(() => {
+      const closeButton = screen.getByText("Close");
+      fireEvent.click(closeButton);
+      expect(mockCloseViewProfile).toHaveBeenCalled();
+    });
   });
   //TODO: Comment out this test and fix later
   // it("displays an error when the same course is selected as both current and previous", async () => {

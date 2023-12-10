@@ -20,27 +20,21 @@ describe("SwapForm Component", () => {
   // Rendering Tests
   test("renders SwapForm with SwapButton", () => {
     render(
-      <SwapForm
-        userCourses={userCourses}
-        availableCourses={availableCourses}
-      />,
+      <SwapForm userCourses={userCourses} availableCourses={availableCourses} />
     );
     expect(
-      screen.getByRole("button", { name: /mock swap button/i }),
+      screen.getByRole("button", { name: /mock swap button/i })
     ).toBeInTheDocument();
   });
 
   // Prop Usage Tests
   test("passes correct props to SwapButton", () => {
     render(
-      <SwapForm
-        userCourses={userCourses}
-        availableCourses={availableCourses}
-      />,
+      <SwapForm userCourses={userCourses} availableCourses={availableCourses} />
     );
     // Check if the Mock Swap Button is rendered, indicating that the SwapButton component received the props
     expect(
-      screen.getByRole("button", { name: /mock swap button/i }),
+      screen.getByRole("button", { name: /mock swap button/i })
     ).toBeInTheDocument();
   });
 });
