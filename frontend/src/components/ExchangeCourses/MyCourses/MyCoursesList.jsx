@@ -5,8 +5,6 @@ import Button from "@mui/material/Button";
 import SwapHorizIcon from "@mui/icons-material/SwapHoriz";
 import SwapForm from "./SwapForm";
 import DropButton from "./DropButton";
-import Dialog from "@mui/material/Dialog";
-import DialogContent from "@mui/material/DialogContent";
 import { useApi } from "../../../contexts/ApiProvider";
 import { useRefresh } from "../../../contexts/useRefresh";
 
@@ -18,13 +16,10 @@ const MyCoursesList = () => {
   const api = useApi();
   const { refreshKey } = useRefresh();
 
-  // Dummy data for userCourses and availableCourses
-  const availableCourses = ["Course A", "Course B", "Course C"];
-
   useEffect(() => {
     const fetchUserCourses = async () => {
       try {
-        const response = await api.get('/mycourses'); // Adjust the endpoint as needed
+        const response = await api.get('/mycourses'); 
         if (response.ok) {
           if (response.body.current_courses) {
           setUserCourses(response.body.current_courses);
@@ -96,25 +91,26 @@ const MyCoursesList = () => {
             <Button
               variant="contained"
               onClick={() => handleSwapButtonClick(course)}
-              sx={{ backgroundColor: "black" }}
+              sx={{ backgroundColor: "black", height: "30.5px"}}
             >
               <SwapHorizIcon />
             </Button>
-            <DropButton key={course.id} courseName={course.name} courseId={course.id}/>
+            <DropButton
+              key={course.id}
+              courseName={course.name}
+              courseId={course.id}
+              sx={{
+                flex: "1",
+              }}
+            />
           </Box>
         </Box>
       ))}
-
-      <Dialog open={open} onClose={handleCloseSwapForm} maxWidth="lg">
-        <DialogContent>
-          <SwapForm
-            userCourses={userCourses}
-            availableCourses={availableCourses}
-            selectedCourse={selectedCourse}
-            onClose={handleCloseSwapForm}
-          />
-        </DialogContent>
-      </Dialog>
+      <SwapForm
+        open={open}
+        onClose={handleCloseSwapForm}
+        selectedCourse={selectedCourse}
+      />
     </Box>
   );
 };
