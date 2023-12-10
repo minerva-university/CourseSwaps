@@ -16,6 +16,7 @@ class MyCoursesTestCase(unittest.TestCase):
                 "TESTING": True,
                 "SQLALCHEMY_DATABASE_URI": "sqlite:///:memory:",
                 "WTF_CSRF_ENABLED": False,
+                "SECRET_KEY": "test_secret_key",
             }
         )
         self.client = self.app.test_client()
@@ -81,7 +82,6 @@ class MyCoursesTestCase(unittest.TestCase):
                 response = self.client.get("api/mycourses")
                 self.assertEqual(response.status_code, 200)
                 json_data = response.json
-                print(json_data)
                 self.assertEqual(len(json_data["current_courses"]), 1)
 
     def tearDown(self):

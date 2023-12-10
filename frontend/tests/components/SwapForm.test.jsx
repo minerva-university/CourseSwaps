@@ -1,40 +1,100 @@
 import React from "react";
-import { render, screen } from "@testing-library/react";
+import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import SwapForm from "../../src/components/ExchangeCourses/MyCourses/SwapForm";
+import { useApi } from "../../src/contexts/ApiProvider";
 
-// If SwapButton is complex, consider mocking it:
-jest.mock("../../src/components/ExchangeCourses/MyCourses/SwapButton", () => ({
-  __esModule: true,
-  default: ({ onSwapSubmit }) => (
-    <button onClick={() => onSwapSubmit("Course 1", "Course A")}>
-      Mock Swap Button
-    </button>
-  ),
+// Mock the useApi hook
+jest.mock("../../src/contexts/ApiProvider", () => ({
+  useApi: jest.fn(),
 }));
 
-describe("SwapForm Component", () => {
-  // Mock data for userCourses and availableCourses
-  const userCourses = ["Course 1", "Course 2"];
-  const availableCourses = ["Course A", "Course B"];
+const mockCourses = [
+  { course_code: "COURSE1", name: "Course 1" },
+  { course_code: "COURSE2", name: "Course 2" },
+];
 
-  // Rendering Tests
-  test("renders SwapForm with SwapButton", () => {
-    render(
-      <SwapForm userCourses={userCourses} availableCourses={availableCourses} />
-    );
-    expect(
-      screen.getByRole("button", { name: /mock swap button/i })
-    ).toBeInTheDocument();
+describe("SwapForm", () => {
+  beforeEach(() => {
+    useApi.mockReturnValue({
+      get: jest.fn().mockResolvedValue({
+        ok: true,
+        body: { all_courses: mockCourses },
+      }),
+      post: jest.fn().mockResolvedValue({
+        ok: true,
+      }),
+    });
   });
 
-  // Prop Usage Tests
-  test("passes correct props to SwapButton", () => {
+  it("renders the component", async () => {
     render(
-      <SwapForm userCourses={userCourses} availableCourses={availableCourses} />
+
+      <SwapForm
+        open={true}
+        onClose={() => {}}
+        selectedCourse={{ code: "COURSE1", name: "Course 1" }}
+      />
     );
-    // Check if the Mock Swap Button is rendered, indicating that the SwapButton component received the props
-    expect(
-      screen.getByRole("button", { name: /mock swap button/i })
-    ).toBeInTheDocument();
+    await waitFor(() =>
+      expect(screen.getByText("Choose Courses to Swap")).toBeInTheDocument()
+    );
+  });
+
+  it("loads and displays available courses", async () => {
+    render(
+      <SwapForm
+        open={true}
+        onClose={() => {}}
+        selectedCourse={{ code: "CS110", name: "CS110" }}
+      />
+    );
+
+    // Trigger the Autocomplete dropdown
+    fireEvent.mouseDown(screen.getByLabelText("Search Courses"));
+
+    // Wait for the options to be loaded and visible
+    await waitFor(() =>
+      expect(screen.getByText("COURSE1")).toBeInTheDocument()
+    );
+  });
+
+  it("completes a course swap", async () => {
+    render(
+      <SwapForm
+        open={true}
+        onClose={() => {}}
+        selectedCourse={{ code: "COURSE1", name: "Course 1" }}
+      />
+    );
+
+    // Trigger the Autocomplete dropdown
+    fireEvent.mouseDown(screen.getByLabelText("Search Courses"));
+
+    // Wait for the options to be loaded and visible
+    await waitFor(() =>
+      expect(screen.getByText("COURSE1")).toBeInTheDocument()
+    );
+
+    // Select an option
+    fireEvent.click(screen.getByText("COURSE1"));
+
+    // Click the 'Confirm Swap' button
+    fireEvent.click(screen.getByText("Confirm Swap"));
+
+    // Wait for and click the 'Confirm' button in the confirmation dialog
+    await waitFor(() =>
+      expect(screen.getByText("Confirm Course Swap")).toBeInTheDocument()
+    );
+    fireEvent.click(screen.getByText("Confirm"));
+
+    // Check for the success message
+    await waitFor(() =>
+      expect(
+        screen.getByText("Swap confirmed successfully")
+      ).toBeInTheDocument()
+    );
+
+    // Check that the dialog is closed
+    expect(screen.queryByText("Confirm Course Swap")).not.toBeInTheDocument();
   });
 });

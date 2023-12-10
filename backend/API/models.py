@@ -56,6 +56,7 @@ class Courses(db.Model):
         backref=db.backref("prerequisite_for", lazy="dynamic"),
         lazy="dynamic",
     )
+    # TODO: Add a column for the professor's name ()
 
     def __repr__(self):
         return f"Course('{self.name}', '{self.code}')"
