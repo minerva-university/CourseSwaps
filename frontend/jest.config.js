@@ -7,5 +7,7 @@ export default {
   },
   // Setup files after the environment is set up
   setupFilesAfterEnv: ["./jest.setup.js"],
-  // ... other configurations
+  moduleNameMapper: {
+    "\\.(jpg|jpeg|png|gif|webp|svg)$": "<rootDir>/fileMock.js",
+  },
 };

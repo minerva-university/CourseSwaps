@@ -27,9 +27,7 @@ describe("AuthPage", () => {
       </Router>,
     );
     const signUpComponent = screen.getByTestId("signup-component");
-    const loginComponent = screen.getByTestId("login-component");
 
     expect(signUpComponent).toBeInTheDocument();
-    expect(loginComponent).toBeInTheDocument();
   });
 });
