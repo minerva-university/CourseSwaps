@@ -1,7 +1,7 @@
 import unittest
 from API import create_app, db
-from API.models import Users, Roles, Courses, UserCurrentCourses, CoursesAvailableToSwap
-from flask_login import login_user, logout_user, login_manager
+from API.models import Users, Courses, UserCurrentCourses, CoursesAvailableToSwap
+from flask_login import login_user, logout_user
 
 
 class ConfirmSwapTestCase(unittest.TestCase):
@@ -62,39 +62,38 @@ class ConfirmSwapTestCase(unittest.TestCase):
 
             db.session.commit()
 
-    def login_user(self, user_id):
-        with self.app.app_context():
-            user = Users.query.filter_by(id=user_id).first()
-            with self.client:
-                login_user(user)
-
     def test_confirm_swap_unauthenticated(self):
+        # Test unauthorized access
         response = self.client.post("/confirm_swap", json={"selectedSwap": 1})
         self.assertEqual(response.status_code, 401)
 
     def test_confirm_swap_swap_not_found(self):
-        self.login_user("1162634048916661")
-        response = self.client.post("/confirm_swap", json={"selectedSwap": 99})
-        self.assertEqual(response.status_code, 404)
-        logout_user()
+        with self.app.app_context():
+            login_user(Users.query.get("user1"))
+            response = self.client.post("/confirm_swap", json={"selectedSwap": 99})
+            self.assertEqual(response.status_code, 404)
+            logout_user()
 
     def test_confirm_swap_successful(self):
-        self.login_user("1162634048916661")
-        response = self.client.post("/confirm_swap", json={"selectedSwap": 1})
-        self.assertEqual(response.status_code, 200)
+        with self.app.app_context():
+            login_user(Users.query.get("user1"))
+            response = self.client.post("/confirm_swap", json={"selectedSwap": 1})
+            self.assertEqual(response.status_code, 200)
 
-        user1_course = UserCurrentCourses.query.filter_by(
-            user_id="1162634048916661"
-        ).first()
-        user2_course = UserCurrentCourses.query.filter_by(user_id="567").first()
-        self.assertEqual(user1_course.course_id, 3)
-        self.assertEqual(user2_course.course_id, 20)
+            # Verifying Database Updates
+            user1_course = UserCurrentCourses.query.filter_by(user_id="user1").first()
+            user2_course = UserCurrentCourses.query.filter_by(user_id="user2").first()
+            self.assertEqual(user1_course.course_id, 2)
+            self.assertEqual(user2_course.course_id, 1)
 
-        swap = CoursesAvailableToSwap.query.get(1)
-        self.assertIsNone(swap)
-        logout_user()
+            # Verifying Swap Deletion
+            swap = CoursesAvailableToSwap.query.get(1)
+            self.assertIsNone(swap)
+
+            logout_user()
 
     def tearDown(self):
+        # Clean up the database after each test
         with self.app.app_context():
             db.session.remove()
             db.drop_all()
