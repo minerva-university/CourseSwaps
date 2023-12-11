@@ -19,8 +19,13 @@ def available_for_pickup():
     """
     Get all courses available for pickup for the current user
     """
-    print("User getting available courses")
+    if not current_user.is_authenticated:
+        return jsonify({"error": "Unauthorized access"}), 401
     try:
+        completed_course_ids = [
+            c.course_id
+            for c in UserCompletedCourses.query.filter_by(user_id=current_user.id)
+        ]
         # Fetching courses that are available for pickup and not taken or completed by the user
         available_courses = (
             db.session.query(Courses, CoursesAvailableForPickup.count)
@@ -40,6 +45,10 @@ def available_for_pickup():
             )
             .filter(UserCurrentCourses.id.is_(None))
             .filter(UserCompletedCourses.id.is_(None))
+            .filter(
+                # Ensuring all prerequisites are met
+                ~Courses.prerequisites.any(~Courses.id.in_(completed_course_ids))
+            )
             .all()
         )
 
@@ -48,6 +57,7 @@ def available_for_pickup():
             for course, count in available_courses
         ]
 
+        print(course_data)
         return jsonify({"available_courses": course_data}), 200
 
     except Exception as e:
