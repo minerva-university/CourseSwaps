@@ -132,9 +132,9 @@ const SwapForm = ({ open, onClose, selectedCourse }) => {
               style={{ color: "grey" }}
               gutterBottom
             >
-              If you can't see a course, it's probably because you haven't met
-              all prerequisites. If you think you have, contact the
-              administrator.
+              If you can&apos;t see a course, it&apos;s probably because you
+              haven&apos;t met all prerequisites. If you think you have, contact
+              the administrator.
             </Typography>
             <Autocomplete
               multiple
