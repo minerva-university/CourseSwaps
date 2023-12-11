@@ -129,17 +129,23 @@ def all_courses():
                 course.id not in completed_courses_ids
                 and course.id not in current_courses_ids
             ):
-                course_details = {
-                    "course_id": course.id,
-                    "course_name": course.name,
-                    "course_code": course.code,
-                    "course_timeslot": course.timeslot_id,
-                    "prerequisites": [
-                        {"name": prerequisite.name, "code": prerequisite.code}
-                        for prerequisite in course.prerequisites
-                    ],
-                }
-                courses.append(course_details)
+                if course.prerequisites and any(
+                    prerequisite_id in completed_courses_ids
+                    for prerequisite_id in [
+                        prerequisite.id for prerequisite in course.prerequisites
+                    ]
+                ):
+                    course_details = {
+                        "course_id": course.id,
+                        "course_name": course.name,
+                        "course_code": course.code,
+                        "course_timeslot": course.timeslot_id,
+                        "prerequisites": [
+                            {"name": prerequisite.name, "code": prerequisite.code}
+                            for prerequisite in course.prerequisites
+                        ],
+                    }
+                    courses.append(course_details)
 
         return jsonify({"all_courses": courses}), 200
     except Exception as e:

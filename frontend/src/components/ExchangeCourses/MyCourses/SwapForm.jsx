@@ -52,7 +52,7 @@ const SwapForm = ({ open, onClose, selectedCourse }) => {
         selectedCourses,
       });
       if (response.ok) {
-        setSnackbarMessage("Swap confirmed successfully");
+        setSnackbarMessage("Preferred Swap saved successfully");
         setSnackbarSeverity("success");
       } else {
         setSnackbarMessage("Failed to confirm swap");
@@ -80,10 +80,17 @@ const SwapForm = ({ open, onClose, selectedCourse }) => {
       >
         <DialogTitle>Confirm Course Swap</DialogTitle>
         <DialogContent>
-        <Typography>
-          Are you sure you want to swap {`${selectedCourse?.code} - ${selectedCourse?.name}`} for{" "}
-          {selectedCourses.map((course) => `${course.course_code} - ${course.course_name}`).join(", ")}?
-        </Typography>
+          <Typography>
+            Are you sure you are willing to swap{" "}
+            {`${selectedCourse?.code} - ${selectedCourse?.name}`} for:
+            <ul>
+              {selectedCourses.map((course) => (
+                <li
+                  key={course.course_code}
+                >{`${course.course_code} - ${course.course_name}`}</li>
+              ))}
+            </ul>
+          </Typography>
         </DialogContent>
         <DialogActions>
           <Button onClick={() => setConfirmDialogOpen(false)}>Cancel</Button>
@@ -149,7 +156,7 @@ const SwapForm = ({ open, onClose, selectedCourse }) => {
       <ConfirmationDialog selectedCourse={selectedCourse} />
       <Snackbar
         open={snackbarOpen}
-        autoHideDuration={800}
+        autoHideDuration={1000}
         onClose={handleCloseSnackbar}
       >
         <Alert
