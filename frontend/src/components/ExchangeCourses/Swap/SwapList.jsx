@@ -17,7 +17,7 @@ const SwapList = () => {
   const [openSnackbar, setOpenSnackbar] = useState(false);
 
   const api = useApi();
-  const { refreshKey } = useRefresh();
+  const { refreshKey, triggerRefresh } = useRefresh();
   const { subscribe, unsubscribe } = usePeriodicRefresh();
 
   const fetchSwaps = useCallback(async () => {
@@ -62,12 +62,17 @@ const SwapList = () => {
     try {
         const response = await api.post("/confirm_swap", { selectedSwap })
         console.log(response)
+        if (response.ok) {
+          triggerRefresh(); // Refresh the list after a successful swap
+        } else {
+          console.error('Error confirming swap:', response.body.error);
+          // Handle API errors here
+        }
     } catch (error) {
         console.error('Error during fetch:', error);
         // Handle network errors or other exceptions here
     }
-};
-
+  };
 
   const handleCloseSnackbar = (event, reason) => {
     if (reason === 'clickaway') {
