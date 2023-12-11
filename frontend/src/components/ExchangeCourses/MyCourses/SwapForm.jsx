@@ -127,10 +127,21 @@ const SwapForm = ({ open, onClose, selectedCourse }) => {
             <Typography variant="body1" gutterBottom>
               Select all the courses you would be willing to swap for.
             </Typography>
+            <Typography
+              variant="caption"
+              style={{ color: "grey" }}
+              gutterBottom
+            >
+              If you can't see a course, it's probably because you haven't met
+              all prerequisites. If you think you have, contact the
+              administrator.
+            </Typography>
             <Autocomplete
               multiple
               options={availableCourses}
-              getOptionLabel={(option) => `${option.course_code} - ${option.course_name}`}
+              getOptionLabel={(option) =>
+                `${option.course_code} - ${option.course_name}`
+              }
               onChange={(event, newValue) => setSelectedCourses(newValue)}
               renderInput={(params) => (
                 <TextField
