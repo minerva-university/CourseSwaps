@@ -34,8 +34,8 @@ const AuthPage = () => {
           alignItems: "center",
           p: { xs: 2, md: 6 }, // Responsive padding
           mt: 4,
-          width: '100%', // Take up 100% of the container width
-          maxWidth: '600px', // Max width of the Paper
+          width: "100%", // Take up 100% of the container width
+          maxWidth: "600px", // Max width of the Paper
           border: 1,
           borderColor: "grey.300",
           borderRadius: 2,
@@ -47,21 +47,21 @@ const AuthPage = () => {
           component="h1"
           sx={{
             // marginBottom: '20px', // Space below the "Welcome" text
-            textAlign: 'center',
-            width: '100%', // Ensures the text is centered within its block
+            textAlign: "center",
+            width: "100%", // Ensures the text is centered within its block
           }}
         >
-          Welcome to CourseSwap.
+          Welcome to CourseSwap
         </Typography>
 
-        {/* Image container */}
         <Box
           component="img"
           sx={{
-            width: '100%', // Make width responsive
-            maxWidth: '350px', // Max image width
-            height: 'auto', // Keep the aspect ratio of the image
-            // marginBottom: 4, // Add some space below the image
+            width: "100%",
+            maxWidth: "230px",
+            height: "auto",
+            marginBottom: 5,
+            marginTop: 5,
           }}
           src={logo}
           alt="Company Logo"
