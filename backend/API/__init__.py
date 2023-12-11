@@ -11,7 +11,7 @@ from .blueprints.availableswaps import availableswaps_bp
 from .blueprints.availableforpickup import availableforpickup_bp
 from .blueprints.userdata import userdata_bp
 from .blueprints.admin import admin_bp
-from .blueprints.ResolveSwap import resolveswaps_bp
+from .blueprints.resolveswaps import resolveswaps_bp
 from .models import Users, db
 from .populate_db import main
 import logging
