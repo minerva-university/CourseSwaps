@@ -31,7 +31,12 @@ def create_app(test_config=None):
     # General CORS setup for the whole app
     CORS(
         app,
-        resources={r"/api/*": {"origins": "http://localhost:5173"}},
+        resources={
+            r"/api/*": {
+                "origins": "http://localhost:5173",
+                "methods": ["GET", "POST", "PUT", "DELETE"],
+            }
+        },
         supports_credentials=True,
     )
     app.register_blueprint(auth_bp, url_prefix="/api")

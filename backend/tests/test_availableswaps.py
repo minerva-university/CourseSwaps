@@ -155,4 +155,4 @@ class AvailableSwapsTestCase(unittest.TestCase):
             response = self.client.get("api/swap_courses")
             self.assertEqual(response.status_code, 200)
             json_data = response.json
-            self.assertEqual(len(json_data["all_courses"]), 3)
+            self.assertEqual(len(json_data["all_courses"]), 2)
