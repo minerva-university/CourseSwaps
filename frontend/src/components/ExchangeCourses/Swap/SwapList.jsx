@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import {
-  Box, Typography, CircularProgress, Alert, Divider, Button, Dialog,
+  Box, Typography, Snackbar, CircularProgress, Divider, Button, Dialog,
   DialogActions, DialogContent, DialogTitle
 } from '@mui/material';
 import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
@@ -14,6 +14,7 @@ const SwapList = () => {
   const [error, setError] = useState(null);
   const [confirmDialogOpen, setConfirmDialogOpen] = useState(false);
   const [selectedSwap, setSelectedSwap] = useState(null);
+  const [openSnackbar, setOpenSnackbar] = useState(false);
 
   const api = useApi();
   const { refreshKey } = useRefresh();
@@ -29,10 +30,12 @@ const SwapList = () => {
       } else {
         console.error('Failed to fetch swaps', response);
         setError('Failed to fetch swap data.');
+        setOpenSnackbar(true);
       }
     } catch (error) {
       console.error('Error fetching swaps:', error);
       setError('An error occurred while fetching swaps.');
+      setOpenSnackbar(true);
     } finally {
       setLoading(false);
     }
@@ -56,6 +59,14 @@ const SwapList = () => {
     console.log(`Confirmed swap for ID: ${selectedSwap}`);
     setConfirmDialogOpen(false);
     // Implement additional logic for swap confirmation here
+  };
+
+  const handleCloseSnackbar = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpenSnackbar(false);
   };
 
   const ConfirmationDialog = () => (
@@ -100,54 +111,62 @@ const SwapList = () => {
       </Typography>
       {loading ? (
         <CircularProgress />
-      ) : error ? (
-        <Alert severity="error">{error}</Alert>
-      ) : swaps.length === 0 ? (
-        <Typography
-          sx={{
-            textAlign: 'center',
-            color: '#666',
-          }}
-        >
-          No available swaps
-        </Typography>
       ) : (
-        swaps.map((swap, index) => (
-          <Box
-            key={swap.swap_id}
-            sx={{
-              backgroundColor: "white",
-              marginBottom: 2,
-              borderRadius: 2,
-              padding: 2,
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "flex-start",
-              gap: 1,
-            }}
-          >
-            <Typography variant="body1">
-              <span style={{ fontWeight: 900 }}>Swap ID:</span> {swap.swap_id}
-            </Typography>
-            <Typography variant="body1">
-              <span style={{ fontWeight: 900 }}>Gives:</span> {swap.giving_course_code}: {swap.giving_course_name}
-            </Typography>
-            <Typography variant="body1">
-              <span style={{ fontWeight: 900 }}>Wants:</span> {swap.wanted_course_code}: {swap.wanted_course_name}
-            </Typography>
-            <Button
-              variant="contained"
-              startIcon={<SwapHorizIcon />}
-              sx={{ mt: 1, alignSelf: 'center' }}
-              onClick={() => handleSwap(swap.swap_id)}
+        <>
+          <Snackbar
+            open={openSnackbar}
+            autoHideDuration={6000}
+            onClose={handleCloseSnackbar}
+            message={error}
+          />
+          {swaps.length === 0 ? (
+            <Typography
+              sx={{
+                textAlign: 'center',
+                color: '#666',
+              }}
             >
-              Make Swap
-            </Button>
-            {index !== swaps.length - 1 && <Divider />}
-          </Box>
-        ))
+              No available swaps
+            </Typography>
+          ) : (
+            swaps.map((swap, index) => (
+              <Box
+                key={swap.swap_id}
+                sx={{
+                  backgroundColor: "white",
+                  marginBottom: 2,
+                  borderRadius: 2,
+                  padding: 2,
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "flex-start",
+                  gap: 1,
+                }}
+              >
+                <Typography variant="body1">
+                  <span style={{ fontWeight: 900 }}>Swap ID:</span> {swap.swap_id}
+                </Typography>
+                <Typography variant="body1">
+                  <span style={{ fontWeight: 900 }}>Gives:</span> {swap.giving_course_code}: {swap.giving_course_name}
+                </Typography>
+                <Typography variant="body1">
+                  <span style={{ fontWeight: 900 }}>Wants:</span> {swap.wanted_course_code}: {swap.wanted_course_name}
+                </Typography>
+                <Button
+                  variant="contained"
+                  startIcon={<SwapHorizIcon />}
+                  sx={{ mt: 1, alignSelf: 'center' }}
+                  onClick={() => handleSwap(swap.swap_id)}
+                >
+                  Make Swap
+                </Button>
+                {index !== swaps.length - 1 && <Divider />}
+              </Box>
+            ))
+          )}
+          <ConfirmationDialog />
+        </>
       )}
-      <ConfirmationDialog />
     </Box>
   );
 };
