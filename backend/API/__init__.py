@@ -11,6 +11,7 @@ from .blueprints.availableswaps import availableswaps_bp
 from .blueprints.availableforpickup import availableforpickup_bp
 from .blueprints.userdata import userdata_bp
 from .blueprints.admin import admin_bp
+from .blueprints.ResolveSwap import resolveswaps_bp
 from .models import Users, db
 from .populate_db import main
 import logging
@@ -40,6 +41,7 @@ def create_app(test_config=None):
     app.register_blueprint(availableforpickup_bp, url_prefix="/api")
     app.register_blueprint(userdata_bp, url_prefix="/api")
     app.register_blueprint(admin_bp, url_prefix="/api")
+    app.register_blueprint(resolveswaps_bp, url_prefix="/api")
 
     # Configuration
     app.config.from_mapping(

@@ -58,8 +58,16 @@ const SwapList = () => {
   const handleConfirmSwap = async () => {
     console.log(`Confirmed swap for ID: ${selectedSwap}`);
     setConfirmDialogOpen(false);
-    // Implement additional logic for swap confirmation here
-  };
+
+    try {
+        const response = await api.post("/confirm_swap", { selectedSwap })
+        console.log(response)
+    } catch (error) {
+        console.error('Error during fetch:', error);
+        // Handle network errors or other exceptions here
+    }
+};
+
 
   const handleCloseSnackbar = (event, reason) => {
     if (reason === 'clickaway') {
