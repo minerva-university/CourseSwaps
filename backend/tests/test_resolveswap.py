@@ -1,18 +1,11 @@
 import unittest
 from API import create_app, db
-from API.models import Users, Courses, UserCurrentCourses, CoursesAvailableToSwap
-from flask_login import login_user, logout_user
-
-course1 = Course(id=1, name="Course 1", code="C001", timeslot_id=1)
-course2 = Course(id=2, name="Course 2", code="C002", timeslot_id=2)
-db.session.add(course1)
-db.session.add(course2)
-db.session.commit()
+from API.models import Users, Roles, Courses, UserCurrentCourses, CoursesAvailableToSwap
+from flask_login import login_user, logout_user, login_manager
 
 
 class ConfirmSwapTestCase(unittest.TestCase):
     def setUp(self):
-        # Configuration and Test Client Setup
         self.app = create_app(
             test_config={
                 "TESTING": True,
@@ -22,65 +15,86 @@ class ConfirmSwapTestCase(unittest.TestCase):
             }
         )
         self.client = self.app.test_client()
-
-        # Database Setup with Test Data
         with self.app.app_context():
             db.create_all()
-            # Creating Users
-            user1 = Users(id="user1")
-            user2 = Users(id="user2")
+
+            # Creating test users
+            user1 = Users(
+                id="123",
+                major="Computational",
+                class_year="M25",
+                minerva_id="123456",
+                concentration="Computer",
+                role_id=1,
+            )
+            user2 = Users(
+                id="321",
+                major="Computational",
+                class_year="M25",
+                minerva_id="876543",
+                concentration="Computer",
+                role_id=1,
+            )
             db.session.add_all([user1, user2])
 
-            # Creating Courses
-            course1 = Courses(id=1, name="Course 1")
-            course2 = Courses(id=2, name="Course 2")
+            # Creating test courses
+            course1 = Courses(id=20, name="Chemical Struct...", code="NS113")
+            course2 = Courses(id=3, name="Physics of the U...", code="NS110U")
             db.session.add_all([course1, course2])
 
-            # Creating User Courses
-            user_course1 = UserCurrentCourses(user_id="user1", course_id=1)
-            user_course2 = UserCurrentCourses(user_id="user2", course_id=2)
-            db.session.add_all([user_course1, user_course2])
+            # Assigning current courses to users
+            user1_current_course = UserCurrentCourses(
+                user_id="123", course_id=course1.id
+            )
+            user2_current_course = UserCurrentCourses(
+                user_id="321", course_id=course2.id
+            )
+            db.session.add_all([user1_current_course, user2_current_course])
 
-            # Creating Swap Request
+            # Creating a course available to swap
             swap = CoursesAvailableToSwap(
-                id=1, user_id="user2", wanted_course_id=1, giving_course_id=2
+                id=1,
+                user_id="567",
+                giving_course_id=course2.id,
+                wanted_course_id=course1.id,
             )
             db.session.add(swap)
 
             db.session.commit()
 
+    def login_user(self, user_id):
+        with self.app.app_context():
+            user = Users.query.filter_by(id=user_id).first()
+            with self.client:
+                login_user(user)
+
     def test_confirm_swap_unauthenticated(self):
-        # Test unauthorized access
         response = self.client.post("/confirm_swap", json={"selectedSwap": 1})
         self.assertEqual(response.status_code, 401)
 
     def test_confirm_swap_swap_not_found(self):
-        with self.app.app_context():
-            login_user(Users.query.get("user1"))
-            response = self.client.post("/confirm_swap", json={"selectedSwap": 99})
-            self.assertEqual(response.status_code, 404)
-            logout_user()
+        self.login_user("1162634048916661")
+        response = self.client.post("/confirm_swap", json={"selectedSwap": 99})
+        self.assertEqual(response.status_code, 404)
+        logout_user()
 
     def test_confirm_swap_successful(self):
-        with self.app.app_context():
-            login_user(Users.query.get("user1"))
-            response = self.client.post("/confirm_swap", json={"selectedSwap": 1})
-            self.assertEqual(response.status_code, 200)
+        self.login_user("1162634048916661")
+        response = self.client.post("/confirm_swap", json={"selectedSwap": 1})
+        self.assertEqual(response.status_code, 200)
 
-            # Verifying Database Updates
-            user1_course = UserCurrentCourses.query.filter_by(user_id="user1").first()
-            user2_course = UserCurrentCourses.query.filter_by(user_id="user2").first()
-            self.assertEqual(user1_course.course_id, 2)
-            self.assertEqual(user2_course.course_id, 1)
+        user1_course = UserCurrentCourses.query.filter_by(
+            user_id="1162634048916661"
+        ).first()
+        user2_course = UserCurrentCourses.query.filter_by(user_id="567").first()
+        self.assertEqual(user1_course.course_id, 3)
+        self.assertEqual(user2_course.course_id, 20)
 
-            # Verifying Swap Deletion
-            swap = CoursesAvailableToSwap.query.get(1)
-            self.assertIsNone(swap)
-
-            logout_user()
+        swap = CoursesAvailableToSwap.query.get(1)
+        self.assertIsNone(swap)
+        logout_user()
 
     def tearDown(self):
-        # Clean up the database after each test
         with self.app.app_context():
             db.session.remove()
             db.drop_all()
