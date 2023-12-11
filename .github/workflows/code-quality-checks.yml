@@ -1,4 +1,4 @@
-name: Combined Workflow
+name: CI Pipeline
 
 on:
   push:
@@ -10,78 +10,59 @@ permissions:
   contents: read
 
 jobs:
-  build-python-app:
+  ci:
     runs-on: self-hosted
     steps:
+    # Checkout the code
     - uses: actions/checkout@v3
+
+    # Set up Python 3.9
     - name: Set up Python 3.9
       uses: actions/setup-python@v3
       with:
         python-version: "3.9"
-    - name: Install Dependencies
+
+    # Install Python dependencies for backend
+    - name: Install Python Dependencies
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
+        pip install flake8
       working-directory: 'backend'
+
+    # Set PYTHONPATH
     - name: Set PYTHONPATH
       run: echo "PYTHONPATH=$PYTHONPATH:$(pwd)" >> $GITHUB_ENV
       working-directory: 'backend'
-    - name: Run Tests
+    
+    # Run Python unittests
+    - name: Run Python Tests
       run: |
         python -m unittest discover
-        echo "Running tests"
       working-directory: 'backend/tests'
 
-  eslint:
-    runs-on: self-hosted
-    steps:
-    - uses: actions/checkout@v2
+    # Run Flake8 linting
+    - name: Run Flake8
+      run: flake8 .
+      working-directory: './backend'
+
+    # Set up Node.js
     - name: Set up Node.js
       uses: actions/setup-node@v2
       with:
         node-version: '18'
-    - name: Install Node.js dependencies
+
+    # Install Node.js dependencies for frontend
+    - name: Install Node.js Dependencies
       run: npm install
       working-directory: ./frontend
+
+    # Run ESLint
     - name: Run ESLint
       run: npx eslint . --ext .js,.jsx,.ts,.tsx
       working-directory: ./frontend
 
-  flake8:
-    runs-on: self-hosted
-    steps:
-    - uses: actions/checkout@v2
-    - name: Set up Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: '3.9'
-    - name: Install Python dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install flake8
-      working-directory: ./backend
-    - name: Run Flake8
-      run: flake8 .
-      working-directory: ./
-
-  jest-tests:
-    runs-on: self-hosted
-    steps:
-    - uses: actions/checkout@v2
-    - name: Use Node.js
-      uses: actions/setup-node@v2
-      with:
-        node-version: '18'
-    - name: Cache node modules
-      uses: actions/cache@v2
-      with:
-        path: frontend/node_modules
-        key: ${{ runner.os }}-node-${{ hashFiles('frontend/package-lock.json') }}
-        restore-keys: |
-          ${{ runner.os }}-node-
-    - name: Install dependencies
-      run: npm install
-      working-directory: ./frontend
-    - name: Run Jest
+    # Run Jest tests
+    - name: Run Jest Tests
       run: npm test
       working-directory: ./frontend
