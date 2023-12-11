@@ -90,7 +90,7 @@ describe("SwapForm", () => {
     // Check for the success message
     await waitFor(() =>
       expect(
-        screen.getByText("Swap confirmed successfully")
+        screen.getByText("Preferred Swap saved successfully")
       ).toBeInTheDocument()
     );
 
