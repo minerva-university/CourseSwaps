@@ -3,6 +3,12 @@ from API import create_app, db
 from API.models import Users, Courses, UserCurrentCourses, CoursesAvailableToSwap
 from flask_login import login_user, logout_user
 
+course1 = Course(id=1, name="Course 1", code="C001", timeslot_id=1)
+course2 = Course(id=2, name="Course 2", code="C002", timeslot_id=2)
+db.session.add(course1)
+db.session.add(course2)
+db.session.commit()
+
 
 class ConfirmSwapTestCase(unittest.TestCase):
     def setUp(self):
