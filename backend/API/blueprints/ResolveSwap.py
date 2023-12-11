@@ -13,7 +13,7 @@ CORS(resolveswaps_bp, supports_credentials=True)
 
 
 # Endpoint to confirm a course swap
-@resolveswaps_bp.route("/confirm_swap", methods=['POST'])
+@resolveswaps_bp.route("/confirm_swap", methods=["POST"])
 @login_required
 def confirm_swap():
     # Ensure the user is authenticated
@@ -40,16 +40,20 @@ def confirm_swap():
         with db.session.begin_nested():
             # Update courses for user1
             UserCurrentCourses.query.filter_by(
-                user_id=user1_id, course_id=user1_course_id).delete()
+                user_id=user1_id, course_id=user1_course_id
+            ).delete()
             new_course_for_user1 = UserCurrentCourses(
-                user_id=user1_id, course_id=user2_course_id)
+                user_id=user1_id, course_id=user2_course_id
+            )
             db.session.add(new_course_for_user1)
 
             # Update courses for user2
             UserCurrentCourses.query.filter_by(
-                user_id=user2_id, course_id=user2_course_id).delete()
+                user_id=user2_id, course_id=user2_course_id
+            ).delete()
             new_course_for_user2 = UserCurrentCourses(
-                user_id=user2_id, course_id=user1_course_id)
+                user_id=user2_id, course_id=user1_course_id
+            )
             db.session.add(new_course_for_user2)
 
             # Remove the swap request as it has been completed
