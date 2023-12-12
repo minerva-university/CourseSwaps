@@ -197,7 +197,7 @@ def drop_course():
         # Additionally, remove any swap requests for the dropped course
         swap_requests = (
             db.session.query(CoursesAvailableToSwap)
-            .filter_by(course_id=course_id)
+            .filter_by(giving_course_id=course_id)
             .all()
         )
         for swap_request in swap_requests:
