@@ -172,7 +172,7 @@ def pickup_course():
 @login_required
 def drop_course():
     """
-    Drop courses from the current user
+    Drop courses from the current user and update associated course swaps.
     """
     data = request.get_json()
     course_id = data.get("courseId")
@@ -181,7 +181,7 @@ def drop_course():
         return jsonify({"error": "User not logged in"}), 401
 
     try:
-        # remove the course from the current user
+        # Remove the course from the current user
         user_current_course = (
             db.session.query(UserCurrentCourses)
             .filter(
@@ -190,8 +190,11 @@ def drop_course():
             )
             .first()
         )
-        db.session.delete(user_current_course)
-        # if the course is present in available for pickup table, increment the count
+        if user_current_course:
+            db.session.delete(user_current_course)
+
+        # Update the available for pickup table
+        # If the course is present in available for pickup table, increment the count
         course_available_for_pickup = (
             db.session.query(CoursesAvailableForPickup)
             .filter(CoursesAvailableForPickup.course_id == course_id)
@@ -200,13 +203,21 @@ def drop_course():
         if course_available_for_pickup:
             course_available_for_pickup.count += 1
         else:
-            course_available_for_pickup = CoursesAvailableForPickup(
-                course_id=course_id, count=1
-            )
-            db.session.add(course_available_for_pickup)
-        db.session.commit()
+            # If the course is not present, add it to the table with count 1
+            new_pickup_course = CoursesAvailableForPickup(course_id=course_id, count=1)
+            db.session.add(new_pickup_course)
 
-        return jsonify({"message": "Course dropped"}), 200
+        # Additionally, remove any swap requests for the dropped course
+        swap_requests = (
+            db.session.query(CoursesAvailableForPickup)
+            .filter_by(course_id=course_id)
+            .all()
+        )
+        for swap_request in swap_requests:
+            db.session.delete(swap_request)
+
+        db.session.commit()
+        return jsonify({"message": "Course dropped and swaps updated"}), 200
 
     except Exception as e:
         print(f"Error: {e}")
