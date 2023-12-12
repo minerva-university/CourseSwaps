@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   backend:
-    image: courseswap-backend
+    image: kennedyemeruem/courseswap-backend
     build:
       context: ./backend
       dockerfile: Dockerfile
@@ -22,7 +22,7 @@ services:
       
 
   frontend:
-    image: courseswap-frontend
+    image: kennedyemeruem/courseswap-frontend
     build:
       context: ./frontend
       dockerfile: Dockerfile
