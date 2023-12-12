@@ -16,7 +16,7 @@
                     "AH113"
                 ]
             ],
-            "Concentrations": ["Arts and Literature", "Design Across the  Humanities", "Historical Forces", "Humanities Foundations", "Humanities Analyses", "Philosophy, Ethics, and The Law"]
+            "Concentrations": ["Arts and Literature", "Design Across the  Humanities", "Historical Forces", "Humanities Foundations", "Humanities Analyses", "Philosophy, Ethics, and The Law", "Special Concentration"]
         },
         {
             "majorId": "Business",
@@ -37,7 +37,7 @@
                     "B199"
                 ]
             ],
-            "Concentrations": ["Brand Management", "Enterprise Management", "New Business Ventures", "Managing Operational Complexity", "Strategic Finance", "Scalable Growth"]
+            "Concentrations": ["Brand Management", "Enterprise Management", "New Business Ventures", "Managing Operational Complexity", "Strategic Finance", "Scalable Growth", "Special Concentration"]
         },
         {
             "majorId": "Computational Sciences",
@@ -55,7 +55,7 @@
                     "CS113"
                 ]
             ],
-            "Concentrations": ["Applied Problem Solving", "Computational Theory and Analysis", "Computer Science and Artificial Intelligence", "Contemporary Knowledge Discovery", "Data Science and Statistics", "Mathematics"]
+            "Concentrations": ["Applied Problem Solving", "Computational Theory and Analysis", "Computer Science and Artificial Intelligence", "Contemporary Knowledge Discovery", "Data Science and Statistics", "Mathematics", "Special Concentration"]
 
         },
         {
@@ -79,7 +79,7 @@
                     ]
                 ]
             ],
-            "Concentrations": ["Cells and Organisms", "Chemistry Across Scales", "Earth's Systems", "Molecules and Atoms", "Problem Solving in Complex Systems", "Theoretical Foundations of Natural Sciences"]
+            "Concentrations": ["Cells and Organisms", "Chemistry Across Scales", "Earth's Systems", "Molecules and Atoms", "Problem Solving in Complex Systems", "Theoretical Foundations of Natural Sciences", "Special Concentration"]
         },
         {
             "majorId": "Social Sciences",
@@ -94,10 +94,13 @@
                     "SS110"
                 ]
             ],
-            "Concentrations": ["Cognition, Brain, and Behavior", "Designing Societies", "Economics and Society", "Empirical Approaches to the Social Sciences", "Politics, Government, and Society", "Theoretical Foundations of the Social Sciences"]
+            "Concentrations": ["Cognition, Brain, and Behavior", "Designing Societies", "Economics and Society", "Empirical Approaches to the Social Sciences", "Politics, Government, and Society", "Theoretical Foundations of the Social Sciences", "Special Concentration"]
         }
     ],
     "concentrations": [
+        {
+            "concentrationId": "Special Concentration"
+        },
         {
             "concentrationId": "Applied Problem Solving",
             "College": "Computational Sciences",
