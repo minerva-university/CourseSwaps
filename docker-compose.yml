@@ -1,0 +1,64 @@
+version: "3.8"
+
+services:
+  backend:
+    image: courseswap-backend
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    volumes:
+      - ./backend:/app
+    depends_on:
+      - db
+    ports:
+      - "7070:8000" # Map port 7070 on the host to port 8000 in the container
+    networks:
+      - webnet
+
+    deploy:
+      replicas: 2
+      restart_policy:
+        condition: "on-failure"
+      
+
+  frontend:
+    image: courseswap-frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "5173:80"  # Map port 3000 on the host to port 80 in the container
+    networks:
+      - webnet
+
+  db:
+    image: postgres:alpine
+    environment:
+      POSTGRES_DB: courseswapdb
+      POSTGRES_USER: username
+      POSTGRES_PASSWORD: password
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"  # Expose the database port
+    networks:
+      - webnet
+    deploy:
+      restart_policy:
+        condition: "on-failure"
+
+  adminer:
+    image: adminer
+    depends_on:
+      - db
+    ports:
+      - "8081:8080"  # Map port 8080 on the host to port 8080 in the container
+    networks:
+      - webnet
+
+volumes:
+  postgres_data:
+
+networks:
+  webnet:
+    driver: overlay
