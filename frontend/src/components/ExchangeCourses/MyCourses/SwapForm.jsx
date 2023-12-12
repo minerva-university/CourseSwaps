@@ -52,7 +52,7 @@ const SwapForm = ({ open, onClose, selectedCourse }) => {
         selectedCourses,
       });
       if (response.ok) {
-        setSnackbarMessage("Preferred Swap saved successfully");
+        setSnackbarMessage("Swap confirmed successfully");
         setSnackbarSeverity("success");
       } else {
         setSnackbarMessage("Failed to confirm swap");
@@ -81,15 +81,8 @@ const SwapForm = ({ open, onClose, selectedCourse }) => {
         <DialogTitle>Confirm Course Swap</DialogTitle>
         <DialogContent>
           <Typography>
-            Are you sure you are willing to swap{" "}
-            {`${selectedCourse?.code} - ${selectedCourse?.name}`} for:
-            <ul>
-              {selectedCourses.map((course) => (
-                <li
-                  key={course.course_code}
-                >{`${course.course_code} - ${course.course_name}`}</li>
-              ))}
-            </ul>
+            Are you sure you want to swap {selectedCourse?.code} for{" "}
+            {selectedCourses.map((course) => course.course_code).join(", ")}?
           </Typography>
         </DialogContent>
         <DialogActions>
@@ -127,21 +120,10 @@ const SwapForm = ({ open, onClose, selectedCourse }) => {
             <Typography variant="body1" gutterBottom>
               Select all the courses you would be willing to swap for.
             </Typography>
-            <Typography
-              variant="caption"
-              style={{ color: "grey" }}
-              gutterBottom
-            >
-              If you can&apos;t see a course, it&apos;s probably because you
-              haven&apos;t met all prerequisites. If you think you have, contact
-              the administrator.
-            </Typography>
             <Autocomplete
               multiple
               options={availableCourses}
-              getOptionLabel={(option) =>
-                `${option.course_code} - ${option.course_name}`
-              }
+              getOptionLabel={(option) => option.course_code}
               onChange={(event, newValue) => setSelectedCourses(newValue)}
               renderInput={(params) => (
                 <TextField
@@ -167,7 +149,7 @@ const SwapForm = ({ open, onClose, selectedCourse }) => {
       <ConfirmationDialog selectedCourse={selectedCourse} />
       <Snackbar
         open={snackbarOpen}
-        autoHideDuration={1000}
+        autoHideDuration={800}
         onClose={handleCloseSnackbar}
       >
         <Alert
