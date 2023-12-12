@@ -3,10 +3,16 @@ import {
   Box, Typography, Snackbar, CircularProgress, Divider, Button, Dialog,
   DialogActions, DialogContent, DialogTitle
 } from '@mui/material';
+import MuiAlert from "@mui/material/Alert";
 import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
 import { useApi } from '../../../contexts/ApiProvider';
 import { useRefresh } from '../../../contexts/useRefresh';
 import { usePeriodicRefresh } from '../../../contexts/usePeriodicRefresh';
+
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
+
 
 const SwapList = () => {
   const [swaps, setSwaps] = useState([]);
@@ -15,6 +21,8 @@ const SwapList = () => {
   const [confirmDialogOpen, setConfirmDialogOpen] = useState(false);
   const [selectedSwap, setSelectedSwap] = useState(null);
   const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [successMessage, setSuccessMessage] = useState('');
+  const [openSuccessSnackbar, setOpenSuccessSnackbar] = useState(false);
 
   const api = useApi();
   const { refreshKey, triggerRefresh } = useRefresh();
@@ -60,17 +68,18 @@ const SwapList = () => {
     setConfirmDialogOpen(false);
 
     try {
-        const response = await api.post("/confirm_swap", { selectedSwap })
-        console.log(response)
-        if (response.ok) {
-          triggerRefresh(); // Refresh the list after a successful swap
-        } else {
-          console.error('Error confirming swap:', response.body.error);
-          // Handle API errors here
-        }
+      const response = await api.post("/confirm_swap", { selectedSwap });
+      if (response.ok) {
+        triggerRefresh();
+        setSuccessMessage('Swap confirmed successfully');
+        setOpenSuccessSnackbar(true);
+      } else {
+        setError(response.body.error || 'Error confirming swap');
+        setOpenSnackbar(true);
+      }
     } catch (error) {
-        console.error('Error during fetch:', error);
-        // Handle network errors or other exceptions here
+      setError('An error occurred during the swap');
+      setOpenSnackbar(true);
     }
   };
 
@@ -78,9 +87,11 @@ const SwapList = () => {
     if (reason === 'clickaway') {
       return;
     }
-
     setOpenSnackbar(false);
+    setOpenSuccessSnackbar(false);
   };
+  
+
 
   const ConfirmationDialog = () => (
     <Dialog
@@ -126,12 +137,27 @@ const SwapList = () => {
         <CircularProgress />
       ) : (
         <>
+          {/* Snackbar for error messages */}
           <Snackbar
             open={openSnackbar}
-            autoHideDuration={6000}
+            autoHideDuration={3000}
             onClose={handleCloseSnackbar}
-            message={error}
-          />
+          >
+            <Alert onClose={handleCloseSnackbar} severity="error" sx={{ width: '100%' }}>
+              {error}
+            </Alert>
+          </Snackbar>
+
+          {/* Snackbar for success messages */}
+          <Snackbar
+            open={openSuccessSnackbar}
+            autoHideDuration={3000}
+            onClose={handleCloseSnackbar}
+          >
+            <Alert onClose={handleCloseSnackbar} severity="success" sx={{ width: '100%' }}>
+              {successMessage}
+            </Alert>
+          </Snackbar>
           {swaps.length === 0 ? (
             <Typography
               sx={{
