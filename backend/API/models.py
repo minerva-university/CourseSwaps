@@ -82,7 +82,7 @@ class CourseScheduleOptions(db.Model):
 class CoursesAvailableToSwap(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     # user_id will be the id of the user that wants to swap the course
-    user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
+    user_id = db.Column(db.String, db.ForeignKey("users.id"), nullable=False)
     # giving_course_id will be the id of the course that the user wants to swap
     giving_course_id = db.Column(
         db.Integer, db.ForeignKey("courses.id"), nullable=False
@@ -103,7 +103,7 @@ class CoursesAvailableToSwap(db.Model):
 # UserCourses model (courses that a user is currently taking)
 class UserCurrentCourses(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
+    user_id = db.Column(db.String, db.ForeignKey("users.id"), nullable=False)
     course_id = db.Column(db.Integer, db.ForeignKey("courses.id"), nullable=False)
     course = db.relationship("Courses")
 
@@ -116,7 +116,7 @@ class UserCurrentCourses(db.Model):
 
 class UserCompletedCourses(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
+    user_id = db.Column(db.String, db.ForeignKey("users.id"), nullable=False)
     course_id = db.Column(db.Integer, db.ForeignKey("courses.id"), nullable=False)
     course = db.relationship("Courses")
 
