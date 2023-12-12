@@ -7,6 +7,7 @@ from ..models import (
     UserCurrentCourses,
     UserCompletedCourses,
     CoursesAvailableForPickup,
+    CoursesAvailableToSwap,
 )
 
 availableforpickup_bp = Blueprint("availableforpickup_bp", __name__)
@@ -172,7 +173,7 @@ def pickup_course():
 @login_required
 def drop_course():
     """
-    Drop courses from the current user and update associated course swaps.
+    Drop courses from the current user and update associated course swaps made by the user.
     """
     data = request.get_json()
     course_id = data.get("courseId")
@@ -193,31 +194,23 @@ def drop_course():
         if user_current_course:
             db.session.delete(user_current_course)
 
-        # Update the available for pickup table
-        # If the course is present in available for pickup table, increment the count
-        course_available_for_pickup = (
-            db.session.query(CoursesAvailableForPickup)
-            .filter(CoursesAvailableForPickup.course_id == course_id)
-            .first()
-        )
-        if course_available_for_pickup:
-            course_available_for_pickup.count += 1
-        else:
-            # If the course is not present, add it to the table with count 1
-            new_pickup_course = CoursesAvailableForPickup(course_id=course_id, count=1)
-            db.session.add(new_pickup_course)
-
-        # Additionally, remove any swap requests for the dropped course
-        swap_requests = (
-            db.session.query(CoursesAvailableForPickup)
-            .filter_by(course_id=course_id)
+        # Remove swap requests made by the user for the dropped course
+        user_swap_requests = (
+            db.session.query(CoursesAvailableToSwap)
+            .filter(
+                (CoursesAvailableToSwap.course_id == course_id)
+                & (CoursesAvailableToSwap.user_id == current_user.id)
+            )
             .all()
         )
-        for swap_request in swap_requests:
+        for swap_request in user_swap_requests:
             db.session.delete(swap_request)
 
         db.session.commit()
-        return jsonify({"message": "Course dropped and swaps updated"}), 200
+        return (
+            jsonify({"message": "Course dropped and your swap requests updated"}),
+            200,
+        )
 
     except Exception as e:
         print(f"Error: {e}")
