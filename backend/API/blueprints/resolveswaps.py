@@ -36,6 +36,32 @@ def confirm_swap():
         user1_course_id = swap.wanted_course_id
         user2_course_id = swap.giving_course_id
 
+        # Check if User 1 has the course they want to swap
+        user1_has_course = (
+            UserCurrentCourses.query.filter_by(
+                user_id=user1_id, course_id=user1_course_id
+            ).first()
+            is not None
+        )
+
+        # Check if User 2 has the course they are offering
+        user2_has_course = (
+            UserCurrentCourses.query.filter_by(
+                user_id=user2_id, course_id=user2_course_id
+            ).first()
+            is not None
+        )
+
+        if not user1_has_course or not user2_has_course:
+            return (
+                jsonify(
+                    {
+                        "error": "One or both users do not have the required courses for the swap"
+                    }
+                ),
+                400,
+            )
+
         # Transaction to update course assignments
         with db.session.begin_nested():
             # Update courses for user1
