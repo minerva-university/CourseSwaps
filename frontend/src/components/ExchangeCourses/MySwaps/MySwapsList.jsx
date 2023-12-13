@@ -87,7 +87,7 @@ const MySwaps = () => {
             color: "#333",
           }}
         >
-          My Swaps
+          My preferred swaps
         </Typography>
         {swaps.map((swap) => (
           <SwapItem

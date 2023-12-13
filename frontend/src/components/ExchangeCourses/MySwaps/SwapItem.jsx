@@ -3,13 +3,11 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import EditSwapForm from './EditSwapForm';
 import { useApi } from "../../../contexts/ApiProvider";
 
 const SwapItem = ({
@@ -18,7 +16,6 @@ const SwapItem = ({
       onSwapDeleted, refreshSwaps
     }) => {
   const [openDialog, setOpenDialog] = useState(false);
-  const [openEditForm, setOpenEditForm] = useState(false);
   const api = useApi();
 
   const handleOpenDialog = () => {
@@ -49,14 +46,6 @@ const SwapItem = ({
     }
     setOpenDialog(false);
   };
-
-  const handleModify = () => {
-      setOpenEditForm(true);
-    };
-  
-    const handleCloseEditForm = () => {
-      setOpenEditForm(false);
-    };
   
     const handleSuccess = (message) => {
       setSnackbarMessage(message);
@@ -72,35 +61,37 @@ const SwapItem = ({
     };
 
   return (
-    <Box sx={{ 
-        marginBottom: 1, 
-        padding: 1, 
-        bgcolor: '#ffffff', 
+    <Box
+      sx={{
+        marginBottom: 1,
+        padding: 1,
+        bgcolor: "#ffffff",
         borderRadius: 1,
         boxShadow: 1,
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center'
-    }}>
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center",
+      }}
+    >
       <Box>
-            <Typography variant="subtitle1">
-            <strong style={{ fontWeight: 900 }}>Swap ID:</strong> {swapId}
-            </Typography>
-            <Typography variant="subtitle2">
-            <strong style={{ fontWeight: 900 }}>Giving Course:</strong> {givingCourse}
-            </Typography>
-            <Typography variant="subtitle2">
-            <strong style={{ fontWeight: 900 }}>Wanted Course:</strong> {wantedCourse}
-            </Typography>
+        <Typography variant="subtitle2">
+          <strong style={{ fontWeight: 900 }}>Giving:</strong>{" "}
+          {givingCourse}
+        </Typography>
+        <Typography variant="subtitle2">
+          <strong style={{ fontWeight: 900 }}>Wanted:</strong>{" "}
+          {wantedCourse}
+        </Typography>
       </Box>
 
-
-      <Box sx={{ display: 'flex', gap: 1 }}>
-        <Button variant="contained" onClick={handleOpenDialog} sx={{ backgroundColor: "black", height: "30.5px" }}>
-          <DeleteIcon />
-        </Button>
-        <Button variant="outlined" onClick={handleModify} sx={{ borderColor: "black", color: "black", height: "30.5px" }}>
-          <EditIcon />
+      <Box sx={{ display: "flex", gap: 1 }}>
+        <Button
+          variant="outlined"
+          size="small"
+          onClick={handleOpenDialog}
+          startIcon={<DeleteIcon />}
+        >
+          Drop
         </Button>
       </Box>
 
@@ -119,16 +110,6 @@ const SwapItem = ({
           </Button>
         </DialogActions>
       </Dialog>
-
-      {/* Edit Swap Form */}
-      <EditSwapForm
-      open={openEditForm}
-      handleClose={handleCloseEditForm}
-      swapId={swapId} // Pass swapId directly
-      onSuccess={handleSuccess}
-      onError={handleError}
-      refreshSwaps={refreshSwaps}
-    />
     </Box>
   );
 };
