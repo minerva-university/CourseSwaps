@@ -28,6 +28,8 @@ export function AuthProvider({ children }) {
   });
 
   const authenticateUser = async (access_token) => {
+    console.log("Authenticating user...");
+    console.log("Access token:", access_token);
     try {
       const response = await api.post("/auth/google", { access_token });
       const data = response.body;
