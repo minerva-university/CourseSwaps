@@ -27,7 +27,7 @@ services:
       context: ./frontend
       dockerfile: Dockerfile
     ports:
-      - "5173:80"  # Map port 3000 on the host to port 80 in the container
+      - "80:80"  # Map port 3000 on the host to port 80 in the container
     networks:
       - webnet
 
