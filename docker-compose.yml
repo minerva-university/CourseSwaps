@@ -6,6 +6,8 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
+    env_file:
+      - ./backend/.env
     volumes:
       - ./backend:/app
     depends_on:
@@ -26,6 +28,8 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile
+    env_file:
+      - ./frontend/.env
     ports:
       - "80:80"  # Map port 3000 on the host to port 80 in the container
     networks:
