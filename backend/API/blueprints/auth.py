@@ -25,7 +25,9 @@ google = oauth.register(
 
 @auth_bp.route("/auth/google", methods=["POST"])
 def login():
+    print("login")
     data = request.get_json()
+    print(data)
     access_token = data.get("access_token")
 
     google = oauth.create_client("google")
