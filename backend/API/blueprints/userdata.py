@@ -1,14 +1,19 @@
 from flask import Blueprint, jsonify, request, current_app
 from flask_login import login_required, current_user
+from flask_cors import CORS
 
 from ..models import db, Courses, UserCurrentCourses, UserCompletedCourses, Users
 
 userdata_bp = Blueprint("userdata_bp", __name__)
+CORS(userdata_bp, supports_credentials=True)
 
 
 @userdata_bp.route("/userdata", methods=["POST"])
 @login_required
 def register():
+    if not current_user.is_authenticated:
+        return jsonify({"error": "User not logged in"}), 401
+
     try:
         data = request.get_json()
         class_year = data["class"]
@@ -185,5 +190,5 @@ def update_user():
 
     except Exception as e:
         db.session.rollback()
-        current_app.logger.error(f"Error in update_user: {e}")
+        current_app.logger.error(f"Error in update_user: {e}", exc_info=True)
         return jsonify({"error": str(e)}), 500
