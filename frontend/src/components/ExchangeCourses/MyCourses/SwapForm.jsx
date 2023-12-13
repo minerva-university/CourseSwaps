@@ -38,7 +38,8 @@ const SwapForm = ({ open, onClose, selectedCourse }) => {
     };
 
     fetchAvailableSwaps();
-  }, [api]);
+    setSelectedCourses([]); 
+  }, [open]);
 
   const handleConfirmSwap = () => {
     setConfirmDialogOpen(true);
@@ -80,7 +81,7 @@ const SwapForm = ({ open, onClose, selectedCourse }) => {
       >
         <DialogTitle>Confirm Course Swap</DialogTitle>
         <DialogContent>
-          <Typography>
+          <Typography component="div">
             Are you sure you are willing to swap{" "}
             {`${selectedCourse?.code} - ${selectedCourse?.name}`} for:
             <ul>
