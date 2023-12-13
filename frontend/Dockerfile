@@ -24,7 +24,7 @@ COPY --from=build-stage /app/dist /usr/share/nginx/html
 COPY ./config/nginx.conf /etc/nginx/conf.d/default.conf
 
 # Expose port 80 to the outside
-EXPOSE 80
+EXPOSE 80 443
 
 # When the container starts, start Nginx server
 CMD ["nginx", "-g", "daemon off;"]

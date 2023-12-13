@@ -31,7 +31,12 @@ services:
     env_file:
       - ./frontend/.env
     ports:
-      - "80:80"  # Map port 3000 on the host to port 80 in the container
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./frontend:/etc/nginx/conf.d  # Mount Nginx configuration
+      - ./courseswap.live.chained.crt:/etc/nginx/ssl/courseswap.live.chained.crt  # Mount SSL certificate
+      - ./courseswap.live.key:/etc/nginx/ssl/courseswap.live.key  # Mount SSL key
     networks:
       - webnet
 
