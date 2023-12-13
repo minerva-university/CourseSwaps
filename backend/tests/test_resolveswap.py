@@ -1,7 +1,7 @@
 import unittest
 from API import create_app, db
 from API.models import Users, Courses, UserCurrentCourses, CoursesAvailableToSwap
-from flask_login import login_user, logout_user
+from flask_login import login_user
 
 
 class ConfirmSwapTestCase(unittest.TestCase):
@@ -54,7 +54,7 @@ class ConfirmSwapTestCase(unittest.TestCase):
             # Creating a course available to swap
             swap = CoursesAvailableToSwap(
                 id=1,
-                user_id="567",
+                user_id="321",
                 giving_course_id=course2.id,
                 wanted_course_id=course1.id,
             )
@@ -64,33 +64,62 @@ class ConfirmSwapTestCase(unittest.TestCase):
 
     def test_confirm_swap_unauthenticated(self):
         # Test unauthorized access
-        response = self.client.post("/confirm_swap", json={"selectedSwap": 1})
-        self.assertEqual(response.status_code, 401)
+        with self.app.app_context():
+            with self.client:
+                response = self.client.post(
+                    "api/confirm_swap", json={"selectedSwap": 1}
+                )
+                self.assertEqual(response.status_code, 401)
 
     def test_confirm_swap_swap_not_found(self):
         with self.app.app_context():
-            login_user(Users.query.get("user1"))
-            response = self.client.post("/confirm_swap", json={"selectedSwap": 99})
+            with self.client:
+                user = Users.query.filter_by(id="123").first()
+                with self.app.test_request_context("/"):
+                    login_user(user)
+            response = self.client.post("api/confirm_swap", json={"selectedSwap": 99})
             self.assertEqual(response.status_code, 404)
-            logout_user()
+
+    def test_confirm_swap_course_not_available(self):
+        with self.app.app_context():
+            with self.client:
+                # Log in as user1
+                user = Users.query.filter_by(id="123").first()
+                with self.app.test_request_context("/"):
+                    login_user(user)
+
+                # Remove the course that user1 wants to swap from their current courses
+                UserCurrentCourses.query.filter_by(user_id="123", course_id=20).delete()
+                db.session.commit()
+
+                # Attempt to confirm the swap
+                response = self.client.post(
+                    "api/confirm_swap", json={"selectedSwap": 1}
+                )
+                self.assertEqual(response.status_code, 400)
+                self.assertIn(
+                    "One or both users do not have the required courses for the swap",
+                    response.get_json()["error"],
+                )
 
     def test_confirm_swap_successful(self):
         with self.app.app_context():
-            login_user(Users.query.get("user1"))
-            response = self.client.post("/confirm_swap", json={"selectedSwap": 1})
+            with self.client:
+                user = Users.query.filter_by(id="123").first()
+                with self.app.test_request_context("/"):
+                    login_user(user)
+            response = self.client.post("api/confirm_swap", json={"selectedSwap": 1})
             self.assertEqual(response.status_code, 200)
 
             # Verifying Database Updates
-            user1_course = UserCurrentCourses.query.filter_by(user_id="user1").first()
-            user2_course = UserCurrentCourses.query.filter_by(user_id="user2").first()
-            self.assertEqual(user1_course.course_id, 2)
-            self.assertEqual(user2_course.course_id, 1)
+            user1_course = UserCurrentCourses.query.filter_by(user_id="123").first()
+            user2_course = UserCurrentCourses.query.filter_by(user_id="321").first()
+            self.assertEqual(user1_course.course_id, 3)
+            self.assertEqual(user2_course.course_id, 20)
 
             # Verifying Swap Deletion
             swap = CoursesAvailableToSwap.query.get(1)
             self.assertIsNone(swap)
-
-            logout_user()
 
     def tearDown(self):
         # Clean up the database after each test
