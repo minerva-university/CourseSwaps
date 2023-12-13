@@ -13,7 +13,7 @@ services:
     depends_on:
       - db
     ports:
-      - "7070:8000" # Map port 7070 on the host to port 8000 in the container
+      - "8000:8000" # Map port 7070 on the host to port 8000 in the container
     networks:
       - webnet
 
