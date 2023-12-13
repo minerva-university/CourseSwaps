@@ -26,8 +26,8 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile
-    ports:
-      - "5173:80"  # Map port 3000 on the host to port 80 in the container
+    # ports:
+      # - "5173:80"  # Map port 3000 on the host to port 80 in the container
     networks:
       - webnet
 
@@ -55,6 +55,20 @@ services:
       - "8081:8080"  # Map port 8080 on the host to port 8080 in the container
     networks:
       - webnet
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "80:80"  # Map port 80 on the host to port 80 in the container
+    volumes:
+      - ./nginx:/etc/nginx/conf.d  # Mount custom Nginx configuration
+    depends_on:
+      - frontend
+    networks:
+      - webnet
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
 
 volumes:
   postgres_data:

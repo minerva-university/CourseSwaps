@@ -33,7 +33,7 @@ def create_app(test_config=None):
         app,
         resources={
             r"/api/*": {
-                "origins": "http://localhost:5173",
+                "origins": "*",
                 "methods": ["GET", "POST", "PUT", "DELETE"],
             }
         },
