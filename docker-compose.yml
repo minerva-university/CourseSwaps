@@ -34,7 +34,7 @@ services:
       - "80:80"
       - "443:443"
     volumes:
-      - ./frontend:/etc/nginx/conf.d  # Mount Nginx configuration
+      - ./frontend/config:/etc/nginx/conf.d  # Mount Nginx configuration
       - ./courseswap.live.chained.crt:/etc/nginx/ssl/courseswap.live.chained.crt  # Mount SSL certificate
       - ./courseswap.live.key:/etc/nginx/ssl/courseswap.live.key  # Mount SSL key
     networks:
