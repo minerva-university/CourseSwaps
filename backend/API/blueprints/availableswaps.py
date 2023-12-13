@@ -181,24 +181,44 @@ def all_courses():
 @login_required
 def my_swaps():
     """
-    Get all swap requests made by the current user.
+    Get all swap requests made by the current user along with the 'code-name' of the courses.
     """
     if not current_user.is_authenticated:
         return jsonify({"error": "Unauthorized access"}), 401
+
     try:
-        user_swaps = CoursesAvailableToSwap.query.filter_by(
-            user_id=current_user.id
-        ).all()
+        # Alias the courses table for the second join
+        wanted_course = db.aliased(Courses)
+
+        user_swaps = (
+            db.session.query(
+                CoursesAvailableToSwap.id.label("swap_id"),
+                Courses.code.label("giving_course_code"),
+                Courses.name.label("giving_course_name"),
+                wanted_course.code.label("wanted_course_code"),
+                wanted_course.name.label("wanted_course_name"),
+            )
+            .join(Courses, CoursesAvailableToSwap.giving_course_id == Courses.id)
+            .join(
+                wanted_course,
+                CoursesAvailableToSwap.wanted_course_id == wanted_course.id,
+            )
+            .filter(CoursesAvailableToSwap.user_id == current_user.id)
+            .all()
+        )
+
         swaps_data = [
             {
-                "swap_id": swap.id,
-                "giving_course_id": swap.giving_course_id,
-                "wanted_course_id": swap.wanted_course_id,
+                "swap_id": swap.swap_id,
+                "giving_course": f"{swap.giving_course_code} - {swap.giving_course_name}",
+                "wanted_course": f"{swap.wanted_course_code} - {swap.wanted_course_name}",
             }
             for swap in user_swaps
         ]
+        print(swaps_data)
         return jsonify({"my_swaps": swaps_data}), 200
     except Exception as e:
+        db.session.rollback()
         print(e)
         return jsonify({"error": "An unexpected error occurred"}), 500
 
