@@ -24,7 +24,7 @@ const AuthPage = () => {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        height: "60vh",
+        height: "100vh",
       }}
     >
       <Paper

@@ -57,7 +57,13 @@ const ViewUserProfile = ({ closeViewProfile }) => {
     <Grid
       container
       justifyContent="center"
-      style={{ padding: "20px" }}
+      style={{
+        padding: "20px",
+        paddingTop: "10%",
+        paddingBottom: "5%",
+        height: "100vh", // Changed from 100% to 100vh
+        overflow: "auto" // Added overflow property
+      }}
       data-testid="view-user-profile"
     >
       <Paper

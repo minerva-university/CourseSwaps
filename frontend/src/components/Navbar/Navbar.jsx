@@ -40,7 +40,7 @@ function Navbar() {
     "https://assets-global.website-files.com/64ca995f0fd30a33b2fd01cc/64ca995f0fd30a33b2fd03e4_minerva.svg";
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
+      <AppBar position="fixed"> {/* Fixed to the top of the screen */}
         <Toolbar
           sx={{
             display: "flex",
@@ -59,7 +59,11 @@ function Navbar() {
               alt="Logo"
               style={{ width: "auto", height: "auto" }}
             />
-            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+            <Typography
+              variant="h6"
+              component="div"
+              sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
+            >
               CourseSwap
             </Typography>
           </Box>

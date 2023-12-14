@@ -50,7 +50,7 @@ const MyCoursesList = () => {
   return (
     <Box
       sx={{
-        maxWidth: 360,
+        maxWidth: "100%",
         bgcolor: "#f0f0f0",
         padding: 2,
         borderRadius: 2,

@@ -1,4 +1,3 @@
-// ExchangeCoursesPage.js
 import React from "react";
 import Box from "@mui/material/Box";
 import MyCourseList from "../components/ExchangeCourses/MyCourses/MyCoursesList";
@@ -14,10 +13,13 @@ const ExchangeCoursesPage = () => {
         <Box
           sx={{
             display: "flex",
+            flexDirection: { xs: "column", md: "row" },
             justifyContent: "center",
-            alignItems: "flex-start",
-            padding: 3,
-            gap: 2,
+            alignItems: "center",
+            padding: { xs: 1, md: 3 },
+            gap: { xs: 1, md: 2 },
+            marginTop: { xs: "10%", md: 3 }, // Removed margin top on extra-small devices
+            width: '100%', // Ensure full width usage
           }}
         >
           <MyCourseList />
