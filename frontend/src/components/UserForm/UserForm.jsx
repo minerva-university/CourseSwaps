@@ -196,33 +196,41 @@ export default function UserFormPage() {
 
 
   const api = useApi();
-  // Handle form submission
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const validation = validateFormData(formData);
-    setFormErrors(validation.errors);
+// Handle form submission
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  const validation = validateFormData(formData);
+  setFormErrors(validation.errors);
 
-    const endpoint = isUpdateMode ? "/update-user" : "/userdata";
+  const endpoint = isUpdateMode ? "/update-user" : "/userdata";
 
-    if (validation.isValid) {
+  if (validation.isValid) {
+    try {
       let response;
-      try {
-        if (isUpdateMode) {
-          response = await api.put(endpoint, formData);
-        } else {
-          response = await api.post(endpoint, formData);
-        }
-        if (response.status === 200) {
-          console.log("Operation successful");
-          navigate("/");
-        } else {
-          console.log("Operation failed");
-        }
-      } catch (error) {
-        console.error("Error", error);
+      if (isUpdateMode) {
+        response = await api.put(endpoint, formData);
+      } else {
+        response = await api.post(endpoint, formData);
       }
+
+      if (response.status === 200) {
+        console.log("Operation successful");
+        navigate("/");
+      } else if (response.status === 409) {
+        // Handle 409 error: Minerva ID not unique
+        setFormErrors(prevErrors => ({
+          ...prevErrors,
+          minervaID: "This Minerva ID is not unique, check your entry"
+        }));
+      } else {
+        console.log("Operation failed");
+      }
+    } catch (error) {
+      console.error("Error", error);
     }
-  };
+  }
+};
+
 
   return (
     <Grid container style={gridContainerStyle}>

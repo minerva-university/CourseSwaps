@@ -22,6 +22,12 @@ def register():
         completed_courses = set(data["previousCourses"])
         minerva_id = data.get("minervaID")
         minor = data.get("minor", None)
+        
+        # Check if the MinervaID already exists for another user
+        if minerva_id:
+            existing_user = Users.query.filter_by(minerva_id=minerva_id).first()
+            if existing_user and existing_user.id != current_user.id:
+                return jsonify({"error": "MinervaID already in use"}), 409
 
         user = Users.query.filter_by(id=current_user.id).first()
         if not user:
@@ -129,6 +135,13 @@ def update_user():
         user = Users.query.filter_by(id=current_user.id).first()
         if not user:
             return jsonify({"error": "User not found"}), 404
+        
+        # Check if the MinervaID is being updated and if it already exists for another user
+        new_minerva_id = data.get("minervaID")
+        if new_minerva_id and new_minerva_id != user.minerva_id:
+            existing_user = Users.query.filter_by(minerva_id=new_minerva_id).first()
+            if existing_user and existing_user.id != user.id:
+                return jsonify({"error": "MinervaID already in use"}), 409
 
         # Update basic user data
         user.class_year = data.get("class", user.class_year)
