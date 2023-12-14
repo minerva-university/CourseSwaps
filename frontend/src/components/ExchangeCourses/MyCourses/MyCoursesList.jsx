@@ -8,6 +8,9 @@ import DropButton from "./DropButton";
 import { useApi } from "../../../contexts/ApiProvider";
 import { useRefresh } from "../../../contexts/useRefresh";
 import { usePeriodicRefresh } from '../../../contexts/usePeriodicRefresh';
+import Snackbar from "@mui/material/Snackbar";
+import Alert from "@mui/material/Alert";
+
 
 
 const MyCoursesList = () => {
@@ -17,6 +20,11 @@ const MyCoursesList = () => {
   const api = useApi();
   const { refreshKey } = useRefresh();
   const { subscribe, unsubscribe } = usePeriodicRefresh();
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [snackbarSeverity, setSnackbarSeverity] = useState("info");
+  const { triggerRefresh } = useRefresh();
+
 
   const fetchUserCourses = useCallback(async () => {
     try {
@@ -45,11 +53,41 @@ const MyCoursesList = () => {
     return () => unsubscribe(fetchUserCourses);
   }, [subscribe, unsubscribe, fetchUserCourses]);
 
-
-  const handleSwapButtonClick = (course) => {
-    setSelectedCourse(course);
-    setOpen(true);
+  const checkCourse = async (course) => {
+    try {
+      const response = await api.post(`/check_courses/${course.id}`);
+      if (response.ok && response.body.is_current_course) {
+        return true;
+      } else if (response.ok && !response.body.is_current_cours) {
+        return false;
+      }
+    } catch (error) {
+      console.error("Error checking course", error);
+    }
   };
+
+  const handleSwapButtonClick = async (course) => {
+    const canswap = await checkCourse(course);
+    if (canswap) {
+      setSelectedCourse(course);
+      setOpen(true);
+    } else {
+      setSnackbarMessage(
+        "You cannot swap this course because it is not in your current courses."
+      );
+      setSnackbarSeverity("error");
+      triggerRefresh();
+      setSnackbarOpen(true);
+    }
+  };
+
+  const handleCloseSnackbar = () => {
+    setSnackbarOpen(false);
+    setSnackbarMessage("");
+    setSnackbarMessage("");
+    setSnackbarSeverity("info");
+  };
+
 
   const handleCloseSwapForm = () => {
     setSelectedCourse(null);
@@ -100,7 +138,7 @@ const MyCoursesList = () => {
             <Button
               variant="contained"
               onClick={() => handleSwapButtonClick(course)}
-              sx={{ backgroundColor: "black", height: "30.5px"}}
+              sx={{ backgroundColor: "black", height: "30.5px" }}
             >
               <SwapHorizIcon />
             </Button>
@@ -120,6 +158,19 @@ const MyCoursesList = () => {
         onClose={handleCloseSwapForm}
         selectedCourse={selectedCourse}
       />
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={2000}
+        onClose={handleCloseSnackbar}
+      >
+        <Alert
+          onClose={handleCloseSnackbar}
+          severity={snackbarSeverity}
+          sx={{ width: "100%" }}
+        >
+          {snackbarMessage}
+        </Alert>
+      </Snackbar>
     </Box>
   );
 };
