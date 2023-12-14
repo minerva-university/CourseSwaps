@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
@@ -9,6 +9,7 @@ import { useApi } from "../../../contexts/ApiProvider";
 import { useRefresh } from "../../../contexts/useRefresh";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
+import { usePeriodicRefresh } from '../../../contexts/usePeriodicRefresh';
 
 const MyCoursesList = () => {
   const [selectedCourse, setSelectedCourse] = useState(null);
@@ -22,27 +23,27 @@ const MyCoursesList = () => {
   const api = useApi();
   const { refreshKey } = useRefresh();
   const { triggerRefresh } = useRefresh();
+  const { subscribe, unsubscribe } = usePeriodicRefresh();
+
+  const fetchUserCourses = useCallback(async () => {
+    try {
+      const response = await api.get('/mycourses'); 
+      if (response.ok) {
+        if (response.body.current_courses) {
+          console.log('User courses:', response.body.current_courses);
+          setUserCourses(response.body.current_courses);
+        } else {
+          console.error('The user currently has no courses. If this is a bug, contact the administrator.');
+        }
+      } else {
+        console.error('Error fetching courses', response.body.error);
+      }
+    } catch (error) {
+      console.error('Error fetching courses', error);
+    }
+  }, [api]);
 
   useEffect(() => {
-    const fetchUserCourses = async () => {
-      try {
-        const response = await api.get("/mycourses");
-        if (response.ok) {
-          if (response.body.current_courses) {
-            setUserCourses(response.body.current_courses);
-          } else {
-            console.error(
-              "The user currently has no courses. If this is a bug, contact the administrator."
-            );
-          }
-        } else {
-          console.error("Error fetching courses", response.body.error);
-        }
-      } catch (error) {
-        console.error("Error fetching courses", error);
-      }
-    };
-
     fetchUserCourses();
   }, [api, refreshKey]);
 
@@ -82,6 +83,15 @@ const MyCoursesList = () => {
   const handleCloseDropDialog = () => {
     setIsDropDialogOpen(false);
     setSelectedDropCourse(null);
+  useEffect(() => {
+    subscribe(fetchUserCourses);
+    return () => unsubscribe(fetchUserCourses);
+  }, [subscribe, unsubscribe, fetchUserCourses]);
+
+
+  const handleSwapButtonClick = (course) => {
+    setSelectedCourse(course);
+    setOpen(true);
   };
 
 
