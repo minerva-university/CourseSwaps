@@ -16,7 +16,7 @@ const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
-const DropCourseButton = ({ courseName, courseId }) => {
+const DropCourseButton = ({ courseName, courseId ,checkCourse,course}) => {
   const [openDialog, setOpenDialog] = useState(false);
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
@@ -24,8 +24,18 @@ const DropCourseButton = ({ courseName, courseId }) => {
   const api = useApi();
   const { triggerRefresh } = useRefresh();
 
-  const handleOpenDialog = () => {
-    setOpenDialog(true);
+  const handleOpenDialog =  async () => {
+    const canDelete = await checkCourse(course);
+    if (canDelete){
+      setOpenDialog(true);
+    }else{
+      setSnackbarMessage(
+        "You cannot swap this course because it is not in your current courses."
+      );
+      setSnackbarSeverity("error");
+      setOpenSnackbar(true);
+       triggerRefresh();
+    }
   };
 
   const handleConfirm = async () => {
@@ -35,6 +45,8 @@ const DropCourseButton = ({ courseName, courseId }) => {
       if (response.ok) {
         setSnackbarMessage(response.body.message);
         setSnackbarSeverity("success");
+        setOpenSnackbar(true);
+        triggerRefresh();
       } else {
         setSnackbarMessage(response.body.error);
         setSnackbarSeverity("error");
@@ -43,7 +55,7 @@ const DropCourseButton = ({ courseName, courseId }) => {
       setSnackbarMessage(`Error dropping course ${courseName}: ${error}`);
       setSnackbarSeverity("error");
     }
-    setOpenDialog(false);
+    console.log('Closing dialog');
     setOpenSnackbar(true);
     triggerRefresh();
   };
