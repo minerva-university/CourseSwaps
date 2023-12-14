@@ -146,6 +146,8 @@ const MyCoursesList = () => {
               key={course.id}
               courseName={course.name}
               courseId={course.id}
+              checkCourse={checkCourse}
+              course={course}
               sx={{
                 flex: "1",
               }}
