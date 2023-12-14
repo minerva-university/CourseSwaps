@@ -35,8 +35,6 @@ const AddAvailableToPickup = ({ currentCourses }) => {
           quantity,
         });
 
-        console.log(response);
-
         if (response.status === 200) {
           setSnackbarMessage("Course added successfully");
           setSnackbarSeverity("success");

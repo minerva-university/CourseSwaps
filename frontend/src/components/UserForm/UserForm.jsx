@@ -130,9 +130,6 @@ export default function UserFormPage() {
     }
   }, [userData, isUpdateMode]);
 
-  // console.log("userData is:", userData);
-  // console.log("isUpdateMode is:", isUpdateMode);
-
   // Function to check for any form errors
   const checkForErrors = (data, fieldsToValidate) => {
     const validation = validateFormData(data, fieldsToValidate);
@@ -188,7 +185,6 @@ export default function UserFormPage() {
           response = await api.post(endpoint, formData);
         }
         if (response.status === 200) {
-          console.log("Operation successful");
           navigate("/");
         } else {
           console.log("Operation failed");

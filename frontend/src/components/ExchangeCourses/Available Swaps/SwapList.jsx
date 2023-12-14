@@ -64,7 +64,6 @@ const SwapList = () => {
   };
 
   const handleConfirmSwap = async () => {
-    console.log(`Confirmed swap for ID: ${selectedSwap}`);
     setConfirmDialogOpen(false);
 
     try {
