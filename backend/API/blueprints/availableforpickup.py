@@ -46,16 +46,21 @@ def available_for_pickup():
             )
             .filter(UserCurrentCourses.id.is_(None))
             .filter(UserCompletedCourses.id.is_(None))
-            .filter(
-                # Ensuring all prerequisites are met
-                ~Courses.prerequisites.any(~Courses.id.in_(completed_course_ids))
-            )
             .all()
         )
 
+        # print(available_courses)
+        filtered_available_courses = []
+        for course, count in available_courses:
+            prerequisite_ids = {
+                prerequisite.id for prerequisite in course.prerequisites
+            }
+            if prerequisite_ids.issubset(completed_course_ids):
+                filtered_available_courses.append((course, count))
+
         course_data = [
             {"id": course.id, "name": course.name, "code": course.code, "count": count}
-            for course, count in available_courses
+            for course, count in filtered_available_courses
         ]
 
         print(course_data)
@@ -202,6 +207,20 @@ def drop_course():
         )
         for swap_request in swap_requests:
             db.session.delete(swap_request)
+
+        # Increment the count of the course available for pickup
+        course_available_for_pickup = (
+            db.session.query(CoursesAvailableForPickup)
+            .filter(CoursesAvailableForPickup.course_id == course_id)
+            .first()
+        )
+        if course_available_for_pickup:
+            course_available_for_pickup.count += 1
+        else:
+            course_available_for_pickup = CoursesAvailableForPickup(
+                course_id=course_id, count=1
+            )
+            db.session.add(course_available_for_pickup)
 
         db.session.commit()
         return jsonify({"message": "Course dropped and associated swaps updated"}), 200
