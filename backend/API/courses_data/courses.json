@@ -1060,21 +1060,21 @@
           }, {
             "courseId": "AH50",
             "courseName": "Multimodal Communications",
-            "preReqs": ["None"],
+            "preReqs": [["None"]],
             "Colleges": ["Arts and Humanities"],
             "offered_in_spring2024": false
           },
           {
             "courseId": "AH51",
             "courseName": "Multimodal Communications",
-            "preReqs": ["AH50"],
+            "preReqs": [["AH50"]],
             "Colleges": ["Arts and Humanities"],
             "offered_in_spring2024": false
           },
           {
             "courseId": "AH110",
             "courseName": "Global History",
-            "preReqs": ["AH51"],
+            "preReqs": [["AH51"]],
             "Colleges": ["Arts and Humanities"],
             "offered_in_spring2024": true,
             "scheduleOptions": [
@@ -1088,7 +1088,7 @@
           {
             "courseId": "AH111",
             "courseName": "Morality, Justice, and the Good Life",
-            "preReqs": ["AH51"],
+            "preReqs": [["AH51"]],
             "Colleges": ["Arts and Humanities"],
             "offered_in_spring2024": true,
             "scheduleOptions": [
@@ -1102,7 +1102,7 @@
           {
             "courseId": "AH112",
             "courseName": "The Arts and Social Change",
-            "preReqs": ["AH51"],
+            "preReqs": [["AH51"]],
             "Colleges": ["Arts and Humanities"],
             "offered_in_spring2024": true,
             "scheduleOptions": [
@@ -1116,7 +1116,7 @@
           {
             "courseId": "AH113",
             "courseName": "Dynamics of Design",
-            "preReqs": ["AH51"],
+            "preReqs": [["AH51"]],
             "Colleges": ["Arts and Humanities"],
             "offered_in_spring2024": true,
             "scheduleOptions": [
@@ -1130,14 +1130,14 @@
           {
             "courseId": "AH142",
             "courseName": "The Craft of Historical Analysis",
-            "preReqs": ["AH110"],
+            "preReqs": [["AH110"]],
             "Colleges": ["Arts and Humanities"],
             "offered_in_spring2024": false
           },
           {
             "courseId": "AH144",
             "courseName": "Ethical Systems, Moral Dilemmas",
-            "preReqs": ["AH111"],
+            "preReqs": [["AH111"]],
             "Colleges": ["Arts and Humanities"],
             "offered_in_spring2024": true,
             "scheduleOptions": [
@@ -1151,7 +1151,7 @@
           {
             "courseId": "AH146",
             "courseName": "Decoding Art and Literature",
-            "preReqs": ["AH112"],
+            "preReqs": [["AH112"]],
             "Colleges": ["Arts and Humanities"],
             "offered_in_spring2024": true,
             "scheduleOptions": [
@@ -1165,7 +1165,7 @@
           {
             "courseId": "AH152",
             "courseName": "Comparing Societies and Histories: The Impact of Time and Place",
-            "preReqs": ["AH110"],
+            "preReqs": [["AH110"]],
             "Colleges": ["Arts and Humanities"],
             "offered_in_spring2024": true,
             "scheduleOptions": [
@@ -1179,7 +1179,7 @@
           {
             "courseId": "AH154",
             "courseName": "Ethics and the Law",
-            "preReqs": ["AH111"],
+            "preReqs": [["AH111"]],
             "Colleges": ["Arts and Humanities"],
             "offered_in_spring2024": true,
             "scheduleOptions": [
@@ -1193,28 +1193,28 @@
           {
             "courseId": "AH156",
             "courseName": "Socioeconomic Influences on Art and Literature",
-            "preReqs": ["AH112"],
+            "preReqs": [["AH112"]],
             "Colleges": ["Arts and Humanities"], 
             "offered_in_spring2024": false
           },
           {
             "courseId": "AH162",
             "courseName": "Public and Applied History",
-            "preReqs": ["AH110"],
+            "preReqs": [["AH110"]],
             "Colleges": ["Arts and Humanities"],
             "offered_in_spring2024": false
           },
           {
             "courseId": "AH164",
             "courseName": "Social and Political Philosophy",
-            "preReqs": ["AH111"],
+            "preReqs": [["AH111"]],
             "Colleges": ["Arts and Humanities"],
             "offered_in_spring2024": false
           },
           {
             "courseId": "AH166",
             "courseName": "Artistic Communication from Page to Practice",
-            "preReqs": ["AH112"],
+            "preReqs": [["AH112"]],
             "Colleges": ["Arts and Humanities"],
             "offered_in_spring2024": true,
             "scheduleOptions": [
