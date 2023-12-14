@@ -38,7 +38,8 @@ const SwapForm = ({ open, onClose, selectedCourse }) => {
     };
 
     fetchAvailableSwaps();
-  }, [api]);
+    setSelectedCourses([]);
+  }, [api, open]);
 
   const handleConfirmSwap = () => {
     setConfirmDialogOpen(true);
