@@ -97,11 +97,14 @@ const MyCoursesList = () => {
   return (
     <Box
       sx={{
-        maxWidth: 360,
+        width: '100%', // Set a default width for all screen sizes
         bgcolor: "#f0f0f0",
         padding: 2,
         borderRadius: 2,
         boxShadow: 3,
+        '@media (min-width: 768px)': {
+          maxWidth: "360px", // Set a fixed width for larger devices (adjust the breakpoint and width as needed)
+        },
       }}
     >
       <Typography
