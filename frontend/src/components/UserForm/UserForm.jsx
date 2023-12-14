@@ -118,6 +118,17 @@ export default function UserFormPage() {
   const [formErrors, setFormErrors] = useState({});
   const userData = location.state?.userData || {};
 
+  useEffect(() => {
+    // Check for overlapping courses whenever currentClasses or previousCourses change
+    setFormErrors(formErrors => {
+      const overlapError = formData.currentClasses.some(course => formData.previousCourses.includes(course))
+        ? 'Cannot select the same course as both currently assigned course and previously completed course'
+        : '';
+
+      return { ...formErrors, currentClasses: overlapError, previousCourses: overlapError };
+    });
+  }, [formData.currentClasses, formData.previousCourses]);
+
   // useEffect to set initial form values when userData is available
   useEffect(() => {
     if (userData && isUpdateMode) {
@@ -143,32 +154,46 @@ export default function UserFormPage() {
   // Handle field changes and perform live validation
   const handleChange = (e, newValue) => {
     const { name, value } = e.target ? e.target : { name: "", value: "" };
-
-    // If major is changed, reset concentration
-    if (name === "major") {
-      setFormData({ ...formData, [name]: value, concentration: "" });
-      setTouchedFields({ ...touchedFields, [name]: true, concentration: true });
-    } else if (name === "currentClasses" || name === "previousCourses") {
+  
+    // Handling for currentClasses and previousCourses
+    if (name === 'currentClasses' || name === 'previousCourses') {
       setFormData({ ...formData, [name]: newValue });
-      setTouchedFields({ ...touchedFields, [name]: true });
     } else {
-      setFormData({ ...formData, [name]: value });
-      setTouchedFields({ ...touchedFields, [name]: true });
+      // Existing logic for major change
+      if (name === "major") {
+        setFormData({ ...formData, [name]: value, concentration: "" });
+      } else {
+        setFormData({ ...formData, [name]: value });
+      }
+  
+      // Validation for Minerva Student ID
+      if (name === 'minervaID') {
+        setFormErrors({
+          ...formErrors,
+          minervaID: /^\d{6}$/.test(value) ? '' : 'ID must be exactly 6 digits'
+        });
+      }
     }
-
+  
+    // Mark the field as touched
+    setTouchedFields({ ...touchedFields, [name]: true });
+  
     // Trigger validation for touched fields
     const fieldsToValidate = Object.keys(touchedFields).concat(name);
     checkForErrors(
       {
         ...formData,
-        [name]:
-          name === "currentClasses" || name === "previousCourses"
-            ? newValue
-            : value,
+        [name]: value,
       },
       fieldsToValidate
     );
   };
+  
+  // Function to check if there are errors in course selection
+  const hasCourseSelectionErrors = () => {
+    return !!formErrors.currentClasses || !!formErrors.previousCourses;
+  };
+
 
   const api = useApi();
   // Handle form submission
@@ -396,10 +421,11 @@ export default function UserFormPage() {
             type="submit"
             variant="contained"
             style={submitButtonStyle}
-            disabled={!validateFormData(formData).isValid}
+            disabled={!validateFormData(formData).isValid || hasCourseSelectionErrors()}
           >
             {isUpdateMode ? "Update" : "Submit"}
           </Button>
+
         </form>
       </Paper>
     </Grid>
