@@ -58,7 +58,7 @@ const PickupsList = () => {
           color: "#333",
         }}
       >
-        Pickup Courses
+        Pickup courses
       </Typography>
       {courses.map((course) => (
         <PickupCourseItem key={course.id} code={course.code} title={course.name} count={course.count} courseId={course.id} />

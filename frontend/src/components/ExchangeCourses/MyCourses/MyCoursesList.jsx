@@ -67,7 +67,7 @@ const MyCoursesList = () => {
           color: "#333",
         }}
       >
-        My Courses
+        My courses
       </Typography>
 
       {userCourses.map((course, index) => (

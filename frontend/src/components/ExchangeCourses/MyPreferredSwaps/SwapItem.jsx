@@ -1,22 +1,27 @@
-import React, { useState } from 'react';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
-import DeleteIcon from '@mui/icons-material/Delete';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
+import React, { useState } from "react";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import Button from "@mui/material/Button";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
 import { useApi } from "../../../contexts/ApiProvider";
+import { useRefresh } from "../../../contexts/useRefresh";
 
 const SwapItem = ({
-      swapId, givingCourse, wantedCourse,
-      setOpenSnackbar, setSnackbarMessage, setSnackbarSeverity,
-      onSwapDeleted,
-    }) => {
+  swapId,
+  givingCourse,
+  wantedCourse,
+  setOpenSnackbar,
+  setSnackbarMessage,
+  setSnackbarSeverity,
+  onSwapDeleted,
+}) => {
   const [openDialog, setOpenDialog] = useState(false);
   const api = useApi();
+  const { triggerRefresh } = useRefresh();
 
   const handleOpenDialog = () => {
     setOpenDialog(true);
@@ -35,18 +40,18 @@ const SwapItem = ({
         setOpenSnackbar(true);
         onSwapDeleted(swapId);
       } else {
-        setSnackbarMessage('Failed to cancel swap');
+        setSnackbarMessage("Failed to cancel swap");
         setSnackbarSeverity("error");
         setOpenSnackbar(true);
       }
     } catch (error) {
-      setSnackbarMessage('An error occurred while cancelling the swap');
+      setSnackbarMessage("An error occurred while cancelling the swap");
       setSnackbarSeverity("error");
       setOpenSnackbar(true);
     }
     setOpenDialog(false);
+    triggerRefresh();
   };
-  
 
   return (
     <Box
@@ -63,23 +68,16 @@ const SwapItem = ({
     >
       <Box>
         <Typography variant="subtitle2">
-          <strong style={{ fontWeight: 900 }}>Giving:</strong>{" "}
-          {givingCourse}
+          <strong style={{ fontWeight: 900 }}>Giving:</strong> {givingCourse}
         </Typography>
         <Typography variant="subtitle2">
-          <strong style={{ fontWeight: 900 }}>Wanted:</strong>{" "}
-          {wantedCourse}
+          <strong style={{ fontWeight: 900 }}>Wanted:</strong> {wantedCourse}
         </Typography>
       </Box>
 
       <Box sx={{ display: "flex", gap: 1 }}>
-        <Button
-          variant="outlined"
-          size="small"
-          onClick={handleOpenDialog}
-          startIcon={<DeleteIcon />}
-        >
-          Drop
+        <Button variant="outlined" size="small" onClick={handleOpenDialog}>
+          Cancel
         </Button>
       </Box>
 

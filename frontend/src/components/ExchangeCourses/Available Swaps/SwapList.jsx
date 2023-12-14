@@ -55,7 +55,7 @@ const SwapList = () => {
           color: "#333",
         }}
       >
-        Swap Courses
+        Available swaps
       </Typography>
       {swaps && swaps.map(swap => (
         <CourseToSwapItem key={swap.id} username={swap.username} givesCourse={swap.courseGiven} wantsCourse={swap.courseWanted} />

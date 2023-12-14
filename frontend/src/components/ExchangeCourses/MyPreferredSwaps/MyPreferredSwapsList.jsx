@@ -12,7 +12,7 @@ const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
-const MySwaps = () => {
+const MyPreferredSwapsList = () => {
   const [swaps, setSwaps] = useState([]);
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
@@ -111,4 +111,4 @@ const MySwaps = () => {
     );
   };
   
-  export default MySwaps;
+  export default MyPreferredSwapsList;
