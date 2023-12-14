@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
@@ -7,6 +7,10 @@ import SwapForm from "./SwapForm";
 import DropButton from "./DropButton";
 import { useApi } from "../../../contexts/ApiProvider";
 import { useRefresh } from "../../../contexts/useRefresh";
+import { usePeriodicRefresh } from '../../../contexts/usePeriodicRefresh';
+import Snackbar from "@mui/material/Snackbar";
+import Alert from "@mui/material/Alert";
+
 
 
 const MyCoursesList = () => {
@@ -15,32 +19,75 @@ const MyCoursesList = () => {
   const [open, setOpen] = useState(false);
   const api = useApi();
   const { refreshKey } = useRefresh();
+  const { subscribe, unsubscribe } = usePeriodicRefresh();
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [snackbarSeverity, setSnackbarSeverity] = useState("info");
+  const { triggerRefresh } = useRefresh();
 
-  useEffect(() => {
-    const fetchUserCourses = async () => {
-      try {
-        const response = await api.get('/mycourses'); 
-        if (response.ok) {
-          if (response.body.current_courses) {
+
+  const fetchUserCourses = useCallback(async () => {
+    try {
+      const response = await api.get('/mycourses'); 
+      if (response.ok) {
+        if (response.body.current_courses) {
+          console.log('User courses:', response.body.current_courses);
           setUserCourses(response.body.current_courses);
         } else {
           console.error('The user currently has no courses. If this is a bug, contact the administrator.');
         }
-        } else {
-          console.error('Error fetching courses', response.body.error);
-        }
-      } catch (error) {
-        console.error('Error fetching courses', error);
+      } else {
+        console.error('Error fetching courses', response.body.error);
       }
-    };
+    } catch (error) {
+      console.error('Error fetching courses', error);
+    }
+  }, [api]);
 
+  useEffect(() => {
     fetchUserCourses();
   }, [api, refreshKey]);
 
-  const handleSwapButtonClick = (course) => {
-    setSelectedCourse(course);
-    setOpen(true);
+  useEffect(() => {
+    subscribe(fetchUserCourses);
+    return () => unsubscribe(fetchUserCourses);
+  }, [subscribe, unsubscribe, fetchUserCourses]);
+
+  const checkCourse = async (course) => {
+    try {
+      const response = await api.post(`/check_courses/${course.id}`);
+      if (response.ok && response.body.is_current_course) {
+        return true;
+      } else if (response.ok && !response.body.is_current_cours) {
+        return false;
+      }
+    } catch (error) {
+      console.error("Error checking course", error);
+    }
   };
+
+  const handleSwapButtonClick = async (course) => {
+    const canswap = await checkCourse(course);
+    if (canswap) {
+      setSelectedCourse(course);
+      setOpen(true);
+    } else {
+      setSnackbarMessage(
+        "You cannot swap this course because it is not in your current courses."
+      );
+      setSnackbarSeverity("error");
+      triggerRefresh();
+      setSnackbarOpen(true);
+    }
+  };
+
+  const handleCloseSnackbar = () => {
+    setSnackbarOpen(false);
+    setSnackbarMessage("");
+    setSnackbarMessage("");
+    setSnackbarSeverity("info");
+  };
+
 
   const handleCloseSwapForm = () => {
     setSelectedCourse(null);
@@ -91,7 +138,7 @@ const MyCoursesList = () => {
             <Button
               variant="contained"
               onClick={() => handleSwapButtonClick(course)}
-              sx={{ backgroundColor: "black", height: "30.5px"}}
+              sx={{ backgroundColor: "black", height: "30.5px" }}
             >
               <SwapHorizIcon />
             </Button>
@@ -99,6 +146,8 @@ const MyCoursesList = () => {
               key={course.id}
               courseName={course.name}
               courseId={course.id}
+              checkCourse={checkCourse}
+              course={course}
               sx={{
                 flex: "1",
               }}
@@ -111,6 +160,19 @@ const MyCoursesList = () => {
         onClose={handleCloseSwapForm}
         selectedCourse={selectedCourse}
       />
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={2000}
+        onClose={handleCloseSnackbar}
+      >
+        <Alert
+          onClose={handleCloseSnackbar}
+          severity={snackbarSeverity}
+          sx={{ width: "100%" }}
+        >
+          {snackbarMessage}
+        </Alert>
+      </Snackbar>
     </Box>
   );
 };
