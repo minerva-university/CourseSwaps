@@ -13,7 +13,7 @@ import { useApi } from "../../../contexts/ApiProvider";
 const SwapItem = ({
       swapId, givingCourse, wantedCourse,
       setOpenSnackbar, setSnackbarMessage, setSnackbarSeverity,
-      onSwapDeleted, refreshSwaps
+      onSwapDeleted,
     }) => {
   const [openDialog, setOpenDialog] = useState(false);
   const api = useApi();
@@ -47,18 +47,6 @@ const SwapItem = ({
     setOpenDialog(false);
   };
   
-    const handleSuccess = (message) => {
-      setSnackbarMessage(message);
-      setSnackbarSeverity("success");
-      setOpenSnackbar(true);
-      refreshSwaps();
-    };
-  
-    const handleError = (message) => {
-      setSnackbarMessage(message);
-      setSnackbarSeverity("error");
-      setOpenSnackbar(true);
-    };
 
   return (
     <Box
