@@ -36,16 +36,16 @@ jest.mock("../../src/contexts/ApiProvider", () => ({
 
 
 describe("MyCoursesList Component", () => {
-  it("should render the My Courses component", async () => {
+  it("should render the My courses component", async () => {
     render(
       <ApiProvider>
         <MyCoursesList />
       </ApiProvider>
     );
 
-    await screen.findByText("My Courses");
+    await screen.findByText("My courses");
 
-    expect(screen.getByText("My Courses")).toBeInTheDocument();
+    expect(screen.getByText("My courses")).toBeInTheDocument();
     expect(screen.getByText("COURSE1: Course 1")).toBeInTheDocument();
     expect(screen.getByText("COURSE2: Course 2")).toBeInTheDocument();
   });

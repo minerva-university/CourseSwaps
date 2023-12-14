@@ -9,7 +9,7 @@ export const PeriodicRefreshProvider = ({ children }) => {
   useEffect(() => {
     const interval = setInterval(() => {
       subscribers.forEach(callback => callback());
-    }, 5000); // Refresh every 15 seconds
+    }, 15000); // Refresh every 15 seconds
 
     return () => clearInterval(interval); // Clear interval on component unmount
   }, [subscribers]);

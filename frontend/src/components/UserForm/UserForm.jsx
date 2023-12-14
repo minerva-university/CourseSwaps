@@ -141,9 +141,6 @@ export default function UserFormPage() {
     }
   }, [userData, isUpdateMode]);
 
-  // console.log("userData is:", userData);
-  // console.log("isUpdateMode is:", isUpdateMode);
-
   // Function to check for any form errors
   const checkForErrors = (data, fieldsToValidate) => {
     const validation = validateFormData(data, fieldsToValidate);

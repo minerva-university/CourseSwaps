@@ -13,6 +13,7 @@ import {
   Alert,
 } from "@mui/material";
 import { useApi } from "../../../contexts/ApiProvider";
+import { useRefresh } from "../../../contexts/useRefresh";
 
 const SwapForm = ({ open, onClose, selectedCourse }) => {
   const [selectedCourses, setSelectedCourses] = useState([]);
@@ -22,6 +23,7 @@ const SwapForm = ({ open, onClose, selectedCourse }) => {
   const [snackbarSeverity, setSnackbarSeverity] = useState("info");
   const [confirmDialogOpen, setConfirmDialogOpen] = useState(false);
   const api = useApi();
+  const { triggerRefresh } = useRefresh();
 
   useEffect(() => {
     const fetchAvailableSwaps = async () => {
@@ -66,6 +68,7 @@ const SwapForm = ({ open, onClose, selectedCourse }) => {
       setSnackbarOpen(true);
       setSelectedCourses([]);
       onClose();
+      triggerRefresh();
     }
   };
 
@@ -81,7 +84,7 @@ const SwapForm = ({ open, onClose, selectedCourse }) => {
       >
         <DialogTitle>Confirm Course Swap</DialogTitle>
         <DialogContent>
-          <Typography>
+          <Typography component="div">
             Are you sure you are willing to swap{" "}
             {`${selectedCourse?.code} - ${selectedCourse?.name}`} for:
             <ul>
