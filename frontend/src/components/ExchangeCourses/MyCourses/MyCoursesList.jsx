@@ -31,7 +31,6 @@ const MyCoursesList = () => {
       const response = await api.get('/mycourses'); 
       if (response.ok) {
         if (response.body.current_courses) {
-          console.log('User courses:', response.body.current_courses);
           setUserCourses(response.body.current_courses);
         } else {
           console.error('The user currently has no courses. If this is a bug, contact the administrator.');
@@ -117,7 +116,7 @@ const MyCoursesList = () => {
           color: "#333",
         }}
       >
-        My Courses
+        My courses
       </Typography>
 
       {userCourses.map((course, index) => (

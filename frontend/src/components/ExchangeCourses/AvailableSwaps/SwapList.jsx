@@ -64,7 +64,6 @@ const SwapList = () => {
   };
 
   const handleConfirmSwap = async () => {
-    console.log(`Confirmed swap for ID: ${selectedSwap}`);
     setConfirmDialogOpen(false);
 
     try {
@@ -134,7 +133,7 @@ const SwapList = () => {
           color: '#333',
         }}
       >
-        Swap Courses
+        Available swaps
       </Typography>
       {loading ? (
         <CircularProgress />

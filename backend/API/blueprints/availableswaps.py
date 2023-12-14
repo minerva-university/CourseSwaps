@@ -175,3 +175,119 @@ def all_courses():
     except Exception as e:
         print(e)
         return jsonify({"error": "An unexpected error occurred"}), 500
+
+
+@availableswaps_bp.route("/my_swaps", methods=["GET"])
+@login_required
+def my_swaps():
+    """
+    Get all swap requests made by the current user along with the 'code-name' of the courses.
+    """
+    if not current_user.is_authenticated:
+        return jsonify({"error": "Unauthorized access"}), 401
+
+    try:
+        # Alias the courses table for the second join
+        wanted_course = db.aliased(Courses)
+
+        user_swaps = (
+            db.session.query(
+                CoursesAvailableToSwap.id.label("swap_id"),
+                Courses.code.label("giving_course_code"),
+                Courses.name.label("giving_course_name"),
+                wanted_course.code.label("wanted_course_code"),
+                wanted_course.name.label("wanted_course_name"),
+            )
+            .join(Courses, CoursesAvailableToSwap.giving_course_id == Courses.id)
+            .join(
+                wanted_course,
+                CoursesAvailableToSwap.wanted_course_id == wanted_course.id,
+            )
+            .filter(CoursesAvailableToSwap.user_id == current_user.id)
+            .all()
+        )
+
+        swaps_data = [
+            {
+                "swap_id": swap.swap_id,
+                "giving_course": f"{swap.giving_course_code} - {swap.giving_course_name}",
+                "wanted_course": f"{swap.wanted_course_code} - {swap.wanted_course_name}",
+            }
+            for swap in user_swaps
+        ]
+        print(swaps_data)
+        return jsonify({"my_swaps": swaps_data}), 200
+    except Exception as e:
+        db.session.rollback()
+        print(e)
+        return jsonify({"error": "An unexpected error occurred"}), 500
+
+
+@availableswaps_bp.route("/cancel_swap/<int:swap_id>", methods=["POST"])
+@login_required
+def cancel_swap(swap_id):
+    """
+    Cancel a swap request made by the current user.
+    """
+    if not current_user.is_authenticated:
+        return jsonify({"error": "Unauthorized access"}), 401
+    try:
+        swap_to_cancel = CoursesAvailableToSwap.query.filter_by(
+            id=swap_id, user_id=current_user.id
+        ).first()
+        print(swap_to_cancel)
+        if swap_to_cancel:
+            db.session.delete(swap_to_cancel)
+            db.session.commit()
+            return jsonify({"message": "Swap request cancelled successfully"}), 200
+        else:
+            return (
+                jsonify(
+                    {
+                        "error": "Swap request not found or you don't have permission to cancel this swap"
+                    }
+                ),
+                404,
+            )
+    except Exception as e:
+        print(e)
+        return jsonify({"error": "An unexpected error occurred"}), 500
+
+
+@availableswaps_bp.route("/edit_swap/<int:swap_id>", methods=["POST"])
+@login_required
+def edit_swap(swap_id):
+    """
+    Edit a swap request made by the current user.
+    """
+    data = request.get_json()
+    new_giving_course_id = data.get("newGivingCourseId")
+    new_wanted_course_id = data.get("newWantedCourseId")
+
+    if not current_user.is_authenticated:
+        return jsonify({"error": "Unauthorized access"}), 401
+    try:
+        swap_to_edit = CoursesAvailableToSwap.query.filter_by(
+            id=swap_id, user_id=current_user.id
+        ).first()
+        if swap_to_edit:
+            swap_to_edit.giving_course_id = (
+                new_giving_course_id or swap_to_edit.giving_course_id
+            )
+            swap_to_edit.wanted_course_id = (
+                new_wanted_course_id or swap_to_edit.wanted_course_id
+            )
+            db.session.commit()
+            return jsonify({"message": "Swap request updated successfully"}), 200
+        else:
+            return (
+                jsonify(
+                    {
+                        "error": "Swap request not found or you don't have permission to edit this swap"
+                    }
+                ),
+                404,
+            )
+    except Exception as e:
+        print(e)
+        return jsonify({"error": "An unexpected error occurred"}), 500

@@ -41,7 +41,6 @@ const DropCourseButton = ({ courseName, courseId ,checkCourse,course}) => {
   const handleConfirm = async () => {
     try {
       const response = await api.post("/dropcourse", { courseId });
-      console.log(response)
       if (response.ok) {
         setSnackbarMessage(response.body.message);
         setSnackbarSeverity("success");
@@ -55,7 +54,6 @@ const DropCourseButton = ({ courseName, courseId ,checkCourse,course}) => {
       setSnackbarMessage(`Error dropping course ${courseName}: ${error}`);
       setSnackbarSeverity("error");
     }
-    console.log('Closing dialog');
     setOpenSnackbar(true);
     triggerRefresh();
   };
@@ -68,7 +66,6 @@ const DropCourseButton = ({ courseName, courseId ,checkCourse,course}) => {
     if (reason === 'clickaway') {
       return;
     }
-    console.log('Closing snackbar');
     setOpenSnackbar(false);
     setSnackbarMessage('');
     setSnackbarSeverity('info');
