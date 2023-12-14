@@ -1,6 +1,6 @@
 import React from "react";
 import { render, screen, waitFor } from "@testing-library/react";
-import MySwaps from "../../src/components/ExchangeCourses/MySwaps/MySwapsList.jsx";
+import MySwaps from "../../src/components/ExchangeCourses/MyPreferredSwaps/MyPreferredSwapsList.jsx";
 import { useApi } from "../../src/contexts/ApiProvider";
 
 jest.mock("../../src/contexts/ApiProvider", () => ({

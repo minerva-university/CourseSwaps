@@ -1,5 +1,5 @@
 import React from 'react';
-import SwapItem from '../../src/components/ExchangeCourses/MySwaps/SwapItem';
+import SwapItem from '../../src/components/ExchangeCourses/MyPreferredSwaps/SwapItem';
 import { render, fireEvent, waitFor } from "@testing-library/react";
 import ApiProvider from "../../src/contexts/ApiProvider"; 
 
@@ -35,7 +35,7 @@ describe("SwapItem Component", () => {
       </ApiProvider>
     );
 
-    fireEvent.click(getByText("Drop"));
+    fireEvent.click(getByText("Cancel"));
 
     await waitFor(() => getByText("Confirm Deletion"));
 

@@ -1,6 +1,6 @@
 import React from "react";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
-import SwapList from "../../src/components/ExchangeCourses/Swap/SwapList.jsx"; // Adjust the import path as necessary
+import SwapList from "../../src/components/ExchangeCourses/AvailableSwaps/SwapList.jsx";
 import { useApi } from "../../src/contexts/ApiProvider";
 
 // Mock the useApi hook
@@ -34,7 +34,7 @@ describe("SwapList", () => {
   it("renders the component", async () => {
     render(<SwapList />);
     await waitFor(() =>
-      expect(screen.getByText("Swap Courses")).toBeInTheDocument()
+      expect(screen.getByText("Available swaps")).toBeInTheDocument()
     );
   });
 
