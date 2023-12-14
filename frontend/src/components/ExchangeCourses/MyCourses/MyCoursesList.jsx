@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
@@ -7,6 +7,7 @@ import SwapForm from "./SwapForm";
 import DropButton from "./DropButton";
 import { useApi } from "../../../contexts/ApiProvider";
 import { useRefresh } from "../../../contexts/useRefresh";
+import { usePeriodicRefresh } from '../../../contexts/usePeriodicRefresh';
 
 
 const MyCoursesList = () => {
@@ -15,27 +16,35 @@ const MyCoursesList = () => {
   const [open, setOpen] = useState(false);
   const api = useApi();
   const { refreshKey } = useRefresh();
+  const { subscribe, unsubscribe } = usePeriodicRefresh();
 
-  useEffect(() => {
-    const fetchUserCourses = async () => {
-      try {
-        const response = await api.get('/mycourses'); 
-        if (response.ok) {
-          if (response.body.current_courses) {
+  const fetchUserCourses = useCallback(async () => {
+    try {
+      const response = await api.get('/mycourses'); 
+      if (response.ok) {
+        if (response.body.current_courses) {
+          console.log('User courses:', response.body.current_courses);
           setUserCourses(response.body.current_courses);
         } else {
           console.error('The user currently has no courses. If this is a bug, contact the administrator.');
         }
-        } else {
-          console.error('Error fetching courses', response.body.error);
-        }
-      } catch (error) {
-        console.error('Error fetching courses', error);
+      } else {
+        console.error('Error fetching courses', response.body.error);
       }
-    };
+    } catch (error) {
+      console.error('Error fetching courses', error);
+    }
+  }, [api]);
 
+  useEffect(() => {
     fetchUserCourses();
   }, [api, refreshKey]);
+
+  useEffect(() => {
+    subscribe(fetchUserCourses);
+    return () => unsubscribe(fetchUserCourses);
+  }, [subscribe, unsubscribe, fetchUserCourses]);
+
 
   const handleSwapButtonClick = (course) => {
     setSelectedCourse(course);

@@ -11,12 +11,13 @@ import ViewUserProfile from "../ViewUserProfile/ViewUserProfile";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import Tooltip from "@mui/material/Tooltip";
+import { useNavigate } from "react-router-dom";
 
 function Navbar() {
   const { user, isAuthenticated, logout } = useAuth();
-  // State to control the visibility of the Update User Profile component
   const [isViewProfileOpen, setIsViewProfileOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -24,7 +25,6 @@ function Navbar() {
     }
   }, [isAuthenticated]);
 
-  // Function to open the View User Profile component
   const openViewProfile = () => {
     setIsViewProfileOpen(true);
   };
@@ -36,8 +36,14 @@ function Navbar() {
     setAnchorEl(null);
   };
 
+  // Function to navigate to the main page
+  const navigateToHome = () => {
+    navigate("/");
+  };
+
   const MINERVA_LOGO =
     "https://assets-global.website-files.com/64ca995f0fd30a33b2fd01cc/64ca995f0fd30a33b2fd03e4_minerva.svg";
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="fixed"> {/* Fixed to the top of the screen */}
@@ -52,7 +58,9 @@ function Navbar() {
               display: "flex",
               alignItems: "center",
               gap: 2,
+              cursor: "pointer", // Add cursor pointer for better UX
             }}
+            onClick={navigateToHome} // Add click event to navigate to home
           >
             <img
               src={MINERVA_LOGO}
@@ -98,7 +106,6 @@ function Navbar() {
         </Toolbar>
       </AppBar>
 
-      {/* Conditional rendering of View User Profile component */}
       {isViewProfileOpen && (
         <div
           style={{

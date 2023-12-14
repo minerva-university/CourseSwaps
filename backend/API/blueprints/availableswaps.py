@@ -88,18 +88,42 @@ def add_available_swap():
             return jsonify({"error": "Missing course data"}), 400
 
         giving_course_id = giving_course.get("id")
+        added_swaps = []
+
         for wanted_course in wanted_courses:
             wanted_course_id = wanted_course.get("course_id")
-            if giving_course_id and wanted_course_id:
+
+            # Check if the swap already exists
+            existing_swap = CoursesAvailableToSwap.query.filter_by(
+                user_id=user_id,
+                giving_course_id=giving_course_id,
+                wanted_course_id=wanted_course_id,
+            ).first()
+
+            if not existing_swap:
                 new_available_swap = CoursesAvailableToSwap(
                     user_id=user_id,
                     giving_course_id=giving_course_id,
                     wanted_course_id=wanted_course_id,
                 )
                 db.session.add(new_available_swap)
+                added_swaps.append(
+                    {
+                        "giving_course_id": giving_course_id,
+                        "wanted_course_id": wanted_course_id,
+                    }
+                )
 
         db.session.commit()
-        return jsonify({"message": "Available swaps added successfully"}), 200
+        return (
+            jsonify(
+                {
+                    "message": "Available swaps added successfully",
+                    "added_swaps": added_swaps,
+                }
+            ),
+            200,
+        )
     except Exception as e:
         print(e)
         return jsonify({"error": "Invalid Input"}), 400

@@ -92,6 +92,11 @@ class CoursesAvailableToSwap(db.Model):
         db.Integer, db.ForeignKey("courses.id"), nullable=False
     )
 
+    # Define a UniqueConstraint to ensure uniqueness of the combination
+    __table_args__ = (
+        UniqueConstraint("user_id", "giving_course_id", "wanted_course_id"),
+    )
+
     def __repr__(self):
         return (
             f"CourseAvailableToSwap(User ID: '{self.user_id}', "
