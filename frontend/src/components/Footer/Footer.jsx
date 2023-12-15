@@ -36,10 +36,7 @@ const SocialLinkItem = ({ item }) => (
       mr: 0.5,
     }}
   >
-    <a
-      target="_blank"
-      rel="noopener noreferrer"
-      sx={{
+    sx={{
         lineHeight: 0,
         display: "flex",
         alignItems: "center",
@@ -57,6 +54,9 @@ const SocialLinkItem = ({ item }) => (
           height: "auto",
         },
       }}
+    <a
+      target="_blank"
+      rel="noopener noreferrer"
       href={item.link}
     >
       <img src={item.icon} alt={item.name + " icon"} />
@@ -67,15 +67,7 @@ const SocialLinkItem = ({ item }) => (
 const SocialLinks = () => {
   return (
     <Box sx={{ ml: -1 }}>
-      <ul
-        sx={{
-          m: 0,
-          p: 0,
-          lineHeight: 0,
-          borderRadius: 3,
-          listStyle: "none",
-        }}
-      >
+      <ul>
         {socialLinks.map((item) => (
           <SocialLinkItem key={item.name} item={item} />
         ))}
