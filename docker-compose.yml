@@ -35,10 +35,10 @@ services:
     environment:
       - GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}
     volumes:
-      - frontend/config:/etc/nginx/conf.d
-      - courseswap.live.chained.crt:/etc/nginx/ssl/courseswap.live.chained.crt
-      - courseswap.live.key:/etc/nginx/ssl/courseswap.live.key
-      - init-config.sh:/init-config.sh
+      - ./frontend/config:/etc/nginx/conf.d
+      - ./courseswap.live.chained.crt:/etc/nginx/ssl/courseswap.live.chained.crt
+      - ./courseswap.live.key:/etc/nginx/ssl/courseswap.live.key
+      - ./frontend/init-config.sh:/init-config.sh
     entrypoint: ["/init-config.sh"]
     networks:
       - webnet
