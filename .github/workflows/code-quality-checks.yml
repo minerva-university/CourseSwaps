@@ -73,15 +73,14 @@ jobs:
 
     - name: Build and Push Docker Image for Backend
       run: |
-        docker build -t --platform linux/amd64 kennedyemeruem/courseswap-backend:latest ./backend
+        docker build -t kennedyemeruem/courseswap-backend:latest --platform linux/amd64 ./backend
         docker push kennedyemeruem/courseswap-backend:latest
       env:
         DOCKER_BUILDKIT: 1
 
-
     - name: Build and Push Docker Image for Frontend
       run: |
-        docker build -t --platform linux/amd64 kennedyemeruem/courseswap-frontend:latest ./frontend
+        docker build -t kennedyemeruem/courseswap-frontend:latest --platform linux/amd64 ./frontend
         docker push kennedyemeruem/courseswap-frontend:latest
       env:
         DOCKER_BUILDKIT: 1
