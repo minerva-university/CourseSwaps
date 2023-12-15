@@ -66,3 +66,19 @@ jobs:
     - name: Run Jest Tests
       run: npm test
       working-directory: ./frontend
+
+    - name: Login to Docker Hub
+      uses: docker/login-action@v3
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+    - name: Build and Push Docker Image for Backend
+      run: |
+        docker build -t --platform linux/amd64 kennedyemeruem/courseswap-backend:latest ./backend
+        docker push kennedyemeruem/courseswap-backend:latest
+
+    - name: Build and Push Docker Image for Frontend
+      run: |
+        docker build -t --platform linux/amd64 kennedyemeruem/courseswap-frontend:latest ./frontend
+        docker push kennedyemeruem/courseswap-frontend:latest
