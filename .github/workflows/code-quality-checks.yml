@@ -68,17 +68,19 @@ jobs:
       working-directory: ./frontend
 
     - name: Login to Docker Hub
-      uses: docker/login-action@v3
-      with:
-        username: ${{ secrets.DOCKERHUB_USERNAME }}
-        password: ${{ secrets.DOCKERHUB_TOKEN }}
+      run: |
+        echo ${{ secrets.DOCKERHUB_TOKEN }} | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
 
     - name: Build and Push Docker Image for Backend
       run: |
         docker build -t --platform linux/amd64 kennedyemeruem/courseswap-backend:latest ./backend
         docker push kennedyemeruem/courseswap-backend:latest
+      env:
+        DOCKER_BUILDKIT: 1
 
     - name: Build and Push Docker Image for Frontend
       run: |
         docker build -t --platform linux/amd64 kennedyemeruem/courseswap-frontend:latest ./frontend
         docker push kennedyemeruem/courseswap-frontend:latest
+      env:
+        DOCKER_BUILDKIT: 1
