@@ -1,5 +1,5 @@
 const BASE_API_URL = import.meta.env.VITE_APP_API_URL;
-
+console.log("BASE_API_URL", BASE_API_URL);
 export default class SwapsApiClient {
   constructor() {
     this.base_url = BASE_API_URL + "/api";
