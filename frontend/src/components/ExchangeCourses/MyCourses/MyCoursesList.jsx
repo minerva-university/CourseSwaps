@@ -138,10 +138,9 @@ const MyCoursesList = () => {
           }}
         >
           <Typography variant="body1" sx={{ marginRight: 1 }}>
-            {" "}
             {course.code}: {course.name}
           </Typography>
-          <Box sx={{ display: "flex", gap: 1 }}>
+          <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}> {/* Updated this line */}
             <Button
               variant="contained"
               onClick={() => handleSwapButtonClick(course)}
@@ -162,6 +161,7 @@ const MyCoursesList = () => {
           </Box>
         </Box>
       ))}
+
       <SwapForm
         open={open}
         onClose={handleCloseSwapForm}
