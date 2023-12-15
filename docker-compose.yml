@@ -34,6 +34,8 @@ services:
       - "${FRONTEND_HTTPS_PORT:-443}:443"
     environment:
       - GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}
+    args:
+      - VITE_APP_API_URL: {VITE_APP_API_URL}
     volumes:
       - ./frontend/config:/etc/nginx/conf.d
       - ./courseswap.live.chained.crt:/etc/nginx/ssl/courseswap.live.chained.crt
