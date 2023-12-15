@@ -5,6 +5,9 @@ import Typography from "@mui/material/Typography";
 import { useApi } from "../../../contexts/ApiProvider";
 import { useRefresh } from "../../../contexts/useRefresh";
 import { usePeriodicRefresh } from "../../../contexts/usePeriodicRefresh";
+import Tooltip from "@mui/material/Tooltip"; // Import Tooltip
+import InfoIcon from "@mui/icons-material/Info"; // Import Info Icon
+
 
 const PickupsList = () => {
   const [courses, setCourses] = useState([]);
@@ -41,6 +44,7 @@ const PickupsList = () => {
   return (
     <Box
       sx={{
+        position: 'relative',
         width: '100%', // Set a default width for all screen sizes
         bgcolor: "#f0f0f0",
         padding: 2,
@@ -51,6 +55,9 @@ const PickupsList = () => {
         },
       }}
     >
+      <Tooltip title="This list is for courses that have free spaces and can enroll people instantly">
+        <InfoIcon sx={{ position: 'absolute', top: 8, right: 8, color: 'grey' }} />
+      </Tooltip>
       <Typography
         variant="h5"
         component="h2"

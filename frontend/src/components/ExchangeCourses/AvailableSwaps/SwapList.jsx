@@ -8,6 +8,8 @@ import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
 import { useApi } from '../../../contexts/ApiProvider';
 import { useRefresh } from '../../../contexts/useRefresh';
 import { usePeriodicRefresh } from '../../../contexts/usePeriodicRefresh';
+import Tooltip from "@mui/material/Tooltip"; // Import Tooltip
+import InfoIcon from "@mui/icons-material/Info"; // Import Info Icon
 
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -113,6 +115,7 @@ const SwapList = () => {
   return (
     <Box
     sx={{
+      position: 'relative',
       width: '100%', // Set a default width for all screen sizes
       bgcolor: "#f0f0f0",
       padding: 2,
@@ -123,6 +126,9 @@ const SwapList = () => {
       },
     }}
     >
+      <Tooltip title="This list is for courses that other people want to exchange">
+        <InfoIcon sx={{ position: 'absolute', top: 8, right: 8, color: 'grey' }} />
+      </Tooltip>
       <Typography
         variant="h5"
         component="h2"
