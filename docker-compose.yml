@@ -6,8 +6,6 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
-    env_file:
-      - ./backend/.env
     environment:
       - SECRET_KEY=${SECRET_KEY}
       - GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}
@@ -38,8 +36,8 @@ services:
       - GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}
     volumes:
       - ./frontend/config:/etc/nginx/conf.d
-      - ${SSL_CERT_PATH}:/etc/nginx/ssl/courseswap.live.chained.crt
-      - ${SSL_KEY_PATH}:/etc/nginx/ssl/courseswap.live.key
+      - ./courseswap.live.chained.crt:/etc/nginx/ssl/courseswap.live.chained.crt
+      - ./courseswap.live.key:/etc/nginx/ssl/courseswap.live.key
       - ./init-config.sh:/init-config.sh
     entrypoint: ["/init-config.sh"]
     networks:
