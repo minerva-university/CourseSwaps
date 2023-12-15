@@ -8,7 +8,7 @@ import { ThemeProvider } from "@mui/material/styles";
 import basic_theme from "./themes/basic_theme.js";
 import CssBaseline from "@mui/material/CssBaseline";
 
-const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
+const googleClientId = window.GOOGLE_CLIENT_ID || "default_client_id";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <ThemeProvider theme={basic_theme}>

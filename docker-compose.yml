@@ -8,35 +8,40 @@ services:
       dockerfile: Dockerfile
     env_file:
       - ./backend/.env
+    environment:
+      - SECRET_KEY=${SECRET_KEY}
+      - GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}
+      - GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET}
+      - DATABASE_URL=${DATABASE_URL}
     volumes:
       - ./backend:/app
     depends_on:
       - db
     ports:
-      - "8000:8000" # Map port 7070 on the host to port 8000 in the container
+      - "8000:8000"
     networks:
       - webnet
-
     deploy:
       replicas: 2
       restart_policy:
-        condition: "on-failure"
-      
+        condition: on-failure
 
   frontend:
     image: kennedyemeruem/courseswap-frontend
     build:
       context: ./frontend
       dockerfile: Dockerfile
-    env_file:
-      - ./frontend/.env
     ports:
       - "80:80"
       - "443:443"
+    environment:
+      - GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}
     volumes:
-      - ./frontend/config:/etc/nginx/conf.d  # Mount Nginx configuration
-      - ./courseswap.live.chained.crt:/etc/nginx/ssl/courseswap.live.chained.crt  # Mount SSL certificate
-      - ./courseswap.live.key:/etc/nginx/ssl/courseswap.live.key  # Mount SSL key
+      - ./frontend/config:/etc/nginx/conf.d
+      - ./courseswap.live.chained.crt:/etc/nginx/ssl/courseswap.live.chained.crt
+      - ./courseswap.live.key:/etc/nginx/ssl/courseswap.live.key
+      - ./init-config.sh:/init-config.sh  # Add the init-config script
+    entrypoint: ["/init-config.sh"]  # Override the default entrypoint
     networks:
       - webnet
 
@@ -49,19 +54,19 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
     ports:
-      - "5432:5432"  # Expose the database port
+      - "5432:5432"
     networks:
       - webnet
     deploy:
       restart_policy:
-        condition: "on-failure"
+        condition: on-failure
 
   adminer:
     image: adminer
     depends_on:
       - db
     ports:
-      - "8081:8080"  # Map port 8080 on the host to port 8080 in the container
+      - "8081:8080"
     networks:
       - webnet
 
