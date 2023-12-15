@@ -10,7 +10,8 @@ import { useRefresh } from "../../../contexts/useRefresh";
 import { usePeriodicRefresh } from '../../../contexts/usePeriodicRefresh';
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
-
+import Tooltip from "@mui/material/Tooltip"; // Import Tooltip
+import InfoIcon from "@mui/icons-material/Info"; // Import Info Icon
 
 
 const MyCoursesList = () => {
@@ -96,6 +97,7 @@ const MyCoursesList = () => {
   return (
     <Box
       sx={{
+        position: 'relative',
         width: '100%', // Set a default width for all screen sizes
         bgcolor: "#f0f0f0",
         padding: 2,
@@ -106,6 +108,9 @@ const MyCoursesList = () => {
         },
       }}
     >
+      <Tooltip title="This list is for courses that are currently given to you by Minerva.">
+        <InfoIcon sx={{ position: 'absolute', top: 8, right: 8, color: 'grey' }} />
+      </Tooltip>
       <Typography
         variant="h5"
         component="h2"
