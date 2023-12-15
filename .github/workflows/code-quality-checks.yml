@@ -66,6 +66,11 @@ jobs:
     - name: Run Jest Tests
       run: npm test
       working-directory: ./frontend
+      
+    - name: Check Docker installation
+      run: |
+        which docker && docker --version
+        docker info || echo "Docker daemon is not running"
 
     - name: Login to Docker Hub
       run: |
