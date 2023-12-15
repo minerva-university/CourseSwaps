@@ -9,7 +9,6 @@ import ApiProvider from "./contexts/ApiProvider";
 import Navbar from "./components/Navbar/Navbar";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { Box } from "@mui/material";
-import Footer from "./components/Footer/Footer";
 
 function App() {
   return (
@@ -52,7 +51,6 @@ function App() {
               />
             </Routes>
           </Box>
-          <Footer />
         </BrowserRouter>
       </AuthProvider>
     </ApiProvider>
