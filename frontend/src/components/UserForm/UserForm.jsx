@@ -1,4 +1,4 @@
-import coursesData from "../../courses_data/courses_new.json"; //for the current classes and previous courses
+import coursesData from "../../courses_data/courses.json"; //for the current classes and previous courses
 import majorsData from "../../courses_data/data.json"; //for the concentrations and majors
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -120,18 +120,12 @@ export default function UserFormPage() {
 
   useEffect(() => {
     // Check for overlapping courses whenever currentClasses or previousCourses change
-    setFormErrors((formErrors) => {
-      const overlapError = formData.currentClasses.some((course) =>
-        formData.previousCourses.includes(course)
-      )
-        ? "Cannot select the same course as both currently assigned course and previously completed course"
-        : "";
+    setFormErrors(formErrors => {
+      const overlapError = formData.currentClasses.some(course => formData.previousCourses.includes(course))
+        ? 'Cannot select the same course as both currently assigned course and previously completed course'
+        : '';
 
-      return {
-        ...formErrors,
-        currentClasses: overlapError,
-        previousCourses: overlapError,
-      };
+      return { ...formErrors, currentClasses: overlapError, previousCourses: overlapError };
     });
   }, [formData.currentClasses, formData.previousCourses]);
 
@@ -157,9 +151,9 @@ export default function UserFormPage() {
   // Handle field changes and perform live validation
   const handleChange = (e, newValue) => {
     const { name, value } = e.target ? e.target : { name: "", value: "" };
-
+  
     // Handling for currentClasses and previousCourses
-    if (name === "currentClasses" || name === "previousCourses") {
+    if (name === 'currentClasses' || name === 'previousCourses') {
       setFormData({ ...formData, [name]: newValue });
     } else {
       // Existing logic for major change
@@ -168,19 +162,19 @@ export default function UserFormPage() {
       } else {
         setFormData({ ...formData, [name]: value });
       }
-
+  
       // Validation for Minerva Student ID
-      if (name === "minervaID") {
+      if (name === 'minervaID') {
         setFormErrors({
           ...formErrors,
-          minervaID: /^\d{6}$/.test(value) ? "" : "ID must be exactly 6 digits",
+          minervaID: /^\d{6}$/.test(value) ? '' : 'ID must be exactly 6 digits'
         });
       }
     }
-
+  
     // Mark the field as touched
     setTouchedFields({ ...touchedFields, [name]: true });
-
+  
     // Trigger validation for touched fields
     const fieldsToValidate = Object.keys(touchedFields).concat(name);
     checkForErrors(
@@ -191,62 +185,49 @@ export default function UserFormPage() {
       fieldsToValidate
     );
   };
-
+  
   // Function to check if there are errors in course selection
   const hasCourseSelectionErrors = () => {
     return !!formErrors.currentClasses || !!formErrors.previousCourses;
   };
 
-  const formatCourseLabel = (courseId) => {
-    const course = coursesData.courses.find((c) => c.courseId === courseId);
-    if (!course) return courseId;
-
-    const schedule = course.scheduleOptions?.[0];
-    if (schedule) {
-      const days = schedule.days
-        .replace("Monday, Wednesday", "MW")
-        .replace("Tuesday, Thursday", "TTh");
-      return `${courseId} - ${course.courseName} - ${days} ${schedule.startTime} - ${schedule.timezone}`;
-    }
-
-    return `${courseId} - ${course.courseName}`;
-  };
 
   const api = useApi();
-  // Handle form submission
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const validation = validateFormData(formData);
-    setFormErrors(validation.errors);
+// Handle form submission
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  const validation = validateFormData(formData);
+  setFormErrors(validation.errors);
 
-    const endpoint = isUpdateMode ? "/update-user" : "/userdata";
+  const endpoint = isUpdateMode ? "/update-user" : "/userdata";
 
-    if (validation.isValid) {
-      try {
-        let response;
-        if (isUpdateMode) {
-          response = await api.put(endpoint, formData);
-        } else {
-          response = await api.post(endpoint, formData);
-        }
-
-        if (response.status === 200) {
-          console.log("Operation successful");
-          navigate("/");
-        } else if (response.status === 409) {
-          // Handle 409 error: Minerva ID not unique
-          setFormErrors((prevErrors) => ({
-            ...prevErrors,
-            minervaID: "This Minerva ID is not unique, check your entry",
-          }));
-        } else {
-          console.log("Operation failed");
-        }
-      } catch (error) {
-        console.error("Error", error);
+  if (validation.isValid) {
+    try {
+      let response;
+      if (isUpdateMode) {
+        response = await api.put(endpoint, formData);
+      } else {
+        response = await api.post(endpoint, formData);
       }
+
+      if (response.status === 200) {
+        console.log("Operation successful");
+        navigate("/");
+      } else if (response.status === 409) {
+        // Handle 409 error: Minerva ID not unique
+        setFormErrors(prevErrors => ({
+          ...prevErrors,
+          minervaID: "This Minerva ID is not unique, check your entry"
+        }));
+      } else {
+        console.log("Operation failed");
+      }
+    } catch (error) {
+      console.error("Error", error);
     }
-  };
+  }
+};
+
 
   return (
     <Grid container style={gridContainerStyle}>
@@ -303,11 +284,20 @@ export default function UserFormPage() {
             id="current-classes-selector"
             options={coursesData.courses.map((course) => course.courseId)}
             disableCloseOnSelect
-            getOptionLabel={(option) => formatCourseLabel(option)}
+            getOptionLabel={(option) =>
+              `${option} - ${
+                coursesData.courses.find((course) => course.courseId === option)
+                  ?.courseName
+              }`
+            }
             renderOption={(props, option, { selected }) => (
               <li {...props}>
                 <Checkbox style={{ marginRight: 8 }} checked={selected} />
-                {formatCourseLabel(option)}
+                {`${option} - ${
+                  coursesData.courses.find(
+                    (course) => course.courseId === option
+                  )?.courseName
+                }`}
               </li>
             )}
             value={formData.currentClasses}
@@ -328,7 +318,6 @@ export default function UserFormPage() {
               />
             )}
           />
-
           <div style={dualFieldContainerStyle}>
             <FormControl style={formControlStyle}>
               <InputLabel id="major-label">Major</InputLabel>
@@ -437,12 +426,11 @@ export default function UserFormPage() {
             type="submit"
             variant="contained"
             style={submitButtonStyle}
-            disabled={
-              !validateFormData(formData).isValid || hasCourseSelectionErrors()
-            }
+            disabled={!validateFormData(formData).isValid || hasCourseSelectionErrors()}
           >
             {isUpdateMode ? "Update" : "Submit"}
           </Button>
+
         </form>
       </Paper>
     </Grid>
