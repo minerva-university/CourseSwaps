@@ -1,0 +1,76 @@
+version: "3.8"
+
+services:
+  backend:
+    image: kennedyemeruem/courseswap-backend
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    environment:
+      - SECRET_KEY=${SECRET_KEY}
+      - GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}
+      - GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET}
+      - DATABASE_URL=${DATABASE_URL}
+    volumes:
+      - ./backend:/app
+    depends_on:
+      - db
+    ports:
+      - "${BACKEND_PORT:-8000}:8000"
+    networks:
+      - webnet
+    deploy:
+      replicas: 2
+      restart_policy:
+        condition: on-failure
+
+  frontend:
+    image: kennedyemeruem/courseswap-frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "${FRONTEND_HTTP_PORT:-80}:80"
+      - "${FRONTEND_HTTPS_PORT:-443}:443"
+    environment:
+      - GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}
+    volumes:
+      - ./frontend/config:/etc/nginx/conf.d
+      - ./courseswap.live.chained.crt:/etc/nginx/ssl/courseswap.live.chained.crt
+      - ./courseswap.live.key:/etc/nginx/ssl/courseswap.live.key
+      - ./frontend/init-config.sh:/init-config.sh
+    entrypoint: ["/init-config.sh"]
+    networks:
+      - webnet
+
+  db:
+    image: postgres:alpine
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-courseswapdb}
+      POSTGRES_USER: ${POSTGRES_USER:-username}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-password}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "${DB_PORT:-5432}:5432"
+    networks:
+      - webnet
+    deploy:
+      restart_policy:
+        condition: on-failure
+
+  adminer:
+    image: adminer
+    depends_on:
+      - db
+    ports:
+      - "${ADMINER_PORT:-8081}:8080"
+    networks:
+      - webnet
+
+volumes:
+  postgres_data:
+
+networks:
+  webnet:
+    driver: overlay

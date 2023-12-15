@@ -28,13 +28,14 @@ def create_app(test_config=None):
 
     logging.basicConfig(level=logging.DEBUG)
     app.logger.setLevel(logging.DEBUG)
+    app.logger.debug(f"the db uri is {os.environ.get('DATABASE_URL')}")
 
     # General CORS setup for the whole app
     CORS(
         app,
         resources={
             r"/api/*": {
-                "origins": "http://localhost:5173",
+                "origins": "*",
                 "methods": ["GET", "POST", "PUT", "DELETE"],
             }
         },
