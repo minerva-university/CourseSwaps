@@ -4,7 +4,7 @@
 
 Check out a live demo of the website here: [Live demo](https://youtu.be/RNSnFxqx_X8?si=uEljs68I76IxEtB8)
 
-you can checkout the live version of the website here www.courseswap.live
+you can checkout the live version of the website here https://courseswap.live
 
 ## Installation
 
