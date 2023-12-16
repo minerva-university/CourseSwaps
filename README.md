@@ -1,10 +1,12 @@
 # CourseSwaps
 
+## Demo
+
+Check out a live demo of the website here: [Live demo](https://youtu.be/RNSnFxqx_X8?si=uEljs68I76IxEtB8)
 
 ## Installation
 
 ### Frontend
-
 
 To run the frontend, run the following commands in your virtual environment:
 ```bash
