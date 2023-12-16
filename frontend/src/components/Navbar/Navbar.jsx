@@ -2,10 +2,8 @@ import React, { useState, useEffect } from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
-import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import Avatar from "@mui/material/Avatar";
-import NotificationsIcon from "@mui/icons-material/Notifications";
 import { useAuth } from "../../contexts/AuthProvider";
 import ViewUserProfile from "../ViewUserProfile/ViewUserProfile";
 import Menu from "@mui/material/Menu";
@@ -78,9 +76,6 @@ function Navbar() {
 
           {isAuthenticated ? (
             <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-              <IconButton size="large" color="inherit">
-                <NotificationsIcon />
-              </IconButton>
               <Typography variant="subtitle1">{user.given_name}</Typography>
 
               <Tooltip title="View Profile">
