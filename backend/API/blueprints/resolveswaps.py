@@ -71,6 +71,10 @@ def confirm_swap():
             new_course_for_user1 = UserCurrentCourses(
                 user_id=user1_id, course_id=user2_course_id
             )
+            # delete all the preferred swaps the user has for the course they are giving up
+            CoursesAvailableToSwap.query.filter_by(
+                user_id=user1_id, giving_course_id=user1_course_id
+            ).delete()
             db.session.add(new_course_for_user1)
 
             # Update courses for user2
@@ -80,6 +84,10 @@ def confirm_swap():
             new_course_for_user2 = UserCurrentCourses(
                 user_id=user2_id, course_id=user1_course_id
             )
+            # delete all the preferred swaps the user has for the course they are giving up
+            CoursesAvailableToSwap.query.filter_by(
+                user_id=user2_id, giving_course_id=user2_course_id
+            ).delete()
             db.session.add(new_course_for_user2)
 
             # Remove the swap request as it has been completed
